@@ -52,25 +52,38 @@
 							<table class="table" id="table">
 							<thead>
                                 <tr>          
-									<th>student Subject ID</td>
-									<th>Student ID</td>
-									<th>Subject</td>
-									<th>Faculty Name</td>
+									<th>student Grade ID</th>
+									<th>Student ID</th>
+									<th>Subject</th>
+									<th>Faculty ID</th>
+									<th>Course</th>
+									<th>School year</th>
+									<th>Final Grade</th>
+									<th>Remarks</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
 								</tr>
 							</thead>
 							<tbody id="tbody">
 								<tr>
-									<td>${data.studentSubject_id}</td>
-									<td>${data.student_id}</td>
+									<td>${data.studentGrade_id}</td>
+									<td>${data.studentIdNo}</td>
 									<td>${data.subjectName}</td>
-									<td>${data.fac_lname}, ${data.fac_fname} ${data.fac_mname}</td>
+									<td>${tada.faculty_id}</td>
+									<td>${data.courseCode}</td>
+									<td>${data.schoolYear}</td>
+									<td>${data.finalGrade}</td>
+									<td>${data.remarks}</td>
 									<td class="text-center">
 										<button class="btn btn-success" onclick="edit('1')">
 											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
+										</button>
+									</td>
+									<td class="text-center">
+										<button class="btn btn-danger" onclick="deletez('1')">
+											<i class="fa fa-remove"></i>
+										</button>
+									</td> 
 								</tr>
 							</tbody>
 							<table>

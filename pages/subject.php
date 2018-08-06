@@ -89,7 +89,7 @@
 						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
 										<label>Student Id No.</label>
 										<input type="text" name="studentIdNo" class="form-control" placeholder="Student Id No." required>
@@ -172,7 +172,7 @@
 	},false);
 
 	function edit(id){
-		window.location.href="edit-year-level.php?id="+id;
+		window.location.href="edit-subject.php?id="+id;
 	}
 
 	function deletez(id){

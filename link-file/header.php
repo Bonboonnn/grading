@@ -6,6 +6,7 @@
     .content-wrapper{
         margin-top:40px;
         height:calc(100vh - 40px);
+        overflow-y: auto;
     }
     #table_filter {
         display:block !important;

@@ -45,7 +45,7 @@
 					<div class="row container-fluid">
 						<div class="col-lg-10 col-md-10"><h3 style="margin:0">student List</h3></div>
 						<div class="col-lg-2 col-md-2">
-							<button class="btn btn-block btn-primary" data-target="#insertUpdateModal" data-toggle="modal">Add student</button>
+							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add student</button>
 						</div>
 						<div class="col-12">
 							<hr>
@@ -87,7 +87,7 @@
 				</section>
             </div>
 		</div>
-		<div class="modal" id="insertUpdateModal"> 
+		<div class="modal" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<div class="modal-content">     
@@ -177,7 +177,7 @@
 	},false);
 
 	function edit(id){
-		window.location.href="editstudent.php?id="+id;
+		window.location.href="edit-student.php?id="+id;
 	}
 
 	function deletez(id){
