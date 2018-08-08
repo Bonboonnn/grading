@@ -43,47 +43,40 @@
 				<section class="content-header"></section>
                 <section class="content">
 					<div class="row container-fluid">
-						<div class="col-lg-10 col-md-10"><h3 style="margin:0">student List</h3></div>
+						<div class="col-lg-10 col-md-10"><h3 style="margin:0">Faculty List</h3></div>
 						<div class="col-lg-2 col-md-2">
-							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add student Grade</button>
+							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add Faculty</button>
 						</div>
 						<div class="col-12">
 							<hr>
 							<table class="table" id="table">
 							<thead>
                                 <tr>          
-									<th>student Grade ID</th>
-									<th>Student ID</th>
-									<th>Subject</th>
-									<th>Faculty ID</th>
-									<th>Course</th>
-									<th>School year</th>
-									<th>Final Grade</th>
-									<th>Remarks</th>
+									<th>Faculty No.</td>
+									<th>First Name</td>
+									<th>Middle Name</td>
+									<th>Last Name</td>
+									<th>Yearlevelid</td>
+									<th>Course</td>
+									<th>username</td>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
 								</tr>
 							</thead>
 							<tbody id="tbody">
 								<tr>
-									<td>${data.studentGrade_id}</td>
-									<td>${data.studentIdNo}</td>
-									<td>${data.subjectName}</td>
-									<td>${tada.faculty_id}</td>
-									<td>${data.courseCode}</td>
-									<td>${data.schoolYear}</td>
-									<td>${data.finalGrade}</td>
-									<td>${data.remarks}</td>
+									<td>${data.facNo}</td>
+									<td>${data.lname}</td>
+									<td>${data.fname}</td>
+									<td>${data.mname}</td>
+									<td>${data.yearLevel}</td>
+									<td>${data.courseName}</td>
+									<td>${data.username}</td>
 									<td class="text-center">
 										<button class="btn btn-success" onclick="edit('1')">
 											<i class="fa fa-edit"></i>
-										</button>
-									</td>
-									<td class="text-center">
-										<button class="btn btn-danger" onclick="deletez('1')">
-											<i class="fa fa-remove"></i>
-										</button>
-									</td> 
+										</button></td>
+									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
 								</tr>
 							</tbody>
 							<table>
@@ -96,57 +89,61 @@
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<div class="modal-content">     
-					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student Grade</h3></div>
+						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Faculty</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
-								<div class="col-lg-12 col-md-12 col-sm-12">
+							<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
-										<label>Student ID No.</label>
-										<input name="studentIdNo" class="form-control" placeholder='Student ID No.' required>
+										<label>Faculty Id No.</label>
+										<input type="text" name="facNo" class="form-control" placeholder="Faculty Id No." required>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
-										<label>Subject</label>
-										<select name="studentSubject_id" class="form-control" required>
-											<option value=''>Select Subject</option>
-										</select>
+										<label>First Name</label>
+										<input type="text" name="fname" class="form-control" placeholder="First Name" required>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
-										<label>Faculty</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select Faculty</option>
-										</select>
+										<label>Middle Name</label>
+										<input type="text" name="mname" class="form-control" placeholder="Middle Name">
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<label>Last Name</label>
+										<input type="text" name="lname" class="form-control" placeholder="Last Name">
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
 										<label>Course</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select Course</option>
+										<select name="course_id" class="form-control" required>
+											<option value="">Select Course</option>
+											<option value="course_id">Course Name</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
-										<label>School Year</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select School Year</option>
+										<label>Year Level</label>
+										<select name="yearLevel_id" class="form-control" required>
+											<option value="">Select Year Level</option>
+											<option value="yearLevel_id">Year Level</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
-										<label>Final Grade</label>
-										<input type='number' name='finalGrade' class="form-control" placeholder='Final Grade' required>
+										<label>Username</label>
+										<input type='text' name="username" class="form-control" required placeholder='username'>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
-										<label>Remarks</label>
-										<input type='number' name='remarks' class="form-control" placeholder='Remarks' required>
+										<label>Password</label>
+										<input type='password' name="password" class="form-control" required placeholder='username'>
 									</div>
 								</div>
 							</div>
@@ -169,7 +166,7 @@
 	},false);
 
 	function edit(id){
-		window.location.href="edit-student-subject.php?id="+id;
+		window.location.href="edit-student.php?id="+id;
 	}
 
 	function deletez(id){
@@ -199,19 +196,17 @@
 				let element = "";
 				data.forEach(value => {
 					element += `<tr>
-									<td>${data.studentGrade_id}</td>
-									<td>${data.studentIdNo}</td>
-									<td>${data.subjectName}</td>
-									<td>${tada.faculty_id}</td>
-									<td>${data.courseCode}</td>
-									<td>${data.schoolYear}</td>
-									<td>${data.finalGrade}</td>
-									<td>${data.remarks}</td>
+									<td>${data.facNo}</td>
+									<td>${data.lname}</td>
+									<td>${data.fname}</td>
+									<td>${data.mname}</td>
+									<td>${data.yearLevel}</td>
+									<td>${data.courseName}</td>
 									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.studentGrade_id}")">
+										<button class="btn btn-success" onclick="edit("${data.student_id}")">
 											<i class="fa fa-edit"></i>
 										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.studentGrade_id}")"><i class="fa fa-remove"></i></button></td> 
+									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.student_id}")"><i class="fa fa-remove"></i></button></td> 
 								</tr>`;
 				});
 			}

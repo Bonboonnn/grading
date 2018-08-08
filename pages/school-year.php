@@ -1,5 +1,4 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 	
     <head>
@@ -45,45 +44,30 @@
 					<div class="row container-fluid">
 						<div class="col-lg-10 col-md-10"><h3 style="margin:0">student List</h3></div>
 						<div class="col-lg-2 col-md-2">
-							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add student Grade</button>
+							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add School Year</button>
 						</div>
 						<div class="col-12">
 							<hr>
 							<table class="table" id="table">
 							<thead>
                                 <tr>          
-									<th>student Grade ID</th>
-									<th>Student ID</th>
-									<th>Subject</th>
-									<th>Faculty ID</th>
-									<th>Course</th>
-									<th>School year</th>
-									<th>Final Grade</th>
-									<th>Remarks</th>
+									<th>School Year ID</th>
+									<th>school Year</th>
+									<th>Semester</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
 								</tr>
 							</thead>
 							<tbody id="tbody">
 								<tr>
-									<td>${data.studentGrade_id}</td>
-									<td>${data.studentIdNo}</td>
-									<td>${data.subjectName}</td>
-									<td>${tada.faculty_id}</td>
-									<td>${data.courseCode}</td>
+									<td>${data.schooYear_id}</td>
 									<td>${data.schoolYear}</td>
-									<td>${data.finalGrade}</td>
-									<td>${data.remarks}</td>
+									<td>${data.semester}</td>
 									<td class="text-center">
 										<button class="btn btn-success" onclick="edit('1')">
 											<i class="fa fa-edit"></i>
-										</button>
-									</td>
-									<td class="text-center">
-										<button class="btn btn-danger" onclick="deletez('1')">
-											<i class="fa fa-remove"></i>
-										</button>
-									</td> 
+										</button></td>
+									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
 								</tr>
 							</tbody>
 							<table>
@@ -96,57 +80,19 @@
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<div class="modal-content">     
-					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student Grade</h3></div>
+						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add School Year</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
-										<label>Student ID No.</label>
-										<input name="studentIdNo" class="form-control" placeholder='Student ID No.' required>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>Subject</label>
-										<select name="studentSubject_id" class="form-control" required>
-											<option value=''>Select Subject</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>Faculty</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select Faculty</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>Course</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select Course</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
 										<label>School Year</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select School Year</option>
-										</select>
+										<input type="text" name="schoolYear" class="form-control" placeholder="School Year" required>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
-										<label>Final Grade</label>
-										<input type='number' name='finalGrade' class="form-control" placeholder='Final Grade' required>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>Remarks</label>
-										<input type='number' name='remarks' class="form-control" placeholder='Remarks' required>
+										<label>semester</label>
+										<input type='text' name='semester' class="form-control" placeholder='Semester' required>
 									</div>
 								</div>
 							</div>
@@ -169,7 +115,7 @@
 	},false);
 
 	function edit(id){
-		window.location.href="edit-student-subject.php?id="+id;
+		window.location.href="edit-year-level.php?id="+id;
 	}
 
 	function deletez(id){
@@ -195,23 +141,18 @@
 			method:"post",
 			data:{request:"select"},
 			success:(e) => {
-				const data = JSON.parse(e);
+				const value = JSON.parse(e);
 				let element = "";
-				data.forEach(value => {
+				value.forEach(data => {
 					element += `<tr>
-									<td>${data.studentGrade_id}</td>
-									<td>${data.studentIdNo}</td>
-									<td>${data.subjectName}</td>
-									<td>${tada.faculty_id}</td>
-									<td>${data.courseCode}</td>
+									<td>${data.schooYear_id}</td>
 									<td>${data.schoolYear}</td>
-									<td>${data.finalGrade}</td>
-									<td>${data.remarks}</td>
+									<td>${data.semester}</td>
 									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.studentGrade_id}")">
+										<button class="btn btn-success" onclick="edit("${data.yearLevel_id}")">
 											<i class="fa fa-edit"></i>
 										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.studentGrade_id}")"><i class="fa fa-remove"></i></button></td> 
+									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.yearLevel_id}")"><i class="fa fa-remove"></i></button></td> 
 								</tr>`;
 				});
 			}
