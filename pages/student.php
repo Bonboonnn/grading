@@ -43,7 +43,7 @@
 				<section class="content-header"></section>
                 <section class="content">
 					<div class="row container-fluid">
-						<div class="col-lg-10 col-md-10"><h3 style="margin:0">student List</h3></div>
+						<div class="col-lg-10 col-md-10"><h3 style="margin:0">Student List</h3></div>
 						<div class="col-lg-2 col-md-2">
 							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add student</button>
 						</div>
@@ -53,9 +53,9 @@
 							<thead>
                                 <tr>          
 									<th>studidno</td>
-									<th>fname</td>
-									<th>mname</td>
-									<th>lname</td>
+									<th>First Name</td>
+									<th>Middle Name</td>
+									<th>Last Name</td>
 									<th>courseid</td>
 									<th>yearlevelid</td>
 									<th>classid</td>
