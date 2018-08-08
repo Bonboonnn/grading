@@ -11,49 +11,66 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="treeview side1" id="index.php">
-                <a href="../pages/index.php">
+                <a href="../pages/student.php">
                     <i class="fa fa-users"></i> 
                     <span>Students</span>
+                </a>
+            </li> 
+            <li class="treeview side1" id="student-subject.php">
+                <a href="../pages/student-subject.php">
+                    <i class="fa fa-user"></i> 
+                    <span>Student Subject</span>
+                </a>
+            </li>
+            <li class="treeview side1" id="student-grade.php">
+                <a href="../pages/student-grade.php">
+                    <i class="fa fa-user"></i> 
+                    <span>Student Grade</span>
+                </a>
+            </li>
+            <li class="treeview side1" id="faculty.php">
+                <a href="../pages/faculty.php">
+                    <i class="fa fa-user"></i> 
+                    <span>Faculty</span>
+                </a>
+            </li>
+            <li class="treeview side1" id="faculsubjectty.php">
+                <a href="../pages/subject.php">
+                    <i class="fa fa-user"></i> 
+                    <span>Subject</span>
+                </a>
+            </li>
+            <li class="treeview side1" id="faculty-subject.php">
+                <a href="../pages/faculty-subject.php">
+                    <i class="fa fa-user"></i> 
+                    <span>Faculty Subject</span>
+                </a>
+            </li>
+            <li class="treeview side1" id="course.php">
+                <a href="../pages/course.php">
+                    <i class="fa fa-users"></i> 
+                    <span>Course</span>
+                </a>
+            </li>
+            <li class="treeview side1" id="class.php">
+                <a href="../pages/class.php">
+                    <i class="fa fa-users"></i> 
+                    <span>Class</span>
+                </a>
+            </li>
+             <li class="treeview side1" id="school-year.php">
+                <a href="../pages/school-year.php">
+                    <i class="fa fa-users"></i> 
+                    <span>School Year</span>
+                </a>
+            </li>
+            <li class="treeview side1" id="year-level.php">
+                <a href="../pages/year-level.php">
+                    <i class="fa fa-users"></i> 
+                    <span>Year Level</span>
                 </a>
             </li>
         </ul>
     </section>
     <!-- /.sidebar -->
 </aside>
-
-<div class="modal" id='insertUpdateModal'> 
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">     
-            <div class="modal-header"><h3 style='margin:0px'>Add/Update</h3></div>
-            <div class="modal-body" id='insertUpdateModalBody'>
-                <div class='row'>
-                    <div class='col-lg-6 col-md-6'>
-                        <div class='form-group'>
-                            <label>First Name</label>
-                            <input type='text' name='fname' class='form-control' placeholder='Student First Name' required>
-                        </div>
-                    </div>
-                    <div class='col-lg-6 col-md-6'>
-                        <div class='form-group'>
-                            <label>Middle Name</label>
-                            <input type='text' name='fname' class='form-control' placeholder='Student Middle Name'>
-                        </div>
-                    </div>
-                    <div class='col-lg-6 col-md-6'>
-                        <div class='form-group'>
-                            <label>LastName Name</label>
-                            <input type='text' name='fname' class='form-control' placeholder='Student Middle Name'>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer" style="background-color:lightblue !important">
-                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="next_()" id="next_btn">Save</button>
-            </div> 
-        </div>
-    </div> 
-</div>
-
-
-

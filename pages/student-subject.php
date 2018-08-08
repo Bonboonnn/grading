@@ -43,7 +43,7 @@
 				<section class="content-header"></section>
                 <section class="content">
 					<div class="row container-fluid">
-						<div class="col-lg-10 col-md-10"><h3 style="margin:0">student List</h3></div>
+						<div class="col-lg-10 col-md-10"><h3 style="margin:0">Student Subject List</h3></div>
 						<div class="col-lg-2 col-md-2">
 							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add student Subject</button>
 						</div>
