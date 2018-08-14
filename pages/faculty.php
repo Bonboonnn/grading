@@ -162,7 +162,11 @@
 	$("table").dataTable();
 	addForm.addEventListener("submit",(e)=>{
 		e.preventDefault();
-		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
+		ajax_({
+			url : "",
+			method : "POST",
+			formData : new FormData($("#addForm")[0])
+		});
 	},false);
 
 	function edit(id){
@@ -176,7 +180,8 @@
 			ajax_({url:"",method:"post",formData});
 		}
 	}
-	function ajax_(data){/*
+	function ajax_(data){
+		/*
 		$.ajax({
 			url:data.url,
 			method:data.method,

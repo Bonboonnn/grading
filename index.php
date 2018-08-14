@@ -14,12 +14,12 @@
     <body class="hold-transition login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a href="index2.html"><b>E-Grading System</b></a>
+                <a href="#"><b>E-Grading System</b></a>
             </div>
             <div class="login-box-body">
                 <p class="login-box-msg">Sign in with your correct account</p>
                 
-                <form name="login" id="login" action="log-in.php" method="POST">
+                <form name="login" id="login" action="pages/process/login" method="POST">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" name="uname" placeholder="Username">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
