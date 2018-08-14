@@ -6,8 +6,12 @@ class LoginController extends Controller{
 		parent::__construct();
 		$this->conn = $this->getDbConnection();
 	}
-	public function cons(){
-		return $this->conn;
+	public function login($data){
+		return $response;
+	}
+	public function s(){
+		$query = mysqli_query($this->conn, "select fname from tbl_student");
+		return json_encode(mysqli_fetch_all($query, MYSQLI_ASSOC));
 	}
 }
 ?>

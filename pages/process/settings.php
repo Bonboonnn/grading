@@ -8,7 +8,6 @@ class Setting{
 			$this->_methods[] = $method;
 		}
 	}
-
 	public function run(){
 		$url_param = isset($_GET['url']) ? '/'. $_GET['url'] : '/';
 		foreach($this->_url as $key => $value){
