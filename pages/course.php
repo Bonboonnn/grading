@@ -10,7 +10,6 @@
 			.dataTables_filter {
 				display: none;
 			}
-			
 			.yes_print {
 				display: none;
 			}
@@ -59,16 +58,6 @@
 								</tr>
 							</thead>
 							<tbody id="tbody">
-								<tr>
-									<td>${data.course_id}</td>
-									<td>${data.courseName}</td>
-									<td>${data.description}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit('1')">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
-								</tr>
 							</tbody>
 							<table>
 						</div>
@@ -108,12 +97,33 @@
     </body>
 </html>
 <script>
-	$("table").dataTable();
-	addForm.addEventListener("submit",(e)=>{
-		e.preventDefault();
-		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
-	},false);
-
+	$(document).ready(function(){
+		displayData();
+		$("#addForm").on('submit', function(e){
+			e.preventDefault();
+			let formData = new FormData($("#addForm")[0]);
+			for(var e of formData){
+				console.log(e);
+			}
+			$.ajax({
+				method: "POST",
+				url: "process/course/add_course",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: function(e){
+					console.log(e);
+					const response = JSON.parse(e);
+					if(response.status == "success"){
+						alert(response.message);
+					} else {
+						alert(response.message);
+					}
+				}
+			});
+		});
+	});
 	function edit(id){
 		window.location.href="edit-year-level.php?id="+id;
 	}
@@ -125,35 +135,41 @@
 			ajax_({url:"",method:"post",formData});
 		}
 	}
-	function ajax_(data){/*
-		$.ajax({
-			url:data.url,
-			method:data.method,
-			data:data.formData,
-			processData:false,
-			contentType:false
-		});*/
-	}
 
 	function displayData() {
 		$.ajax({
-			url:"",
-			method:"post",
-			data:{request:"select"},
+			url:"process/course/get_courses",
+			method:"GET",
 			success:(e) => {
-				const value = JSON.parse(e);
-				let element = "";
-				value.forEach(data => {
-					element += `<tr>
-									<td>${data.course_id}</td>
-									<td>${data.courseName}</td>
-									<td>${data.description}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.yearLevel_id}")">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.yearLevel_id}")"><i class="fa fa-remove"></i></button></td> 
-								</tr>`;
+				console.log(e);
+				const response = JSON.parse(e);
+				$("#tbody").empty();
+				$.each(response, function(index, value){
+					$("#tbody").append(
+						`<tr>
+							<td>${value.course_id}</td>
+							<td>${value.courseName}</td>
+							<td>${value.description}</td>
+							<td class='text-center'>
+								<button class="btn btn-success" onclick="edit('1')">
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td>
+								<button class="btn btn-danger" onclick="deletez('1')">
+									<i class="fa fa-remove"></i>
+								</button>
+							</td class='text-center'>
+						</tr>`
+					);
+				});
+			},
+			error:(e)=>{
+
+			},
+			comlete:(e)=>{
+				$("#table").dataTable({
+					bSort: false
 				});
 			}
 		});

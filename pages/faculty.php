@@ -188,13 +188,16 @@
 
 	function displayData() {
 		$.ajax({
-			url:"process/display_faculty",
+			url:"process/faculty/display_faculty",
 			method:"GET",
 			success:(e) => {
+				console.log(e);
 				const data = JSON.parse(e);
-				console.log(data);
 				$("#tbody").empty();
 				$.each(data, function(index, value){
+					if(value.course_id == null){
+						value.course_id = "";
+					}
 					$("#tbody").append(
 						`<tr>
 							<td>${value.facNo}</td>
