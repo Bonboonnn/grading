@@ -50,42 +50,28 @@
 						<div class="col-12">
 							<hr>
 							<table class="table" id="table">
-							<thead>
-                                <tr>          
-									<th>Faculty No.</td>
-									<th>First Name</td>
-									<th>Middle Name</td>
-									<th>Last Name</td>
-									<th>Yearlevelid</td>
-									<th>Course</td>
-									<th>username</td>
-                                    <th class="text-center">Update</th>
-                                    <th class="text-center">Delete</th>
-								</tr>
-							</thead>
-							<tbody id="tbody">
-								<tr>
-									<td>${data.facNo}</td>
-									<td>${data.lname}</td>
-									<td>${data.fname}</td>
-									<td>${data.mname}</td>
-									<td>${data.yearLevel}</td>
-									<td>${data.courseName}</td>
-									<td>${data.username}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit('1')">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
-								</tr>
-							</tbody>
+								<thead>
+	                                <tr>          
+										<th>Faculty No.</td>
+										<th>First Name</td>
+										<th>Middle Name</td>
+										<th>Last Name</td>
+										<th>Course</td>
+										<th>username</td>
+	                                    <th class="text-center">Update</th>
+	                                    <th class="text-center">Delete</th>
+									</tr>
+								</thead>
+								<tbody id="tbody">
+									
+								</tbody>
 							<table>
 						</div>
 					</div>
 				</section>
             </div>
 		</div>
-		<div class="modal" id="addModal"> 
+		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<div class="modal-content">     
@@ -158,8 +144,10 @@
 		</div>
     </body>
 </html>
-<script>
-	$("table").dataTable();
+<script> 
+	$(document).ready(function(){
+		displayData();
+	});
 	addForm.addEventListener("submit",(e)=>{
 		e.preventDefault();
 		ajax_({
@@ -168,7 +156,7 @@
 			formData : new FormData($("#addForm")[0])
 		});
 	},false);
-
+	
 	function edit(id){
 		window.location.href="edit-student.php?id="+id;
 	}
@@ -177,45 +165,64 @@
 		if(confirm("Are you sure you want to delete it?")) {
 			const formData = new formData();
 			formData.append("id",id);
-			ajax_({url:"",method:"post",formData});
+			ajax_({
+				url:"",
+				method:"POST",
+				formData:formData
+			});
 		}
 	}
 	function ajax_(data){
-		/*
 		$.ajax({
 			url:data.url,
 			method:data.method,
 			data:data.formData,
 			processData:false,
-			contentType:false
-		});*/
+			contentType:false,
+			cache:false,
+			success: function(e){
+
+			}
+		});
 	}
 
 	function displayData() {
 		$.ajax({
-			url:"",
-			method:"post",
-			data:{request:"select"},
+			url:"process/display_faculty",
+			method:"GET",
 			success:(e) => {
 				const data = JSON.parse(e);
-				let element = "";
-				data.forEach(value => {
-					element += `<tr>
-									<td>${data.facNo}</td>
-									<td>${data.lname}</td>
-									<td>${data.fname}</td>
-									<td>${data.mname}</td>
-									<td>${data.yearLevel}</td>
-									<td>${data.courseName}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.student_id}")">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.student_id}")"><i class="fa fa-remove"></i></button></td> 
-								</tr>`;
+				console.log(data);
+				$("#tbody").empty();
+				$.each(data, function(index, value){
+					$("#tbody").append(
+						`<tr>
+							<td>${value.facNo}</td>
+							<td>${value.fname}</td>
+							<td>${value.mname}</td>
+							<td>${value.lname}</td>
+							<td>${value.course_id}</td>
+							<td>${value.username}</td>
+							<td class="text-center">
+								<button class="btn btn-success" onclick="edit('1')">
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button>
+							</td> 
+						</tr>`
+					);
+				});
+			},
+			error:(e)=>{
+
+			},
+			complete:(e)=>{
+				$("#table").dataTable({
+					bSort: false
 				});
 			}
 		});
 	}
+	
 </script>
-    

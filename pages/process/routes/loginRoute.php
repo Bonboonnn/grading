@@ -11,9 +11,5 @@ $route->url("/login", function(){
 	$response = $login->login($data);
 	echo json_encode($response);
 });
-$route->url("/s", function(){
-	$login = new LoginController();
-	var_dump($login->s());
-});
 $route->run();
 ?>

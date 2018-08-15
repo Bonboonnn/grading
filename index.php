@@ -19,7 +19,7 @@
             <div class="login-box-body">
                 <p class="login-box-msg">Sign in with your correct account</p>
                 
-                <form name="login" id="login" action="pages/process/login" method="POST">
+                <form id="login_form" action="" method="">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" name="uname" placeholder="Username">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -28,7 +28,7 @@
                         <input type="password" class="form-control" name="upass" placeholder="Password">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
-                    <h5 style="text-align: center; color: red; font-weight: bolder !important; font-size: 14px;" id="err-msg">
+                    <h5 style="text-align: center; color: red; font-weight: bolder !important; font-size: 14px;" id="err_msg">
                         <!-- error message na di bon !-->
                     </h5>
                     <div class="row">
@@ -53,6 +53,7 @@
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <script src="plugins/iCheck/icheck.min.js"></script>
         <script>
+            var timeOuts = false;
             $(function () {
                 $('input').iCheck({
                     checkboxClass: 'icheckbox_square-blue',
@@ -60,12 +61,39 @@
                     increaseArea: '20%' // optional
                 });
             });
-        </script>
-        
-        <script>
-            setTimeout(function() {
-                $('#err-msg').fadeOut('slow');
-            }, 4500);
+            if(timeOuts != false){
+                clearTimeout(timeOut);
+            }
+            $("#login_form").on("submit", function(e){
+                e.preventDefault();
+                $.ajax({
+                    method: "POST",
+                    url: "pages/process/login",
+                    data: $("#login_form").serialize(),
+                    success: function(e){
+                        console.log(e);
+                        let response = JSON.parse(e);
+                        if(response.status == "error"){
+                            $("#err_msg").html(response.message);
+                        } else {
+                            window.location.href = "pages/faculty.php";
+                        }
+                    },
+                    error: function(e){
+
+                    },
+                    complete: function(e){
+                    setTimeout(function() {
+                        $('#err_msg').fadeOut('slow');
+                        setTimeout(function(){
+                            $("#err_msg").html('');
+                            $('#err_msg').fadeIn('slow');
+                        }, 500);
+                    }, 2000);
+                    
+                    }
+                });
+            });
         </script>
     </body>
 </html>

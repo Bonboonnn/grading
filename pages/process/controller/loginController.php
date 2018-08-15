@@ -1,17 +1,24 @@
 <?php
-require_once 'Controller.php';
+require_once 'controller.php';
+require_once 'model/loginModel.php';
 class LoginController extends Controller{
-	private $conn;
+	private $model;
 	public function __construct(){
 		parent::__construct();
-		$this->conn = $this->getDbConnection();
+		$this->model = new LoginModel();
 	}
 	public function login($data){
+		$validates = $this->validations($data);
+		if($validates){
+			$response = $this->model->login($data);
+		} else {
+			$response = array(
+				"status" => "error",
+				"message" => "Please input missing fields"
+			);
+		}
+		
 		return $response;
-	}
-	public function s(){
-		$query = mysqli_query($this->conn, "select fname from tbl_student");
-		return json_encode(mysqli_fetch_all($query, MYSQLI_ASSOC));
 	}
 }
 ?>
