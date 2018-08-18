@@ -2,9 +2,9 @@
 <html>
 	
     <head>
-        <?php include_once "../link-file/head.php"; ?>
+        <?php include_once "link-file/head.php"; ?>
         
-        <?php include_once "../link-file/foot-js.php"; ?>
+        <?php include_once "link-file/foot-js.php"; ?>
 		
 		<style>
 			.dataTables_filter {
@@ -35,9 +35,9 @@
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
                 
-            <?php include_once "../link-file/header.php"; ?>
+            <?php include_once "link-file/header.php"; ?>
             
-            <?php include_once "../link-file/side-bar.php"; ?>
+            <?php include_once "link-file/side-bar.php"; ?>
             <div class="content-wrapper">
 				<section class="content-header"></section>
                 <section class="content">

@@ -1,3 +1,8 @@
+<?php
+session_start();
+define( 'SEND_TO_HOME', true );
+require_once "pages/src/auth.php";
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +24,7 @@
             <div class="login-box-body">
                 <p class="login-box-msg">Sign in with your correct account</p>
                 
-                <form id="login_form" action="" method="">
+                <form id="login_form" action="pages/src/login" method="POST">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" name="uname" placeholder="Username">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -68,7 +73,7 @@
                 e.preventDefault();
                 $.ajax({
                     method: "POST",
-                    url: "pages/process/login",
+                    url: "pages/src/login",
                     data: $("#login_form").serialize(),
                     success: function(e){
                         console.log(e);
@@ -76,7 +81,7 @@
                         if(response.status == "error"){
                             $("#err_msg").html(response.message);
                         } else {
-                            window.location.href = "pages/faculty.php";
+                            window.location.href = "pages/src/faculty";
                         }
                     },
                     error: function(e){

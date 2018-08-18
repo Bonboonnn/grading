@@ -17,7 +17,6 @@ class LoginController extends Controller{
 				"message" => "Please input missing fields"
 			);
 		}
-		
 		return $response;
 	}
 }
