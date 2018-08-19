@@ -36,3 +36,4 @@ Initial release.
 
 - Logout
 - User Change credentials
+- Class (Add, Fetch)

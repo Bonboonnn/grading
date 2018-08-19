@@ -161,6 +161,7 @@ class Model extends Config{
 	public function select_one($conditions) {
 		foreach($conditions['condition'] as $key => $val) { 
 			foreach($val['data'] as $k => $v){
+				mysqli_real_escape_string($this->conn, $v);
 				if(isset($val['operator'])){
 					$this->condition[] = " ".$val['operator'].' `'.$key.'`.'.$k." = '".$v."'";
 				} else {

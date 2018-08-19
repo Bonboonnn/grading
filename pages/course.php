@@ -66,12 +66,12 @@
 				</section>
             </div>
 		</div>
-		<div class="modal" id="addModal"> 
+		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<input type="hidden" name="course_id" id="course_id" class="form-control" />
 					<div class="modal-content">     
-						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Course</h3></div>
+						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update Course</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
