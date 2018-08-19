@@ -3,9 +3,9 @@
 <html>
 	
     <head>
-        <?php include_once "../link-file/head.php"; ?>
+        <?php include_once "link-file/head.php"; ?>
         
-        <?php include_once "../link-file/foot-js.php"; ?>
+        <?php include_once "link-file/foot-js.php"; ?>
 		
 		<style>
 			.dataTables_filter {
@@ -36,181 +36,193 @@
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
                 
-            <?php include_once "../link-file/header.php"; ?>
+            <?php include_once "link-file/header.php"; ?>
             
-            <?php include_once "../link-file/side-bar.php"; ?>
+            <?php include_once "link-file/side-bar.php"; ?>
             <div class="content-wrapper">
 				<section class="content-header"></section>
                 <section class="content">
 					<div class="row container-fluid">
 						<div class="col-lg-10 col-md-10"><h3 style="margin:0">Faculty List</h3></div>
 						<div class="col-lg-2 col-md-2">
-							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add Faculty</button>
+							<button class="btn btn-block btn-primary" data-target="#addUpdateModal" data-toggle="modal">Add Faculty</button>
 						</div>
 						<div class="col-12">
 							<hr>
 							<table class="table" id="table">
-							<thead>
-                                <tr>          
-									<th>Faculty No.</td>
-									<th>First Name</td>
-									<th>Middle Name</td>
-									<th>Last Name</td>
-									<th>Yearlevelid</td>
-									<th>Course</td>
-									<th>username</td>
-                                    <th class="text-center">Update</th>
-                                    <th class="text-center">Delete</th>
-								</tr>
-							</thead>
-							<tbody id="tbody">
-								<tr>
-									<td>${data.facNo}</td>
-									<td>${data.lname}</td>
-									<td>${data.fname}</td>
-									<td>${data.mname}</td>
-									<td>${data.yearLevel}</td>
-									<td>${data.courseName}</td>
-									<td>${data.username}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit('1')">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
-								</tr>
-							</tbody>
+								<thead>
+	                                <tr>          
+										<th>Faculty No.</td>
+										<th>First Name</td>
+										<th>Middle Name</td>
+										<th>Last Name</td>
+										<th>Course</td>
+										<th>username</td>
+	                                    <th class="text-center">Update</th>
+	                                    <th class="text-center">Delete</th>
+									</tr>
+								</thead>
+								<tbody id="tbody">
+									
+								</tbody>
 							<table>
 						</div>
 					</div>
 				</section>
             </div>
 		</div>
-		<div class="modal" id="addModal"> 
-			<div class="modal-dialog modal-lg">
-				<form id="addForm">
-					<div class="modal-content">     
-						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Faculty</h3></div>
-						<div class="modal-body" id="insertUpdateModalBody">
-							<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12">
-									<div class="form-group">
-										<label>Faculty Id No.</label>
-										<input type="text" name="facNo" class="form-control" placeholder="Faculty Id No." required>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<label>First Name</label>
-										<input type="text" name="fname" class="form-control" placeholder="First Name" required>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<label>Middle Name</label>
-										<input type="text" name="mname" class="form-control" placeholder="Middle Name">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<label>Last Name</label>
-										<input type="text" name="lname" class="form-control" placeholder="Last Name">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<label>Course</label>
-										<select name="course_id" class="form-control" required>
-											<option value="">Select Course</option>
-											<option value="course_id">Course Name</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<label>Year Level</label>
-										<select name="yearLevel_id" class="form-control" required>
-											<option value="">Select Year Level</option>
-											<option value="yearLevel_id">Year Level</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<label>Username</label>
-										<input type='text' name="username" class="form-control" required placeholder='username'>
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12">
-									<div class="form-group">
-										<label>Password</label>
-										<input type='password' name="password" class="form-control" required placeholder='username'>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer" style="background-color:lightblue !important">
-							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Save</button>
-						</div>
-					</div>
-				</form>
-			</div> 
-		</div>
     </body>
 </html>
-<script>
-	$("table").dataTable();
-	addForm.addEventListener("submit",(e)=>{
+<script> 
+	$(document).ready(function(){
+		displayData();
+		getCourses();
+	});
+	$("#addUpdateForm").on("submit", function(e){
 		e.preventDefault();
-		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
-	},false);
+		let formData = new FormData($("#addUpdateForm")[0]);
+		let process_url ="";
+		if($("#faculty_id").val() != "" && $("#faculty_id").val() != " ")
+			process_url = "faculty/update_faculty";
+		else {
+			process_url = "faculty/add_faculty";
+		}
+		$.ajax({
+			method: "POST",
+			url: process_url,
+			data: formData,
+			processData: false,
+			contentType: false,
+			cache: false,
+			success: function(e){
+				let response = JSON.parse(e);
+				alert(response.message);
+				if(response.status == "success"){
+					$(".form-control").val("");
+					$(".radios").filter('[value=2]').prop('checked', true);
+				}
+			},
+			error: function(e){
 
-	function edit(id){
-		window.location.href="edit-student.php?id="+id;
-	}
-
-	function deletez(id){
-		if(confirm("Are you sure you want to delete it?")) {
-			const formData = new formData();
-			formData.append("id",id);
-			ajax_({url:"",method:"post",formData});
+			},
+			complete: function(e){
+				$('#table').dataTable().fnClearTable();
+				$('#table').dataTable().fnDestroy();
+				displayData();
+				$("#addUpdateModal").modal('hide');
+			}
+		});
+	});
+	function edit(update_data){
+		$("#addUpdateModal").modal('show');
+		$("#faculty_id").val(update_data.faculty_id);
+		$("#facNo").val(update_data.facNo);
+		$("#fname").val(update_data.fname);
+		$("#lname").val(update_data.lname);
+		$("#mname").val(update_data.mname);
+		$("#username").val(update_data.username);
+		$("#password").val(update_data.password);
+		$(".radios").filter(`[value=${update_data.level}]`).prop('checked', true);
+		if(update_data.course_id != undefined){
+			getCourses();
+			window.setTimeout(function(){
+				$("#courses option[value="+update_data.course_id+"]").attr('selected', 'selected')
+			}, 100);
 		}
 	}
-	function ajax_(data){/*
-		$.ajax({
-			url:data.url,
-			method:data.method,
-			data:data.formData,
-			processData:false,
-			contentType:false
-		});*/
-	}
 
-	function displayData() {
+	function delete_faculty(id){
+		if(confirm("Are you sure you want to delete it?")) {
+			$.ajax({
+				url: "faculty/delete_faculty",
+				method: "GET",
+				data: {faculty_id:id},
+				success: function(e){
+					let response = JSON.parse(e);
+					if(response.status == "success"){
+						alert(response.message);
+					} else {
+						alert(response.message);
+					}
+				},
+				error: function(e){
+
+				},
+				complete: function(e){
+					$('#table').dataTable().fnClearTable();
+					$('#table').dataTable().fnDestroy();
+					displayData(); 
+				}
+			});
+		}
+	}
+	function getCourses() {
 		$.ajax({
-			url:"",
-			method:"post",
-			data:{request:"select"},
-			success:(e) => {
+			url:"course/get_courses",
+			method:"GET",
+			success:(e)=>{
 				const data = JSON.parse(e);
-				let element = "";
-				data.forEach(value => {
-					element += `<tr>
-									<td>${data.facNo}</td>
-									<td>${data.lname}</td>
-									<td>${data.fname}</td>
-									<td>${data.mname}</td>
-									<td>${data.yearLevel}</td>
-									<td>${data.courseName}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.student_id}")">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.student_id}")"><i class="fa fa-remove"></i></button></td> 
-								</tr>`;
+				$("#courses").empty();
+				$("#courses").append("<option value=''>Select Course</option>");
+				$.each(data, function(index, value){
+					$("#courses").append(
+						`<option value="${value.course_id}">${value.courseName}</option>`
+					);
 				});
 			}
 		});
 	}
+	function displayData() {
+		$.ajax({
+			url:"faculty/display_faculty",
+			method:"GET",
+			success:(e) => {
+				const data = JSON.parse(e);
+				$("#tbody").empty();
+				$.each(data, function(index, value){
+					if(value.courseName == null){
+						value.courseName = "";
+						value.course_id = undefined;
+					}
+					let update_data = JSON.stringify({
+						level:value.faculty_level,
+						course_id:value.course_id,
+						faculty_id:value.faculty_id,
+						facNo:value.facNo,
+						fname:value.fname,
+						lname:value.lname,
+						mname:value.mname,
+						username:value.username,
+						password:value.password,
+					});
+					$("#tbody").append(
+						`<tr>
+							<td>${value.facNo}</td>
+							<td>${value.fname}</td>
+							<td>${value.mname}</td>
+							<td>${value.lname}</td>
+							<td>${value.courseName}</td>
+							<td>${value.username}</td>
+							<td class="text-center">
+								<button class="btn btn-success" onclick='edit(${update_data})'>
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td class="text-center"><button class="btn btn-danger" onclick="delete_faculty(${value.faculty_id})"><i class="fa fa-remove"></i></button>
+							</td> 
+						</tr>`
+					);
+				});
+			},
+			error:(e)=>{
+
+			},
+			complete:(e)=>{
+				$("#table").dataTable({
+					bSort: false
+				});
+			}
+		});
+	}
+	
 </script>
-    

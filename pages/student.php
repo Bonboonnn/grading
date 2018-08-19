@@ -3,9 +3,9 @@
 <html>
 	
     <head>
-        <?php include_once "../link-file/head.php"; ?>
+        <?php include_once "link-file/head.php"; ?>
         
-        <?php include_once "../link-file/foot-js.php"; ?>
+        <?php include_once "link-file/foot-js.php"; ?>
 		
 		<style>
 			.dataTables_filter {
@@ -36,9 +36,9 @@
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
                 
-            <?php include_once "../link-file/header.php"; ?>
+            <?php include_once "link-file/header.php"; ?>
             
-            <?php include_once "../link-file/side-bar.php"; ?>
+            <?php include_once "link-file/side-bar.php"; ?>
             <div class="content-wrapper">
 				<section class="content-header"></section>
                 <section class="content">
@@ -121,27 +121,24 @@
 								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
 										<label>Course</label>
-										<select name="course_id" class="form-control" required>
-											<option value="">Select Course</option>
-											<option value="course_id">Course Name</option>
+										<select name="course_id" id="course_id" class="form-control" required>
+										
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
 										<label>Year Level</label>
-										<select name="yearLevel_id" class="form-control" required>
-											<option value="">Select Year Level</option>
-											<option value="yearLevel_id">Year Level</option>
+										<select name="yearlevel_id" onchange="get_classes()" id="yearlevel_id" class="form-control" required>
+											
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
 										<label>Year Class</label>
-										<select name="class_id" class="form-control" required>
-											<option value="">Select Class</option>
-											<option value="class_id">Class</option>
+										<select name="class_id" id="class_id" class="form-control" required>
+											<option value=''>Select Class</option>
 										</select>
 									</div>
 								</div>
@@ -170,12 +167,17 @@
     </body>
 </html>
 <script>
-	$("table").dataTable();
+	$("#table").dataTable({
+		bSort:false
+	});
 	addForm.addEventListener("submit",(e)=>{
 		e.preventDefault();
 		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
 	},false);
-
+	$(function(){
+		get_year_levels();
+		get_courses();
+	})
 	function edit(id){
 		window.location.href="edit-student.php?id="+id;
 	}
@@ -197,6 +199,58 @@
 		});*/
 	}
 
+	function get_courses(){
+		$.ajax({
+			url:"course/get_courses",
+			method:"GET",
+			success: (e)=>{
+				let value = JSON.parse(e);
+				$("#course_id").empty();
+				$("#course_id").append("<option value=''>Select Course</option>");
+				$.each(value, function(index, val){
+					$("#course_id").append(
+						`<option value=${val.course_id}>${val.courseName}</option>`
+					);
+				});
+			}
+		});
+	}
+
+	function get_year_levels(){
+		$.ajax({
+			url: "year-level/get_year_levels",
+			method: "GET",
+			success: (e)=>{
+				let value = JSON.parse(e);
+				$("#yearlevel_id").empty();
+				$("#yearlevel_id").append("<option value=''>Select Year</option>");
+				$.each(value, function(index, val){
+					$("#yearlevel_id").append(
+						`<option value=${val.yearlevel_id}>${val.yearLevel}</option>`
+					);
+				});
+			}
+		});
+	}
+
+	function get_classes(){
+		let yearleve_id = $("#yearlevel_id").val();
+		$.ajax({
+			url:"class/get_class_year",
+			method:"GET",
+			data: {yearlevel_id:yearleve_id},
+			success: (e)=>{
+				var val = JSON.parse(e);
+				$("#class_id").empty();
+				$("#class_id").append("<option value=''>Select Class</option>");
+				$.each(val, function(index, val){
+					$("#class_id").append(
+						`<option value=${val.class_id}>${val.classname}</option>`
+					);
+				});
+			}
+		});
+	}
 	function displayData() {
 		$.ajax({
 			url:"",

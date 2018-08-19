@@ -10,62 +10,62 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="treeview side1" id="index.php">
-                <a href="../pages/student.php">
+            <li class="treeview side1" id="index">
+                <a href="student">
                     <i class="fa fa-users"></i> 
                     <span>Students</span>
                 </a>
             </li> 
-            <li class="treeview side1" id="student-subject.php">
-                <a href="../pages/student-subject.php">
+            <li class="treeview side1" id="student-subject">
+                <a href="student-subject">
                     <i class="fa fa-user"></i> 
                     <span>Student Subject</span>
                 </a>
             </li>
-            <li class="treeview side1" id="student-grade.php">
-                <a href="../pages/student-grade.php">
+            <li class="treeview side1" id="student-grade">
+                <a href="student-grade">
                     <i class="fa fa-user"></i> 
                     <span>Student Grade</span>
                 </a>
             </li>
-            <li class="treeview side1" id="faculty.php">
-                <a href="../pages/faculty.php">
+            <li class="treeview side1" id="faculty">
+                <a href="faculty">
                     <i class="fa fa-user"></i> 
                     <span>Faculty</span>
                 </a>
             </li>
-            <li class="treeview side1" id="faculsubjectty.php">
-                <a href="../pages/subject.php">
+            <li class="treeview side1" id="faculsubjectty">
+                <a href="subject">
                     <i class="fa fa-user"></i> 
                     <span>Subject</span>
                 </a>
             </li>
-            <li class="treeview side1" id="faculty-subject.php">
-                <a href="../pages/faculty-subject.php">
+            <li class="treeview side1" id="faculty-subject">
+                <a href="faculty-subject">
                     <i class="fa fa-user"></i> 
                     <span>Faculty Subject</span>
                 </a>
             </li>
-            <li class="treeview side1" id="course.php">
-                <a href="../pages/course.php">
+            <li class="treeview side1" id="course">
+                <a href="course">
                     <i class="fa fa-users"></i> 
                     <span>Course</span>
                 </a>
             </li>
-            <li class="treeview side1" id="class.php">
-                <a href="../pages/class.php">
+            <li class="treeview side1" id="class">
+                <a href="class">
                     <i class="fa fa-users"></i> 
                     <span>Class</span>
                 </a>
             </li>
-             <li class="treeview side1" id="school-year.php">
-                <a href="../pages/school-year.php">
+             <li class="treeview side1" id="school-year">
+                <a href="school-year">
                     <i class="fa fa-users"></i> 
                     <span>School Year</span>
                 </a>
             </li>
-            <li class="treeview side1" id="year-level.php">
-                <a href="../pages/year-level.php">
+            <li class="treeview side1" id="year-level">
+                <a href="year-level">
                     <i class="fa fa-users"></i> 
                     <span>Year Level</span>
                 </a>

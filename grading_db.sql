@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2018 at 04:17 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.1.11
+-- Generation Time: Aug 15, 2018 at 03:51 PM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -58,10 +58,18 @@ CREATE TABLE `tblfaculty` (
   `fname` varchar(255) NOT NULL,
   `mname` varchar(255) NOT NULL,
   `lname` varchar(255) NOT NULL,
-  `course_id` int(11) NOT NULL,
+  `course_id` int(11) DEFAULT NULL,
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `faculty_level` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblfaculty`
+--
+
+INSERT INTO `tblfaculty` (`faculty_id`, `facNo`, `fname`, `mname`, `lname`, `course_id`, `username`, `password`, `faculty_level`) VALUES
+(1, 123, 'adminFname', 'admin', 'admin', NULL, 'admin', 'admin', 1);
 
 -- --------------------------------------------------------
 
@@ -240,7 +248,7 @@ ALTER TABLE `tblcourse`
 -- AUTO_INCREMENT for table `tblfaculty`
 --
 ALTER TABLE `tblfaculty`
-  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblfacultysubject`
