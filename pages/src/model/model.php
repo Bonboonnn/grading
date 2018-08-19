@@ -11,6 +11,7 @@ class Model extends Config{
 	private $references = array();
 	private $results = array();
 	private $condition = array();
+	private $joins = array();
 	public function __construct($table){
 		parent::__construct();
 		$this->table = $table;
@@ -25,6 +26,7 @@ class Model extends Config{
 		$query = mysqli_query($this->conn, $sql);
 		$response = mysqli_fetch_all($query, MYSQLI_ASSOC);
 		$query->close();
+		$this->clean();
 		return $response;
 	}
 
@@ -136,23 +138,51 @@ class Model extends Config{
 		} else {
 			$response = $this->response("error", "Failed to Delete Data");
 		}
+		$query->close();
+		$this->clean();
 		return $response;
 	}
 
 	public function select_all_joins($type, $conditions) {
 		$count = 0;
-		$joins = array();
+		
 		foreach($conditions['table'] as $key => $val){
 			$this->columns[] = $val."."."*";
-			$joins[] = $type." join tbl".$val." as ".$val." on ".$val.".".$val."_id = ".$this->table.".".$val."_id";
+			$this->joins[] = $type." join tbl".$val." as ".$val." on ".$val.".".$val."_id = ".$this->table.".".$val."_id";
 		}
-		$sql = "SELECT ".join(', ', $this->columns)." , ".$this->table.".* from ".$this->table." as ".$this->table." ".join(" ", $joins);
+		$sql = "SELECT ".join(', ', $this->columns)." , ".$this->table.".* from ".$this->table." as ".$this->table." ".join(" ", $this->joins);
 		$query = mysqli_query($this->conn, $sql);
 		$response = mysqli_fetch_all($query, MYSQLI_ASSOC);
 		$query->close();
 		$this->clean();
 		return $response;
 	}	
+
+	public function select_one($conditions) {
+		foreach($conditions['condition'] as $key => $val) { 
+			foreach($val['data'] as $k => $v){
+				if(isset($val['operator'])){
+					$this->condition[] = " ".$val['operator'].' `'.$key.'`.'.$k." = '".$v."'";
+				} else {
+					$this->condition[] = ' `'.$key.'`.'.$k." = '".$v."'";
+				}
+			}
+		}
+		if(isset($conditions['joins'])){
+			foreach($conditions['joins'] as $key => $val){
+				foreach($val as $k => $v){
+					$this->columns[] = $v.".* , ";
+					$this->joins[] = $k." join tbl".$v." as ".$v." on ".$v.".".$v."_id = ".$this->table.".".$v."_id";
+				}
+			}
+		}
+		$sql = "SELECT ".join(', ', $this->columns).$this->table.".* from ".$this->table." as ".$this->table." ".join(" ", $this->joins)." WHERE ".join(" ", $this->condition);
+		$query = mysqli_query($this->conn, $sql);
+		$response = mysqli_fetch_all($query, MYSQLI_ASSOC);
+		$query->close();
+		$this->clean();
+		return $response;
+	}
 
 	public function response($status, $message){
 		return array(

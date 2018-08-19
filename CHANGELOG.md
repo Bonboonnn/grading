@@ -29,3 +29,10 @@ Initial release.
 - Course (Add)
 - Faculty (Fetch)
 - Login
+
+## August 19, 2018
+
+** Added **
+
+- Logout
+- User Change credentials

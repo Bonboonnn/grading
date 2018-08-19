@@ -12,6 +12,12 @@ $route->url("/login", function(){
 	$response = $login->login($data);
 	echo json_encode($response);
 });
+$route->url("/logout", function(){
+	unset($_SESSION['user_data']);
+	unset($_SESSION['access']);
+	session_destroy();
+	header('location: ../../');
+});
 $route->url("/", function(){
 	if(isset($_SESSION['user_data'])){
 		header('location: faculty');

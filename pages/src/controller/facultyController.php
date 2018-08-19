@@ -24,15 +24,11 @@ class FacultyController extends Controller{
 		return $response;
 	}
 	public function update_faculty($data){
-		$validates = $this->validations($data);
-		if($validates){
-			$response = $this->model->update_faculty($data);
-		} else {
-			$response = array(
-				"status" => "error",
-				"message" => "Please input missing fields"
-			);
-		}
+		$response = $this->model->update_faculty($data);
+		return $response;
+	}
+	public function get_user_details($data){
+		$response = $this->model->get_user_details($data);
 		return $response;
 	}
 	public function delete_faculty($data){

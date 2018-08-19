@@ -167,7 +167,12 @@
 			contentType: false,
 			cache: false,
 			success: function(e){
-				console.log(e);
+				let response = JSON.parse(e);
+				alert(response.message);
+				if(response.status == "success"){
+					$(".form-control").val("");
+					$(".radios").filter('[value=2]').prop('checked', true);
+				}
 			},
 			error: function(e){
 
@@ -176,8 +181,7 @@
 				$('#table').dataTable().fnClearTable();
 				$('#table').dataTable().fnDestroy();
 				displayData();
-				$(".form-control").val("");
-				$(".radios").filter('[value=2]').prop('checked', true);
+				$("#addUpdateModal").modal('hide');
 			}
 		});
 	});

@@ -7,44 +7,35 @@ class LoginModel extends Model{
 		$this->conn = $this->getDbConnection();
 	}
 	public function login($data){
-		$sql = "select facNo, fname, mname, lname, course_id, faculty_level, password from tblfaculty where username = ?";
-		$query = $this->conn->prepare($sql) or die(mysqli_error($this->conn));
-		$query->bind_param('s', $data['uname']);
-		$query->execute();
-		$query->bind_result($fac_no, $fname, $mname, $lname, $course_id, $faculty_level, $password);
-		$query->store_result();
-		$query->fetch();
-		if($query->num_rows() > 0){
-			if($password == $data['upass']){
-				$response = array(
-					"status"=> "success",
-					"data" 	=> array(
-						"fac_no" 		=> $fac_no,
-						"fname" 		=> $fname,
-						"mname" 		=> $mname,
-						"lname" 		=> $lname,
-						"course_id" 	=> $course_id,
-						"faculty_level" => $faculty_level
-					)
-				);
+		$conditions = array(
+			"condition" => array(
+				"tblfaculty" => array(
+					"data" => array("username" => $data['uname']),
+					"operator" => ""
+				)
+			)
+		);
+		$result = $this->select_one($conditions);
+		$res = $result;
+		$result =  array_shift($result);
+		if(count($res)){
+			$data['upass'] = hash("sha256", $result['created'].$data['upass']);
+			if( $data['upass'] === $result['password'] ) {
+				$response = $this->response("success", "");
 				$_SESSION['user_data'] = array(
-					"user_fname" => $fname,
-					"user_mname" => $mname,
-					"user_lname" => $lname,	
-					"user_name"  => $data['uname']
+					"user_id"	 	=> $result['faculty_id'],
+					"user_fname" 	=> $result['fname'],
+					"user_mname" 	=> $result['mname'],
+					"user_lname" 	=> $result['lname'],
+					"user_name"  	=> $data['uname'],
+					"user_password" => $result['password']
 				);
 				$_SESSION['access'] = GRANTED;
 			} else {
-				$response = array(
-					"status" => "error",
-					"message" => "Password do not match!"
-				);
+				$response = $this->response("error", "Incorrect password");
 			}
 		} else {
-			$response = array(
-					"status" => "error",
-					"message" => "Username does not exists!"
-				);
+			$response = $this->response("error", "Username does not exists!");
 		}
 		return $response;
 	}
