@@ -37,3 +37,10 @@ Initial release.
 - Logout
 - User Change credentials
 - Class (Add, Fetch)
+
+## August 20, 2018
+
+** Added **
+
+- Student (Add, Update, Delete, Fetch)
+- Class (Update, Delete)

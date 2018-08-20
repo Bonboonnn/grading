@@ -25,5 +25,11 @@ $route->url("/", function(){
 		header('location: ../../');
 	}
 });
+$route->url("/backup", function(){
+	require_once "route_auth.php";
+	$ctrl = new Controller();
+	$resp = $ctrl->backup();
+	echo json_encode($resp);
+});
 $route->run();
 ?>

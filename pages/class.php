@@ -68,9 +68,9 @@
 		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
-					<input type="hidden" class="form-control" name="class_id" />
+					<input type="hidden" class="form-control" id="class_id" name="class_id" />
 					<div class="modal-content">     
-						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update</h3></div>
+						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update Class</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
@@ -89,7 +89,7 @@
 							</div>
 						</div>
 						<div class="modal-footer" style="background-color:lightblue !important">
-							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+							<button type="reset" class="btn btn-primary pull-left" id="close_btn">Close</button>
 							<button type="submit" class="btn btn-primary">Save</button>
 						</div>
 					</div>
@@ -102,11 +102,21 @@
 	$(function(){
 		displayData();
 		get_year_levels();
+		$("#close_btn").on("click", function(){
+			window.location.reload();
+		});
 		$("#addForm").on('submit', function(e){
 			e.preventDefault();
 			let formData = new FormData($("#addForm")[0]);
+			let class_id = $("#class_id").val();
+			let process_url = "";
+			if(class_id != "" && class_id != " "){
+				process_url = "class/update_class";
+			} else {
+				process_url = "class/add_class";
+			}
 			$.ajax({
-				url: "class/add_class",
+				url: process_url,
 				method: "POST",
 				data: formData,
 				processData: false,
@@ -135,13 +145,34 @@
 	})
 
 
-	function edit(id){
-
+	function edit(data){
+		$("#class_id").val(data.class_id);
+		$("#classname").val(data.classname);
+		get_year_levels();
+		window.setTimeout(function(){
+			$("#yearlevel_id option[value="+data.yearlevel_id+"]").attr('selected', 'selected')
+		}, 100);
+		$("#addModal").modal("show");
 	}
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-			const formData = new formData();
+			$.ajax({
+				method: "GET",
+				url: "class/delete_class",
+				data: {class_id: id},
+				success: function(e){
+					let response = JSON.parse(e);
+					if(response.status == "success"){
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData(); 
+					} else {
+						alert(response.message);
+					}
+				}
+			});
 		}
 	}
 	function get_year_levels(){
@@ -166,20 +197,25 @@
 			url:"class/get_classes",
 			method:"GET",
 			success:(e) => {
-				console.log(e);
+				//console.log(e);
 				let value = JSON.parse(e);
 				$("#tbody").empty();
 				$.each(value, function(index, val){
-					$("#table").append(
+					let updateData = JSON.stringify({
+						yearlevel_id: val.yearlevel_id,
+						classname: val.classname,
+						class_id: val.class_id
+					});
+					$("#tbody").append(
 						`<tr>
 							<td>${val.yearLevel}</td>
 							<td>${val.classname}</td>
 							<td class="text-center">
-								<button class="btn btn-success" onclick="edit('1')">
+								<button class="btn btn-success" onclick='edit(${updateData})'>
 									<i class="fa fa-edit"></i>
 								</button>
 							</td>
-							<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button>
+							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.class_id})'><i class="fa fa-remove"></i></button>
 							</td> 
 						</tr>`
 					);

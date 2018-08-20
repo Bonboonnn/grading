@@ -40,7 +40,7 @@
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="../../../download.png" class="user-image" alt="User Image">
+                        <img src="../../download.png" class="user-image" alt="User Image">
                         <span class="hidden-xs"><?php echo ucfirst($_SESSION['user_data']['user_fname'])." ".ucfirst($_SESSION['user_data']['user_lname']); ?></span>
                         <i class="fa fa-angle-down pull-right"></i>
                     </a>

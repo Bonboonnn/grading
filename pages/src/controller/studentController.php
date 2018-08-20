@@ -1,19 +1,18 @@
 <?php
 require_once 'controller.php';
-require_once 'model/classModel.php';
-class ClassController extends Controller{
+require_once 'model/studentModel.php';
+class StudentController extends Controller {
 	private $model;
 	public function __construct(){
 		parent::__construct();
-		$this->model = new ClassModel();
-
+		$this->model = new StudentModel();
 	}
 
-	public function add_class($data){
+	public function add_student($data){
 		$validates = $this->validations($data);
 
 		if($validates){
-			$response = $this->model->add_class($data);
+			$response = $this->model->add_student($data);
 		} else {
 			$response = array(
 				"status" => "error",
@@ -24,11 +23,11 @@ class ClassController extends Controller{
 		return $response;
 	}
 
-	public function update_class($data){
+	public function update_student($data){
 		$validates = $this->validations($data);
 
 		if($validates){
-			$response = $this->model->update_class($data);
+			$response = $this->model->update_student($data);
 		} else {
 			$response = array(
 				"status" => "error",
@@ -39,21 +38,17 @@ class ClassController extends Controller{
 		return $response;
 	}
 
-	public function delete_class($data){
-		$response = $this->model->delete_class($data);
-		return $response;
-	}
-
-	public function get_class_year($data){
-		$response = $this->model->get_class_year($data);
+	public function get_students(){
+		$response = $this->model->get_students();
 
 		return $response;
 	}
 
-	public function get_classes(){
-		$response = $this->model->get_classes();
+	public function delete_student($data){
+		$response = $this->model->delete_student($data);
 
 		return $response;
 	}
+
 }
 ?>
