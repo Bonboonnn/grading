@@ -202,7 +202,26 @@ class Model extends Config{
 		$this->results = array();
 		$this->condition = array();
 	}
-
+	public function backup(){
+		$date_now = date('Y-m-d');
+		$dump_path = "bak/"; //input location for the backup to be saved
+		$host = "localhost";  //db host e.g.- localhost 
+		$user = "root";  //user e.g.-root
+		$pass = "";  //password
+		$filename = $date_now.'grading_db.sql';
+		$command='mysqldump -h ' .$host .' -u ' .$user .' -p ' .$pass .' ' .'grading_db' .' > ' .$filename;
+// exec($command,$output=array(),$worked);
+		$output = array();
+		exec($command);
+		// switch($output){
+		// 	case 0:
+		// 		$resp = array("status" => "success", "message" => "Import File ".$filename." successfull");
+		// 		break;
+		// 	case 1:
+		// 		$resp = array("status" => "error", "message" => " Failed Import File ".$filename);
+		// }
+		// return $resp;
+	}
 	public function authentication(){
 		if(isset($_SESSION['user_data']) && !empty($_SESSION['user_data']) ){
 			$_SESSION['access'] = GRANTED;

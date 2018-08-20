@@ -83,7 +83,7 @@
 							</div>
 						</div>
 						<div class="modal-footer" style="background-color:lightblue !important">
-							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+							<button type="reset" class="btn btn-primary pull-left" id="close_btn">Close</button>
 							<button type="submit" class="btn btn-primary">Save</button>
 						</div>
 					</div>
@@ -95,6 +95,10 @@
 <script>
 	$(document).ready(function(){
 		displayData();
+		$("#close_btn").on("click", function(){
+			$(".form-control").val('');
+			$("#addModal").modal('hide');
+		});
 		$("#addForm").on("submit", function(e){
 			e.preventDefault();
 			let formData = new FormData($("#addForm")[0]);

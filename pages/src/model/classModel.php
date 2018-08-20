@@ -14,6 +14,21 @@ class ClassModel extends Model{
 		return $response;
 	}
 
+	public function update_class($data){
+		$this->authentication();
+		$conditions = array("class_id" => $data['class_id']);
+		unset($data['class_id']);
+		$response = $this->update($data, $conditions);
+		return $response;
+	}
+
+	public function delete_class($data){
+		$conditions = array("class_id" => $data['class_id']);
+		$this->authentication();
+		$response = $this->delete($conditions);
+		return $response;
+	}
+
 	public function get_class_year($data){
 		$conditions = array(
 			"condition" => array(
