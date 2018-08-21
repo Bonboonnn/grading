@@ -51,8 +51,7 @@
 							<table class="table" id="table">
 							<thead>
                                 <tr>          
-									<th>School Year ID</th>
-									<th>school Year</th>
+									<th>School Year</th>
 									<th>Semester</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
@@ -60,7 +59,6 @@
 							</thead>
 							<tbody id="tbody">
 								<tr>
-									<td>${data.schooYear_id}</td>
 									<td>${data.schoolYear}</td>
 									<td>${data.semester}</td>
 									<td class="text-center">
@@ -79,6 +77,7 @@
 		<div class="modal" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
+					<input type="hidden" class="form-control" name="schoolyear_id" id="schoolyear_id" />
 					<div class="modal-content">     
 						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add School Year</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
@@ -91,7 +90,7 @@
 								</div>
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
-										<label>semester</label>
+										<label>Semester</label>
 										<input type='text' name='semester' class="form-control" placeholder='Semester' required>
 									</div>
 								</div>
@@ -108,11 +107,35 @@
     </body>
 </html>
 <script>
-	$("table").dataTable();
-	addForm.addEventListener("submit",(e)=>{
-		e.preventDefault();
-		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
-	},false);
+	$(function(){
+		$("#addForm").on('submit', function(e) {
+			e.preventDefault();
+			let schoolyear_id = $("#schoolyear_id").val();
+			let process_url = "";
+			if(schoolyear_id != "" && schoolyear_id != " "){
+				process_url = "school-year/update_school_year";
+			} else {
+				process_url = "school-year/add_school_year";
+			}
+			let formData = new FormData($("addForm")[0]);
+			$.ajax({
+				url: process_url,
+				method: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: (e) => {
+					let response = JSON.parse(e);
+					if(response.status=="success"){
+						alert(response.message);
+					} else {
+						alert(response.message);
+					}
+				}
+			});
+		});
+	});
 
 	function edit(id){
 		window.location.href="edit-year-level.php?id="+id;
@@ -120,19 +143,8 @@
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-			const formData = new formData();
-			formData.append("id",id);
-			ajax_({url:"",method:"post",formData});
+
 		}
-	}
-	function ajax_(data){/*
-		$.ajax({
-			url:data.url,
-			method:data.method,
-			data:data.formData,
-			processData:false,
-			contentType:false
-		});*/
 	}
 
 	function displayData() {
