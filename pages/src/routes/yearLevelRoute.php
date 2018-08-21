@@ -1,5 +1,4 @@
 <?php
-require_once "settings.php";
 require_once "controller/yearLevelController.php";
 require_once "../../const.php";
 $route = new Setting();

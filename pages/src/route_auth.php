@@ -3,9 +3,10 @@ if(defined('RESTRICTED')){
 	if(!isset($_SESSION['user_data']) && empty($_SESSION['user_data'])){
 		header('location: ../../../'); 
 	}
-} else {
-	// if ( defined('SEND_TO_HOME') && isset( $_SESSION['access'] ) ) {
- //      header( 'Location: ../admin/admin.php' ); 
- //    }    
+}
+if(defined('DIR_RESTRICTED')){
+	if(!isset($_SESSION['user_data']) && empty($_SESSION['user_data'])){
+		header('location: ../../'); 
+	}
 }
 ?>

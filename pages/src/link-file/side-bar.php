@@ -70,12 +70,12 @@
                     <span>Year Level</span>
                 </a>
             </li>
-           <!--  <li class="treeview side1" id="backup">
-                <a href="backup">
+            <li class="treeview side1" id="backup">
+                <a href="#" onclick="backup()">
                     <i class="fa fa-users"></i> 
                     <span>Backup Database</span>
                 </a>
-            </li> -->
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

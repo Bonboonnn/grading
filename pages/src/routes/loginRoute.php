@@ -1,8 +1,8 @@
 <?php
-require_once "settings.php";
 require_once "controller/loginController.php";
 $route = new Setting();
 $route->url("/login", function(){
+	define("DIR_RESTRICTED", true);
 	require_once "route_auth.php";
 	$login = new LoginController();
 	$data = array(
@@ -26,6 +26,7 @@ $route->url("/", function(){
 	}
 });
 $route->url("/backup", function(){
+	define("DIR_RESTRICTED", true);
 	require_once "route_auth.php";
 	$ctrl = new Controller();
 	$resp = $ctrl->backup();

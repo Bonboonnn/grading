@@ -203,24 +203,20 @@ class Model extends Config{
 		$this->condition = array();
 	}
 	public function backup(){
-		$date_now = date('Y-m-d');
-		$dump_path = "bak/"; //input location for the backup to be saved
-		$host = "localhost";  //db host e.g.- localhost 
-		$user = "root";  //user e.g.-root
-		$pass = "";  //password
-		$filename = $date_now.'grading_db.sql';
-		$command='mysqldump -h ' .$host .' -u ' .$user .' -p ' .$pass .' ' .'grading_db' .' > ' .$filename;
-// exec($command,$output=array(),$worked);
+		$this->authentication();
+		$dbname = "grading_db";
+		$backup_file = "back/".$dbname . date("Y-m-d") . '.sql';
+		$command = 'mysqldump --user=root --password= --host=localhost grading_db > '.$backup_file;
 		$output = array();
-		exec($command);
-		// switch($output){
-		// 	case 0:
-		// 		$resp = array("status" => "success", "message" => "Import File ".$filename." successfull");
-		// 		break;
-		// 	case 1:
-		// 		$resp = array("status" => "error", "message" => " Failed Import File ".$filename);
-		// }
-		// return $resp;
+		exec($command, $output, $work);
+		switch($work){
+			case 0:
+				$response = $this->response("success", "Database ".$dbname." backup successfull, to browse the file please go to ".$backup_file);
+				break;
+			case 1:
+				$response = $this->response("error", "Database ".$dbname." Failed to backup");
+		}
+		return $response;
 	}
 	public function authentication(){
 		if(isset($_SESSION['user_data']) && !empty($_SESSION['user_data']) ){
