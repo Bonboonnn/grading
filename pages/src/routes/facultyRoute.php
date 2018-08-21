@@ -1,5 +1,4 @@
 <?php
-require_once "settings.php";
 require_once "controller/facultyController.php";
 
 $route = new Setting();

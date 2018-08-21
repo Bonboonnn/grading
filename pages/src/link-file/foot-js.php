@@ -97,4 +97,15 @@
     $("#fac_close_btn").on('click', function(){
         window.location.reload();
     });
+    function backup(){
+        $.ajax({
+            url: "backup",
+            method: "GET",
+            success: function(e) {
+                console.log(e);
+                var response = JSON.parse(e);
+                alert(response.message);
+            }
+        });
+    }
 </script>

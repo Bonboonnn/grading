@@ -1,5 +1,4 @@
 <?php
-require_once "settings.php";
 require_once "controller/courseController.php";
 $route = new Setting();
 $route->url("/course/add_course", function(){

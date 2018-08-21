@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "../../const.php";
+require "settings.php";
 include 'routes/loginRoute.php';
 include 'routes/facultyRoute.php';
 include 'routes/courseRoute.php';
