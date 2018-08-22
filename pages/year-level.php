@@ -150,6 +150,7 @@
 				data: {yearlevel_id: id},
 				success: function(e){
 					let response = JSON.parse(e);
+					console.log(response);
 					if(response.status == "success"){
 						alert(response.message);
 					} else {

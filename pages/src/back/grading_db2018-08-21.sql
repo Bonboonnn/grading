@@ -1,8 +1,8 @@
--- MySQL dump 10.16  Distrib 10.1.19-MariaDB, for Win32 (AMD64)
+-- MySQL dump 10.16  Distrib 10.1.32-MariaDB, for Win32 (AMD64)
 --
--- Host: localhost    Database: localhost
+-- Host: localhost    Database: grading_db
 -- ------------------------------------------------------
--- Server version	10.1.19-MariaDB
+-- Server version	10.1.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `tblclass` (
   UNIQUE KEY `yearlevel_id_2` (`yearlevel_id`,`classname`),
   KEY `yearLevel_id` (`yearlevel_id`),
   CONSTRAINT `tbl_class_year_fk` FOREIGN KEY (`yearlevel_id`) REFERENCES `tblyearlevel` (`yearlevel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `tblclass` (
 
 LOCK TABLES `tblclass` WRITE;
 /*!40000 ALTER TABLE `tblclass` DISABLE KEYS */;
-INSERT INTO `tblclass` VALUES (1,1,'Section A'),(3,1,'Section B'),(6,1,'Section C'),(8,1,'Section D'),(10,1,'Section E'),(9,2,'Section A'),(12,2,'Section B'),(13,2,'Section C'),(14,3,'Section A'),(15,3,'Section B');
+INSERT INTO `tblclass` VALUES (1,1,'Section A'),(3,1,'Section B'),(6,1,'Section C'),(8,1,'Section D'),(10,1,'Section E'),(9,2,'Section A'),(12,2,'Section B'),(13,2,'Section C');
 /*!40000 ALTER TABLE `tblclass` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,7 +89,7 @@ CREATE TABLE `tblfaculty` (
   PRIMARY KEY (`faculty_id`),
   KEY `course_id` (`course_id`),
   CONSTRAINT `tbl_fac_course_fk` FOREIGN KEY (`course_id`) REFERENCES `tblcourse` (`course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `tblfaculty` (
 
 LOCK TABLES `tblfaculty` WRITE;
 /*!40000 ALTER TABLE `tblfaculty` DISABLE KEYS */;
-INSERT INTO `tblfaculty` VALUES (1,'admin-123456','admin_fname','admin_mname','admin_lname',NULL,'admin','07011e14bd6cca1c1d43e6d91996f2038f9920b817fdd86ae3d944b47946544b',1,'2018-08-19');
+INSERT INTO `tblfaculty` VALUES (1,'admin-123456','admin_fname','admin_mname','admin_lname',NULL,'admin','07011e14bd6cca1c1d43e6d91996f2038f9920b817fdd86ae3d944b47946544b',1,'2018-08-19'),(2,'1234','test','test','test',2,'test','20be769d24472bb9477cc00811c0b3680512aef68888970b17adb331a4a70def',2,'2018-08-21');
 /*!40000 ALTER TABLE `tblfaculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +182,7 @@ CREATE TABLE `tblstudent` (
   CONSTRAINT `tbl_class_fk` FOREIGN KEY (`class_id`) REFERENCES `tblclass` (`class_id`),
   CONSTRAINT `tbl_course_fk` FOREIGN KEY (`course_id`) REFERENCES `tblcourse` (`course_id`),
   CONSTRAINT `tbl_year_fk` FOREIGN KEY (`yearlevel_id`) REFERENCES `tblyearlevel` (`yearlevel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,6 +191,7 @@ CREATE TABLE `tblstudent` (
 
 LOCK TABLES `tblstudent` WRITE;
 /*!40000 ALTER TABLE `tblstudent` DISABLE KEYS */;
+INSERT INTO `tblstudent` VALUES (1,'13-1320','Christian','De La Cruz','Gasper',1,2,13,'Bon','9dad691798d5ec21a9f9c564b025481700194477b61898611b0251243f73ea8d','2018-08-21');
 /*!40000 ALTER TABLE `tblstudent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +312,7 @@ CREATE TABLE `tblyearlevel` (
   `yearlevel_id` int(11) NOT NULL AUTO_INCREMENT,
   `yearLevel` varchar(11) NOT NULL,
   PRIMARY KEY (`yearlevel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +321,7 @@ CREATE TABLE `tblyearlevel` (
 
 LOCK TABLES `tblyearlevel` WRITE;
 /*!40000 ALTER TABLE `tblyearlevel` DISABLE KEYS */;
-INSERT INTO `tblyearlevel` VALUES (1,'First Year'),(2,'Second Year'),(3,'Third Year'),(4,'Fourth Year');
+INSERT INTO `tblyearlevel` VALUES (1,'First Year'),(2,'Second Year'),(3,'Third Year');
 /*!40000 ALTER TABLE `tblyearlevel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -333,4 +334,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-21 11:55:37
+-- Dump completed on 2018-08-21 23:19:35

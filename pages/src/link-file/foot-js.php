@@ -71,8 +71,10 @@
   </div> 
 </div>
 
-
-
+<form id="for_restore">
+<input type="file" accept="application/x-sql" class="form-control" name="restore_db" id="restore_db" style="display:none" />
+</form>
+<div id="wait" style="display:none;position:absolute;top:25%;left:50%;padding:2px;z-index:99999"><img src='../../giphy.gif' width="100" height="100" /><br></div>
 
 <!-- jQuery 2.2.3 -->
 <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -98,14 +100,68 @@
         window.location.reload();
     });
     function backup(){
-        $.ajax({
-            url: "backup",
-            method: "GET",
-            success: function(e) {
-                console.log(e);
-                var response = JSON.parse(e);
-                alert(response.message);
-            }
+        if(confirm("Please confirm database backup")){
+            $.ajax({
+                url: "backup",
+                method: "GET",
+                beforeSend : function(){
+                    $("#wait").css("display", "block");
+                },
+                success: function(e){
+                    console.log(e);
+                    let response = JSON.parse(e);
+                    if(response.status == "success"){
+                        alert(response.message);
+                        window.location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                    
+                },
+                error: function(){
+
+                },
+                complete: function(e){
+                    $("#wait").css("display", "none");
+                }
+            });
+        }
+    }
+
+    function restore(){
+        $("#restore_db").click();
+        
+        
+        $("#restore_db").on('change', function(){
+            let formData = new FormData($("#for_restore")[0]);
+            $.ajax({
+                method: "POST",
+                url: "restore",
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache:false,
+                beforeSend : function(){
+                    $("#wait").css("display", "block");
+                },
+                success: function(e){
+                    console.log(e);
+                    let response = JSON.parse(e);
+                    if(response.status == "success"){
+                        alert(response.message);
+                        window.location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                    
+                },
+                error: function(){
+
+                },
+                complete: function(e){
+                    $("#wait").css("display", "none");
+                }
+            });
         });
     }
 </script>

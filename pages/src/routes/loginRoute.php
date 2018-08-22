@@ -32,5 +32,15 @@ $route->url("/backup", function(){
 	$resp = $ctrl->backup();
 	echo json_encode($resp);
 });
+$route->url("/restore", function(){
+	define("DIR_RESTRICTED", true);
+	require_once "route_auth.php";
+ 	$ctrl = new Controller();
+ 	$data = array(
+ 		"file" => $_FILES['restore_db']
+ 	);
+ 	$resp = $ctrl->restore($data);
+ 	echo json_encode($resp);
+});
 $route->run();
 ?>

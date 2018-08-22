@@ -60,7 +60,7 @@ class Model extends Config{
 		if($query->execute()){
 			$response = $this->response("success", "Data Saved");
 		} else {
-			$response = $this->response("error", "Failed to Save Data");
+			$response = $this->response("error", "Failed to Save Data. ID Number must be unique", $query->error);
 		}
 		$query->close();
 		$this->clean();
@@ -101,7 +101,7 @@ class Model extends Config{
 		if($query->execute()){
 			$response = $this->response("success", "Data Updated");
 		} else {
-			$response = $this->response("error", "Failed to Update Data");
+			$response = $this->response("error", "Failed to Update Data. ID Number must be unique", $query->error);
 		}
 		$query->close();
 		$this->clean();
@@ -134,9 +134,9 @@ class Model extends Config{
 		$query = $this->conn->prepare($sql) or die(mysqli_error($this->conn));
 		call_user_func_array(array($query, "bind_param"), $this->references);
 		if($query->execute()){
-			$response = $this->response("success", "Data Deleted");
+			$response = $this->response("success", "Record Deleted");
 		} else {
-			$response = $this->response("error", "Failed to Delete Data");
+			$response = $this->response("error", "Failed to delete record. Another data depends on this record", $query->error);
 		}
 		$query->close();
 		$this->clean();
@@ -185,39 +185,63 @@ class Model extends Config{
 		return $response;
 	}
 
-	public function response($status, $message){
+	public function response($status, $message, $error_type = ""){
 		return array(
 			"status" => $status,
-			"message" => $message
+			"message" => $message,
+			"error" => $error_type
 		);
 	}
 
 	private function clean(){
-		$this->placeholder = array();
-		$this->columns = array();
-		$this->values = array();
-		$this->bind = array();
-		$this->params = array();
-		$this->references = array();
-		$this->results = array();
-		$this->condition = array();
+		$this->$placeholder = array();
+		$this->$columns = array();
+		$this->$values = array();
+		$this->$bind = array();
+		$this->$params = array();
+		$this->$references = array();
+		$this->$results = array();
+		$this->$condition = array();
+		$this->$joins = array();
 	}
+
 	public function backup(){
 		$this->authentication();
-		$dbname = "grading_db";
-		$backup_file = "back/".$dbname . date("Y-m-d") . '.sql';
+		$db_name = "grading_db";
+		$backup_file = "back/".$db_name . date("Y-m-d") . '.sql';
 		$command = 'mysqldump --user=root --password= --host=localhost grading_db > '.$backup_file;
 		$output = array();
-		exec($command, $output, $work);
-		switch($work){
+		exec($command, $output, $stat);
+		switch($stat){
 			case 0:
-				$response = $this->response("success", "Database ".$dbname." backup successfull, to browse the file please go to ".$backup_file);
+				$response = $this->response("success", "Database ".$db_name." backup successfull, to browse the file please go to ".$backup_file);
 				break;
-			case 1:
-				$response = $this->response("error", "Database ".$dbname." Failed to backup");
+			default:
+				$response = $this->response("error", "Database ".$db_name." Failed to backup");
+				break;
 		}
 		return $response;
 	}
+
+	public function restore($data){
+		$this->authentication();
+		$db_name = "grading_db";
+		$server_name = "localhost";
+		$username = "root";
+		$password = "";
+		$file2 = $_SERVER['DOCUMENT_ROOT'].'/pages/src/back/'.$data['file']['name'];
+		$command = "mysql --host={$server_name} --user={$username} --password={$password} {$db_name} < $file2";
+		exec($command, $output, $stat);
+		switch($stat){
+			case 0:
+				$response = $this->response("success", "Database ".$db_name." restored");
+				break;
+			default:
+				$response = $this->response("error", "Failed to restore ".$db_name);
+		}
+		return $response;
+	}
+
 	public function authentication(){
 		if(isset($_SESSION['user_data']) && !empty($_SESSION['user_data']) ){
 			$_SESSION['access'] = GRANTED;

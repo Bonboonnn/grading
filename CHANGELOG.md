@@ -44,3 +44,11 @@ Initial release.
 
 - Student (Add, Update, Delete, Fetch)
 - Class (Update, Delete)
+
+## August 21, 2018
+
+** Added **
+
+- Database Backup
+- Database Restore
+- School Year (Add, Fetch)
