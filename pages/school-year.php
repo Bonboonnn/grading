@@ -77,19 +77,19 @@
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
 										<label>School Year</label>
-										<input type="text" name="schoolYear" class="form-control" placeholder="School Year" required>
+										<input type="text" name="schoolYear" id='schoolYear' class="form-control" placeholder="School Year" required>
 									</div>
 								</div>
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
 										<label>Semester</label>
-										<input type='text' name='semester' class="form-control" placeholder='Semester' required>
+										<input type='text' name='semester' id='semester' class="form-control" placeholder='Semester' required>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer" style="background-color:lightblue !important">
-							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+							<button type="reset" class="btn btn-primary pull-left" id="close_btn" data-dismiss="modal">Close</button>
 							<button type="submit" class="btn btn-primary">Save</button>
 						</div>
 					</div>
@@ -101,6 +101,9 @@
 <script>
 	$(function(){
 		displayData();
+		$("#close_btn").on("click", function(){
+			window.location.reload();
+		});
 		$("#addForm").on('submit', function(e) {
 			e.preventDefault();
 			let schoolyear_id = $("#schoolyear_id").val();
@@ -141,12 +144,32 @@
 	});
 
 	function edit(data){
-		console.log(data);
+		$("#schoolyear_id").val(data.schoolyear_id);
+		$("#schoolYear").val(data.schoolYear);
+		$("#semester").val(data.semester);
+		$("#addModal").modal('show');
 	}
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-			alert(id);
+			$.ajax({
+				method: "GET",
+				url: "school-year/delete_school_year",
+				data: {schoolyear_id:id},
+				success: (e) => {
+					let response = JSON.parse(e);
+					if(response.status == "success") {
+						alert(response.message);
+					} else {
+						alert(response.message);
+					}
+				},
+				complete: (e) => {
+					$('#table').dataTable().fnClearTable();
+					$('#table').dataTable().fnDestroy();
+					displayData();
+				}
+			});
 		}
 	}
 

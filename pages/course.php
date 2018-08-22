@@ -102,8 +102,7 @@
 	$(document).ready(function(){
 		displayData();
 		$("#close_btn").on("click", function(){
-			$(".form-control").val('');
-			$("#addModal").modal('hide');
+			window.location.reload();
 		});
 		$("#addForm").on('submit', function(e){
 			e.preventDefault();
