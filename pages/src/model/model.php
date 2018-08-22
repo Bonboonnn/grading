@@ -194,15 +194,15 @@ class Model extends Config{
 	}
 
 	private function clean(){
-		$this->$placeholder = array();
-		$this->$columns = array();
-		$this->$values = array();
-		$this->$bind = array();
-		$this->$params = array();
-		$this->$references = array();
-		$this->$results = array();
-		$this->$condition = array();
-		$this->$joins = array();
+		$this->placeholder = array();
+		$this->columns = array();
+		$this->values = array();
+		$this->bind = array();
+		$this->params = array();
+		$this->references = array();
+		$this->results = array();
+		$this->condition = array();
+		$this->joins = array();
 	}
 
 	public function backup(){
@@ -229,8 +229,8 @@ class Model extends Config{
 		$server_name = "localhost";
 		$username = "root";
 		$password = "";
-		$file2 = $_SERVER['DOCUMENT_ROOT'].'/pages/src/back/'.$data['file']['name'];
-		$command = "mysql --host={$server_name} --user={$username} --password={$password} {$db_name} < $file2";
+		$file = ROOT_DIR.'/pages/src/back/'.$data['file']['name'];
+		$command = "mysql --host={$server_name} --user={$username} --password={$password} {$db_name} < $file";
 		exec($command, $output, $stat);
 		switch($stat){
 			case 0:
