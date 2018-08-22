@@ -58,15 +58,7 @@
 								</tr>
 							</thead>
 							<tbody id="tbody">
-								<tr>
-									<td>${data.schoolYear}</td>
-									<td>${data.semester}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit('1')">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
-								</tr>
+								
 							</tbody>
 							<table>
 						</div>
@@ -108,6 +100,7 @@
 </html>
 <script>
 	$(function(){
+		displayData();
 		$("#addForm").on('submit', function(e) {
 			e.preventDefault();
 			let schoolyear_id = $("#schoolyear_id").val();
@@ -117,7 +110,7 @@
 			} else {
 				process_url = "school-year/add_school_year";
 			}
-			let formData = new FormData($("addForm")[0]);
+			let formData = new FormData($("#addForm")[0]);
 			$.ajax({
 				url: process_url,
 				method: "POST",
@@ -126,46 +119,67 @@
 				contentType: false,
 				cache: false,
 				success: (e) => {
+					console.log(e);
 					let response = JSON.parse(e);
 					if(response.status=="success"){
 						alert(response.message);
 					} else {
 						alert(response.message);
 					}
+				},
+				error: (e) => {
+
+				},
+				complete: (e) => {
+					$('#table').dataTable().fnClearTable();
+					$('#table').dataTable().fnDestroy();
+					displayData();
+					$(".form-control").val("");
 				}
 			});
 		});
 	});
 
-	function edit(id){
-		window.location.href="edit-year-level.php?id="+id;
+	function edit(data){
+		console.log(data);
 	}
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-
+			alert(id);
 		}
 	}
 
 	function displayData() {
 		$.ajax({
-			url:"",
-			method:"post",
-			data:{request:"select"},
-			success:(e) => {
-				const value = JSON.parse(e);
-				let element = "";
-				value.forEach(data => {
-					element += `<tr>
-									<td>${data.schooYear_id}</td>
-									<td>${data.schoolYear}</td>
-									<td>${data.semester}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.yearLevel_id}")">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.yearLevel_id}")"><i class="fa fa-remove"></i></button></td> 
-								</tr>`;
+			method: "GET",
+			url: "school-year/get_school_years",
+			success: function(e){
+				let response = JSON.parse(e);
+				$("#tbody").empty();
+				$.each(response, function(index, value){
+					let updateData = JSON.stringify({
+						schoolYear: value.schoolYear,
+						semester: value.semester,
+						schoolyear_id: value.schoolyear_id
+					});
+					$("#tbody").append(
+						`<tr>
+							<td>${value.schoolYear}</td>	
+							<td>${value.semester}</td>	
+							<td class="text-center">
+								<button class="btn btn-success" onclick='edit(${updateData})'>
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td class="text-center">
+								<button class="btn btn-danger" onclick='deletez(${value.schoolyear_id})'><i class="fa fa-remove"></i></button>
+							</td> 	
+						</tr>`
+					);
+				});
+				$("#table").dataTable({
+					bSort: false
 				});
 			}
 		});
