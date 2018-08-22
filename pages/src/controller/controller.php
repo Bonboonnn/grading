@@ -16,10 +16,17 @@ class Controller{
 		}
 		return $validate;
 	}
+
 	public function backup(){
 		require_once "model/model.php";
 		$model = new Model(null);
 		return $model->backup();
+	}
+
+	public function restore($data){
+		require_once "model/model.php";
+		$model = new Model(null);
+		return $model->restore($data);
 	}
 }
 ?>
