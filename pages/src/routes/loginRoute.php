@@ -2,15 +2,19 @@
 require_once "controller/loginController.php";
 $route = new Setting();
 $route->url("/login", function(){
-	define("DIR_RESTRICTED", true);
-	require_once "route_auth.php";
 	$login = new LoginController();
-	$data = array(
-		'uname' => $_POST['uname'],
-		'upass' => $_POST['upass']
+	
+	if(isset($_POST['uname']) && !empty($_POST['uname'])){
+		$data = array(
+			'uname' => $_POST['uname'],
+			'upass' => $_POST['upass']
 		);
-	$response = $login->login($data);
-	echo json_encode($response);
+		$response = $login->login($data);
+		echo json_encode($response);
+	} else {
+		header('location: ../../');
+	}
+	
 });
 $route->url("/logout", function(){
 	unset($_SESSION['user_data']);
