@@ -43,6 +43,16 @@ class FacultyModel extends Model{
 			$data['password'] = hash("sha256", $result['created'].$data['password']);
 		}
 		$response = $this->update($data, $conditions);
+		if($response['status'] == "success"){
+			$_SESSION['user_data'] = array(
+					"user_id"	 	=> $conditions['faculty_id'],
+					"user_fname" 	=> $data['fname'],
+					"user_mname" 	=> $data['mname'],
+					"user_lname" 	=> $data['lname'],
+					"user_name"  	=> $data['username'],
+					"user_password" => $data['password']
+				);
+		}
 		return $response;
 	}
 	public function get_user_details($data){
