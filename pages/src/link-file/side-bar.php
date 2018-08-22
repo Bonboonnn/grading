@@ -76,6 +76,12 @@
                     <span>Backup Database</span>
                 </a>
             </li>
+            <li class="treeview side1" id="restore">
+                <a href="#" onclick="restore()">
+                    <i class="fa fa-users"></i> 
+                    <span>Restore Database</span>
+                </a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->
