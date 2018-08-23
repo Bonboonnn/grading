@@ -59,3 +59,13 @@ Initial release.
 
 - School Year (Update, Delete)
 - Change modal close event
+
+## August 23, 2018
+
+** Added **
+
+- Subject (Add, Update, Delete, Fetch)
+
+** Update **
+- Remove dir back
+- Change backup dir to disk C:
