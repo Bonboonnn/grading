@@ -52,3 +52,10 @@ Initial release.
 - Database Backup
 - Database Restore
 - School Year (Add, Fetch)
+
+## August 22, 2018
+
+** Added **
+
+- School Year (Update, Delete)
+- Change modal close event
