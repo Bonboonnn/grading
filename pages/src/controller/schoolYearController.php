@@ -25,5 +25,15 @@ class SchoolYearController extends Controller{
 		$response = $this->model->get_school_years();
 		return $response;
 	}
+
+	public function delete_school_year($data){
+		$response = $this->model->delete_school_year($data);
+		return $response;
+	}
+
+	public function update_school_year($data){
+		$response = $this->model->update_school_year($data);
+		return $response;
+	}
 }
 ?>

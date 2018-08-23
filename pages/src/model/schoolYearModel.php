@@ -18,5 +18,22 @@ class SchoolYearModel extends Model{
 		$response = $this->select_all();
 		return $response;
 	}
+
+	public function delete_school_year($data){
+		$this->authentication();
+		$conditions = array("schoolyear_id" => $data['schoolyear_id']);
+		$response = $this->delete($conditions);
+		return $response;
+	}
+
+	public function update_school_year($data){
+		$this->authentication();
+		$conditions = array(
+			"schoolyear_id" => $data['schoolyear_id']
+		);
+		unset($data['schoolyear_id']);
+		$response = $this->update($data, $conditions);
+		return $response;
+	}
 }
 ?>

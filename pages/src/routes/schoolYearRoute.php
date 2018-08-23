@@ -23,5 +23,27 @@ $route->url("school-year/get_school_years", function(){
 	$response = $scyear->get_school_years();
 	echo json_encode($response);
 });
+$route->url("school-year/delete_school_year", function(){
+	define("RESTRICTED", true);
+	require_once "route_auth.php";
+	$data = array(
+		"schoolyear_id" => (int) $_GET['schoolyear_id']
+	);
+	$scyear = new SchoolYearController();
+	$response = $scyear->delete_school_year($data);
+	echo json_encode($response);
+});
+$route->url("school-year/update_school_year", function(){
+	define("RESTRICTED", true);
+	require_once "route_auth.php";
+	$data = array(
+		"schoolYear" => $_POST['schoolYear'],
+		"semester" => $_POST['semester'],
+		"schoolyear_id" => (int) $_POST['schoolyear_id']
+	);
+	$scyear = new SchoolYearController();
+	$response = $scyear->update_school_year($data);
+	echo json_encode($response);
+});
 $route->run();
 ?>

@@ -35,6 +35,8 @@ $route->url("year-level/delete_year_level", function(){
 	echo json_encode($response);
 });
 $route->url("year-level/update_year_level", function(){
+	define("RESTRICTED", true);
+	require_once "route_auth.php";
 	$data = array(
 		"yearLevel" => $_POST['yearLevel'],
 		"yearlevel_id" => (int)$_POST['yearlevel_id']
