@@ -233,7 +233,7 @@ class Model extends Config{
 		$server_name = "localhost";
 		$username = "root";
 		$password = "";
-		$file = ROOT_DIR.'/pages/src/back/'.$data['file']['name'];
+		$file = $data["file"];
 		$command = "mysql --host={$server_name} --user={$username} --password={$password} {$db_name} < $file";
 		exec($command, $output, $stat);
 		switch($stat){

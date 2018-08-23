@@ -41,7 +41,7 @@ $route->url("/restore", function(){
 	require_once "route_auth.php";
  	$ctrl = new Controller();
  	$data = array(
- 		"file" => $_FILES['restore_db']
+ 		"file" => realpath($_FILES['restore_db']['tmp_name'])
  	);
  	$resp = $ctrl->restore($data);
  	echo json_encode($resp);
