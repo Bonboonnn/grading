@@ -3,6 +3,8 @@ require_once "controller/schoolYearController.php";
 require_once "../../const.php";
 $route = new Setting();
 $route->url("school-year", function(){
+	define('RESTRICTED', true); 
+	require_once "auth.php";
 	require_once ROOT_DIR.DS."/pages/school-year.php";
 });
 $route->url("school-year/add_school_year", function(){

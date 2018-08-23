@@ -119,6 +119,10 @@
 					let response = JSON.parse(e);
 					if(response.status=="success"){
 						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData();
+						$(".form-control").val("");
 					} else {
 						alert(response.message);
 					}
@@ -127,10 +131,7 @@
 
 				},
 				complete: function(e){
-					$('#table').dataTable().fnClearTable();
-					$('#table').dataTable().fnDestroy();
-					displayData();
-					$(".form-control").val("");
+					
 				}
 			});
 		});

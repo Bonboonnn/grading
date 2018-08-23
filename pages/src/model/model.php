@@ -208,7 +208,11 @@ class Model extends Config{
 	public function backup(){
 		$this->authentication();
 		$db_name = "grading_db";
-		$backup_file = "back/".$db_name . date("Y-m-d") . '.sql';
+		$mkdir = "mkdir C:\db_bak";
+		$dir = "C:\\";
+		$path = "db_bak/";
+		exec($mkdir);
+		$backup_file = $dir.$path.$db_name . date("Y-m-d") . '.sql';
 		$command = 'mysqldump --user=root --password= --host=localhost grading_db > '.$backup_file;
 		$output = array();
 		exec($command, $output, $stat);
