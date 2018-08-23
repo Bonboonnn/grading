@@ -67,6 +67,40 @@ class Model extends Config{
 		return $response;
 	}
 
+	public function select_where_one($conditions, $columns) {
+		foreach($columns['columns'] as $column) {
+			$this->columns[] = $column;
+		}
+		foreach($conditions['conditions'] as $key => $value){
+			$this->placeholder[] = $key." = ?";
+			$this->values[] = $value;
+
+		}
+		foreach($this->values as $value){
+			$type = gettype($value);
+			if($type == "string"){
+				$this->bind[] = "s";
+			} else if($type == "integer") {
+				$this->bind[] = "i";
+			} else if($type == "double") {
+				$this->bind[] = "d";
+ 			}
+ 			$this->params[] = $value;
+		}
+
+		array_unshift($this->params, join("", $this->bind));
+		foreach($this->params as $key => $val){
+			 $this->references[$key] = &$this->params[$key];
+		}
+		$sql = "select ".join(', ', $this->columns)." from ".$this->table." where ".join(', ', $this->placeholder).' '.join('', $this->condition);
+		$query = $this->conn->prepare($sql);
+		call_user_func_array(array($query, "bind_param"), $this->references);
+		$query->execute();
+		$result = $query->get_result();
+		$row = $result->fetch_all(MYSQLI_ASSOC);
+		return $row;
+	}
+
 	public function update($data, $conditions){
 		foreach($data as $key => $value){
 			$this->placeholder[] = '`'.$key.'`'." = ?";
