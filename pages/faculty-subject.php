@@ -51,22 +51,13 @@
 							<table class="table" id="table">
 							<thead>
                                 <tr>          
-									<th>Faculty ID</th>
-									<th>Subject ID</th>
+									<th>Faculty</th>
+									<th>Subject</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
 								</tr>
 							</thead>
 							<tbody id="tbody">
-								<tr>
-									<td>${data.faculty_id}</td>
-									<td>${data.subject_id}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit('1')">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
-								</tr>
 							</tbody>
 							<table>
 						</div>
@@ -77,6 +68,7 @@
 		<div class="modal" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
+					<input type="hidden" id="faculty_subject_id" name="faculty_subject_id" />
 				<div class="modal-content">     
 						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Faculty Subject</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
@@ -84,7 +76,7 @@
 								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
 										<label>Faculty</label>
-										<select name="faculty_subject_id" id="faculty_subject_id" class="form-control" required>
+										<select name="facultySubject_id" id="facultySubject_id" class="form-control" required>
 										</select>
 									</div>
 								</div>
@@ -98,7 +90,7 @@
 							</div>
 						</div>
 						<div class="modal-footer" style="background-color:lightblue !important">
-							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal" id="close_btn">Close</button>
 							<button type="submit" class="btn btn-primary">Save</button>
 						</div>
 					</div>
@@ -109,7 +101,7 @@
 </html>
 <script>
 	$(function(){
-		//displayData();
+		displayData();
 		get_faculties();
 		get_subjects();
 		$("#close_btn").on("click", function(){
@@ -118,12 +110,12 @@
 		$("#addForm").on('submit', function(e){
 			e.preventDefault();
 			let formData = new FormData($("#addForm")[0]);
-			let class_id = $("#class_id").val();
+			let fac_subject_id = $("#faculty_subject_id").val();
 			let process_url = "";
-			if(class_id != "" && class_id != " "){
-				process_url = "class/update_class";
+			if(fac_subject_id != "" && fac_subject_id != " "){
+				process_url = "faculty-subject/update_faculty_subject";
 			} else {
-				process_url = "class/add_class";
+				process_url = "faculty-subject/add_faculty_subject";
 			}
 			$.ajax({
 				url: process_url,
@@ -133,7 +125,6 @@
 				contentType: false,
 				cache: false,
 				success: (e)=>{
-					console.log(e);
 					let response = JSON.parse(e);
 					if(response.status == "success") {
 						alert(response.message);
@@ -157,12 +148,9 @@
 
 
 	function edit(data){
-		$("#class_id").val(data.class_id);
-		$("#classname").val(data.classname);
-		get_year_levels();
-		window.setTimeout(function(){
-			$("#yearlevel_id option[value="+data.yearlevel_id+"]").attr('selected', 'selected')
-		}, 100);
+		$("#faculty_subject_id").val(data.faculty_subject_id);
+		$("#subject_id option[value="+data.subject_id+"]").attr('selected', 'selected');
+		$("#facultySubject_id option[value="+data.faculty_id+"]").attr('selected', 'selected');
 		$("#addModal").modal("show");
 	}
 
@@ -170,8 +158,8 @@
 		if(confirm("Are you sure you want to delete it?")) {
 			$.ajax({
 				method: "GET",
-				url: "class/delete_class",
-				data: {class_id: id},
+				url: "faculty-subject/delete_faculty_subject",
+				data: {faculty_subject_id: id},
 				success: function(e){
 					let response = JSON.parse(e);
 					if(response.status == "success"){
@@ -194,10 +182,10 @@
 			data: {faculty_level: 2},
 			success: (e)=>{
 				let value = JSON.parse(e);
-				$("#faculty_subject_id").empty();
-				$("#faculty_subject_id").append("<option val=''>Select Faculty</option>");
+				$("#facultySubject_id").empty();
+				$("#facultySubject_id").append("<option val=''>Select Faculty</option>");
 				$.each(value, function(index, val){
-					$("#faculty_subject_id").append(
+					$("#facultySubject_id").append(
 						`<option value=${val.faculty_id}>${val.fname} ${val.mname} ${val.lname}</option>`
 					);
 				});
@@ -210,13 +198,12 @@
 			url: "subject/get_subjects",
 			method: "GET",
 			success: (e)=>{
-				console.log(e);
 				let value = JSON.parse(e);
 				$("#subject_id").empty();
 				$("#subject_id").append("<option val=''>Select Subject</option>");
 				$.each(value, function(index, val){
 					$("#subject_id").append(
-						`<option value=${val.subjects}>${val.subjectName}</option>`
+						`<option value=${val.subject_id}>${val.subjectName}</option>`
 					);
 				});
 			}
@@ -225,28 +212,27 @@
 
 	function displayData() {
 		$.ajax({
-			url:"class/get_classes",
+			url:"faculty-subject/get_faculty_subjects",
 			method:"GET",
 			success:(e) => {
-				//console.log(e);
 				let value = JSON.parse(e);
 				$("#tbody").empty();
 				$.each(value, function(index, val){
 					let updateData = JSON.stringify({
-						yearlevel_id: val.yearlevel_id,
-						classname: val.classname,
-						class_id: val.class_id
+						subject_id: val.subject_id,
+						faculty_id: val.faculty_id,
+						faculty_subject_id: val.faculty_subject_id
 					});
 					$("#tbody").append(
 						`<tr>
-							<td>${val.yearLevel}</td>
-							<td>${val.classname}</td>
+							<td>${val.fname} ${val.mname} ${val.lname}</td>
+							<td>${val.subjectName}</td>
 							<td class="text-center">
 								<button class="btn btn-success" onclick='edit(${updateData})'>
 									<i class="fa fa-edit"></i>
 								</button>
 							</td>
-							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.class_id})'><i class="fa fa-remove"></i></button>
+							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.faculty_subject_id})'><i class="fa fa-remove"></i></button>
 							</td> 
 						</tr>`
 					);
