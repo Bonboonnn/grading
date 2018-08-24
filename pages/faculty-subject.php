@@ -84,16 +84,14 @@
 								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
 										<label>Faculty</label>
-										<select name="yearLevel_id" class="form-control" required>
-											<option value=''>Select Faculty</option>
+										<select name="faculty_subject_id" id="faculty_subject_id" class="form-control" required>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6">
 									<div class="form-group">
 										<label>Subject</label>
-										<select name="yearLevel_id" class="form-control" required>
-											<option>Select Subject</option>
+										<select name="subject_id" id="subject_id" class="form-control" required>
 										</select>
 									</div>
 								</div>
@@ -110,52 +108,155 @@
     </body>
 </html>
 <script>
-	$("table").dataTable();
-	addForm.addEventListener("submit",(e)=>{
-		e.preventDefault();
-		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
-	},false);
+	$(function(){
+		//displayData();
+		get_faculties();
+		get_subjects();
+		$("#close_btn").on("click", function(){
+			window.location.reload();
+		});
+		$("#addForm").on('submit', function(e){
+			e.preventDefault();
+			let formData = new FormData($("#addForm")[0]);
+			let class_id = $("#class_id").val();
+			let process_url = "";
+			if(class_id != "" && class_id != " "){
+				process_url = "class/update_class";
+			} else {
+				process_url = "class/add_class";
+			}
+			$.ajax({
+				url: process_url,
+				method: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: (e)=>{
+					console.log(e);
+					let response = JSON.parse(e);
+					if(response.status == "success") {
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData();
+						$(".form-control").val("");
+					} else {
+						alert(response.message);
+					}
+				},
+				error: (e)=>{
 
-	function edit(id){
-		window.location.href="edit-subject.php?id="+id;
+				},
+				complete: (e)=>{
+					
+				}
+			});
+		});
+	})
+
+
+	function edit(data){
+		$("#class_id").val(data.class_id);
+		$("#classname").val(data.classname);
+		get_year_levels();
+		window.setTimeout(function(){
+			$("#yearlevel_id option[value="+data.yearlevel_id+"]").attr('selected', 'selected')
+		}, 100);
+		$("#addModal").modal("show");
 	}
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-			const formData = new formData();
-			formData.append("id",id);
-			ajax_({url:"",method:"post",formData});
+			$.ajax({
+				method: "GET",
+				url: "class/delete_class",
+				data: {class_id: id},
+				success: function(e){
+					let response = JSON.parse(e);
+					if(response.status == "success"){
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData(); 
+					} else {
+						alert(response.message);
+					}
+				}
+			});
 		}
 	}
-	function ajax_(data){/*
+
+	function get_faculties(){
 		$.ajax({
-			url:data.url,
-			method:data.method,
-			data:data.formData,
-			processData:false,
-			contentType:false
-		});*/
+			url: "faculty/get_faculties_level",
+			method: "GET",
+			data: {faculty_level: 2},
+			success: (e)=>{
+				let value = JSON.parse(e);
+				$("#faculty_subject_id").empty();
+				$("#faculty_subject_id").append("<option val=''>Select Faculty</option>");
+				$.each(value, function(index, val){
+					$("#faculty_subject_id").append(
+						`<option value=${val.faculty_id}>${val.fname} ${val.mname} ${val.lname}</option>`
+					);
+				});
+			}
+		});
+	}
+
+	function get_subjects(){
+		$.ajax({
+			url: "subject/get_subjects",
+			method: "GET",
+			success: (e)=>{
+				console.log(e);
+				let value = JSON.parse(e);
+				$("#subject_id").empty();
+				$("#subject_id").append("<option val=''>Select Subject</option>");
+				$.each(value, function(index, val){
+					$("#subject_id").append(
+						`<option value=${val.subjects}>${val.subjectName}</option>`
+					);
+				});
+			}
+		});
 	}
 
 	function displayData() {
 		$.ajax({
-			url:"",
-			method:"post",
-			data:{request:"select"},
+			url:"class/get_classes",
+			method:"GET",
 			success:(e) => {
-				const value = JSON.parse(e);
-				let element = "";
-				value.forEach(data => {
-					element += `<tr>
-									<td>${data.faculty_id}</td>
-									<td>${data.subject_id}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.faculty_subject_id}")">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.faculty_subject_id}")"><i class="fa fa-remove"></i></button></td> 
-								</tr>`;
+				//console.log(e);
+				let value = JSON.parse(e);
+				$("#tbody").empty();
+				$.each(value, function(index, val){
+					let updateData = JSON.stringify({
+						yearlevel_id: val.yearlevel_id,
+						classname: val.classname,
+						class_id: val.class_id
+					});
+					$("#tbody").append(
+						`<tr>
+							<td>${val.yearLevel}</td>
+							<td>${val.classname}</td>
+							<td class="text-center">
+								<button class="btn btn-success" onclick='edit(${updateData})'>
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.class_id})'><i class="fa fa-remove"></i></button>
+							</td> 
+						</tr>`
+					);
 				});
+				$("#table").dataTable({
+					bSort: false
+				});
+			},
+			error: (e) => {
+
 			}
 		});
 	}

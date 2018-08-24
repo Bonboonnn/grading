@@ -55,6 +55,26 @@ class FacultyModel extends Model{
 		}
 		return $response;
 	}
+
+	public function get_faculties_level($data) {
+		$this->authentication();
+		$conditions = array(
+			"conditions" => array(
+				'faculty_level' => $data['faculty_level']
+			),
+		);
+		$columns = array(
+			"columns" => array(
+				"fname",
+				"lname",
+				"mname",
+				"faculty_id"
+			)
+		);
+		$response = $this->select_where_one($conditions, $columns);
+		return $response;
+	}
+
 	public function get_user_details($data){
 		/* Inside index condition is alias => tbl columm => column name and data inside of 
 			operator is boolean operator eg AND, OR

@@ -34,21 +34,15 @@ $route->url("get_user_details", function(){
 	$response = $faculty->get_user_details($data);
 	echo json_encode($response);
 });
-$route->url("update_profile", function(){
+$route->url("faculty/get_faculties_level", function(){
 	define("RESTRICTED", true);
 	require_once "route_auth.php";
-	$data = array(
-		"facNo" => $_POST['facNo'],
-		"fname" => $_POST['fname'],
-		"mname" => $_POST['mname'],
-		"lname" => $_POST['lname'],
-		"course_id" => (int)$_POST['course_id'],
-		"faculty_level" => (int)$_POST['level'],
-		"username" => $_POST['username'],
-		"password" => $_POST['password'],
-		"faculty_id" => (int)$_POST['faculty_id']
-	);
 	$faculty = new FacultyController();
+	$data = array(
+		"faculty_level" => $_GET['faculty_level']
+	);
+	$response = $faculty->get_faculties_level($data);
+	echo json_encode($response);
 });
 $route->url("/faculty/update_faculty", function(){
 	define("RESTRICTED", true);

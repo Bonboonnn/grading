@@ -23,6 +23,10 @@ class FacultyController extends Controller{
 		}
 		return $response;
 	}
+	public function get_faculties_level($data) {
+		$response = $this->model->get_faculties_level($data);
+		return $response;
+	}
 	public function update_faculty($data){
 		$response = $this->model->update_faculty($data);
 		return $response;
