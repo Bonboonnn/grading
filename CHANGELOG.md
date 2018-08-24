@@ -74,4 +74,8 @@ Initial release.
 
 ** Added **
 
-- Faculty Subject (Add, Fetch)
+- Faculty Subject (Add, Fetch, Update, Delete)
+
+** Update **
+
+- Sidebar icons
