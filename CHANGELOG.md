@@ -69,3 +69,9 @@ Initial release.
 ** Update **
 - Remove dir back
 - Change backup dir to disk C:
+
+## August 24, 2018
+
+** Added **
+
+- Faculty Subject (Add, Fetch)
