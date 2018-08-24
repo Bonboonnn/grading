@@ -125,7 +125,6 @@
 				contentType: false,
 				cache: false,
 				success: (e)=>{
-					console.log(e);
 					let response = JSON.parse(e);
 					if(response.status == "success") {
 						alert(response.message);
@@ -157,23 +156,22 @@
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-			alert(id);
-			// $.ajax({
-			// 	method: "GET",
-			// 	url: "class/delete_class",
-			// 	data: {class_id: id},
-			// 	success: function(e){
-			// 		let response = JSON.parse(e);
-			// 		if(response.status == "success"){
-			// 			alert(response.message);
-			// 			$('#table').dataTable().fnClearTable();
-			// 			$('#table').dataTable().fnDestroy();
-			// 			displayData(); 
-			// 		} else {
-			// 			alert(response.message);
-			// 		}
-			// 	}
-			// });
+			$.ajax({
+				method: "GET",
+				url: "faculty-subject/delete_faculty_subject",
+				data: {faculty_subject_id: id},
+				success: function(e){
+					let response = JSON.parse(e);
+					if(response.status == "success"){
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData(); 
+					} else {
+						alert(response.message);
+					}
+				}
+			});
 		}
 	}
 
@@ -200,7 +198,6 @@
 			url: "subject/get_subjects",
 			method: "GET",
 			success: (e)=>{
-				console.log(e);
 				let value = JSON.parse(e);
 				$("#subject_id").empty();
 				$("#subject_id").append("<option val=''>Select Subject</option>");
@@ -218,7 +215,6 @@
 			url:"faculty-subject/get_faculty_subjects",
 			method:"GET",
 			success:(e) => {
-				console.log(e);
 				let value = JSON.parse(e);
 				$("#tbody").empty();
 				$.each(value, function(index, val){

@@ -25,5 +25,28 @@ $route->url("faculty-subject/get_faculty_subjects", function(){
 	$response = $facSub->get_faculty_subjects();
 	echo json_encode($response);
 });
+$route->url("faculty-subject/delete_faculty_subject", function(){
+	define("RESTRICTED", true);
+	require_once "route_auth.php";
+	$facSub = new FacultySubjectController();
+	$data = array(
+		"faculty_subject_id" => $_GET['faculty_subject_id']
+	);
+
+	$response = $facSub->delete_faculty_subject($data);
+	echo json_encode($response);
+});
+$route->url("faculty-subject/update_faculty_subject", function(){
+	define("RESTRICTED", true);
+	require_once "route_auth.php";
+	$facSub = new FacultySubjectController();
+	$data = array(
+		"faculty_id" => $_POST['facultySubject_id'],
+		"subject_id" => $_POST['subject_id'],
+		"faculty_subject_id" => $_POST['faculty_subject_id']
+	);
+	$response = $facSub->update_faculty_subject($data);
+	echo json_encode($response);
+});
 $route->run();
 ?>

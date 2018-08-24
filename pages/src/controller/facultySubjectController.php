@@ -19,11 +19,13 @@ class FacultySubjectController extends Controller {
 	}
 
 	public function update_faculty_subject($data) {
-
+		$response = $this->model->update_faculty_subject($data);
+		return $response;
 	}
 
 	public function delete_faculty_subject($data) {
-
+		$response = $this->model->delete_faculty_subject($data);
+		return $response;
 	}
 
 }
