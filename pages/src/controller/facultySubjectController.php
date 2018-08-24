@@ -9,11 +9,13 @@ class FacultySubjectController extends Controller {
 	}
 
 	public function get_faculty_subjects() {
-
+		$response = $this->model->get_faculty_subjects();
+		return $response;
 	}
 
 	public function add_faculty_subject($data) {
-
+		$response = $this->model->add_faculty_subject($data);
+		return $response;
 	}
 
 	public function update_faculty_subject($data) {

@@ -11,11 +11,18 @@ $route->url("faculty-subject/add_faculty_subject", function(){
 	define("RESTRICTED", true);
 	require_once "route_auth.php";
 	$data = array(
-		"faculty_id" => $_POST['faculty_id'],
+		"faculty_id" => $_POST['facultySubject_id'],
 		"subject_id" => $_POST['subject_id']
 	);
 	$facSub = new FacultySubjectController();
 	$response = $facSub->add_faculty_subject($data);
+	echo json_encode($response);
+});
+$route->url("faculty-subject/get_faculty_subjects", function(){
+	define("RESTRICTED", true);
+	require_once "route_auth.php";
+	$facSub = new FacultySubjectController();
+	$response = $facSub->get_faculty_subjects();
 	echo json_encode($response);
 });
 $route->run();
