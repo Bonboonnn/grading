@@ -70,7 +70,7 @@
 				<form id="addForm">
 					<input type="hidden" id="faculty_subject_id" name="faculty_subject_id" />
 				<div class="modal-content">     
-						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Faculty Subject</h3></div>
+						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update Faculty Subject</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 								<div class="col-lg-6 col-md-6">

@@ -24,13 +24,16 @@ class StudentSubjectModel extends Model {
 
 	public function update_student_subject($data) {
 		$this->authentication();
-
+		$this->authentication();
+		$conditions = array("studentsubject_id" => $data['studentsubject_id']);
+		unset($data['studentsubject_id']);
+		$response = $this->update($data, $conditions);
 		return $response;
 	}
 
 	public function delete_student_subject($data) {
 		$this->authentication();
-
+		$response = $this->delete($data);
 		return $response;
 	}
 }

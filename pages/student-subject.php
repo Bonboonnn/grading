@@ -52,7 +52,7 @@
 							<table class="table" id="table">
 							<thead>
                                 <tr>          
-									<th>student Subject ID</td>
+									<th>Student ID</td>
 									<th>Student</td>
 									<th>Subject</td>
 									<th>Faculty Name</td>
@@ -74,7 +74,7 @@
 				<form id="addForm">
 					<input type="hidden" name="student_subject_id" id="student_subject_id" />
 					<div class="modal-content">     
-					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student Subject</h3></div>
+					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update Student Subject</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 
@@ -164,9 +164,13 @@
 	})
 
 	function edit(data){
-		$("#faculty_subject_id").val(data.faculty_subject_id);
-		$("#subject_id option[value="+data.subject_id+"]").attr('selected', 'selected');
-		$("#facultySubject_id option[value="+data.faculty_id+"]").attr('selected', 'selected');
+		$("#student_subject_id").val(data.student_subject_id);
+		$("#student_id").val(data.student_id);
+		$("#student_faculty_id option[value="+data.faculty_id+"]").attr('selected', 'selected');
+		get_subjects();
+		window.setTimeout(function(){
+			$("#studentSubject_id option[value="+data.subject_id+"]").attr('selected', 'selected');
+		},300);
 		$("#addModal").modal("show");
 	}
 
@@ -174,8 +178,8 @@
 		if(confirm("Are you sure you want to delete it?")) {
 			$.ajax({
 				method: "GET",
-				url: "faculty-subject/delete_faculty_subject",
-				data: {faculty_subject_id: id},
+				url: "student-subject/delete_student_subject",
+				data: {student_subject_id: id},
 				success: function(e){
 					let response = JSON.parse(e);
 					if(response.status == "success"){
@@ -258,7 +262,7 @@
 						subject_id: val.subject_id,
 						faculty_id: val.faculty_id,
 						student_id: val.student_id,
-						student_subject_id: val.student_subject_id
+						student_subject_id: val.studentsubject_id
 					});
 					$("#tbody").append(
 						`<tr>
@@ -271,7 +275,7 @@
 									<i class="fa fa-edit"></i>
 								</button>
 							</td>
-							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.student_subject_id})'><i class="fa fa-remove"></i></button>
+							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.studentsubject_id})'><i class="fa fa-remove"></i></button>
 							</td> 
 						</tr>`
 					);

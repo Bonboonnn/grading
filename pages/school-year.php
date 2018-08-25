@@ -71,7 +71,7 @@
 				<form id="addForm">
 					<input type="hidden" class="form-control" name="schoolyear_id" id="schoolyear_id" />
 					<div class="modal-content">     
-						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add School Year</h3></div>
+						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update School Year</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12">
