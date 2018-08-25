@@ -7,7 +7,8 @@ $route->url("/login", function(){
 	if(isset($_POST['uname']) && !empty($_POST['uname'])){
 		$data = array(
 			'uname' => $_POST['uname'],
-			'upass' => $_POST['upass']
+			'upass' => $_POST['upass'],
+			'level' => $_POST['login_level']
 		);
 		$response = $login->login($data);
 		echo json_encode($response);

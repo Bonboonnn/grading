@@ -65,7 +65,7 @@
 				</section>
             </div>
 		</div>
-		<div class="modal" id="addModal"> 
+		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<input type="hidden" id="faculty_subject_id" name="faculty_subject_id" />

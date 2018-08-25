@@ -53,7 +53,7 @@
 							<thead>
                                 <tr>          
 									<th>student Subject ID</td>
-									<th>Student ID</td>
+									<th>Student</td>
 									<th>Subject</td>
 									<th>Faculty Name</td>
                                     <th class="text-center">Update</th>
@@ -61,17 +61,7 @@
 								</tr>
 							</thead>
 							<tbody id="tbody">
-								<tr>
-									<td>${data.studentSubject_id}</td>
-									<td>${data.student_id}</td>
-									<td>${data.subjectName}</td>
-									<td>${data.fac_lname}, ${data.fac_fname} ${data.fac_mname}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit('1')">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez('1')"><i class="fa fa-remove"></i></button></td> 
-								</tr>
+								
 							</tbody>
 							<table>
 						</div>
@@ -79,41 +69,45 @@
 				</section>
             </div>
 		</div>
-		<div class="modal" id="addModal"> 
+		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
+					<input type="hidden" name="student_subject_id" id="student_subject_id" />
 					<div class="modal-content">     
 					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student Subject</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
+
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
 										<label>Student</label>
-										<select name="studentSubject_id" class="form-control" required>
+										<select name="student_id" id="student_id" class="form-control" required>
 											<option value=''>Select Student</option>
 										</select>
 									</div>
 								</div>
+
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Faculty</label>
+										<select name="student_faculty_id" onchange="get_subjects()" id="student_faculty_id" class="form-control" required>
+										</select>
+									</div>
+								</div>
+
 								<div class="col-lg-6 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>Subject</label>
-										<select name="studentSubject_id" class="form-control" required>
+										<select name="studentSubject_id" id="studentSubject_id" class="form-control" required>
 											<option value=''>Select Subject</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>Faculty</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select Faculty</option>
-										</select>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 						<div class="modal-footer" style="background-color:lightblue !important">
-							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal" id="close_btn">Close</button>
 							<button type="submit" class="btn btn-primary">Save</button>
 						</div>
 					</div>
@@ -123,54 +117,171 @@
     </body>
 </html>
 <script>
-	$("table").dataTable();
-	addForm.addEventListener("submit",(e)=>{
-		e.preventDefault();
-		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
-	},false);
+	$(function(){
+		displayData();
+		get_faculties();
+		get_students();
+		$("#close_btn").on("click", function(){
+			window.location.reload();
+		});
+		$("#addForm").on('submit', function(e){
+			e.preventDefault();
+			let formData = new FormData($("#addForm")[0]);
+			let student_subject_id = $("#student_subject_id").val();
+			let process_url = "";
+			if(student_subject_id != "" && student_subject_id != " "){
+				process_url = "student-subject/update_student_subject";
+			} else {
+				process_url = "student-subject/add_student_subject";
+			}
+			$.ajax({
+				url: process_url,
+				method: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: (e)=>{
+					let response = JSON.parse(e);
+					if(response.status == "success") {
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData();
+						$(".form-control").val("");
+					} else {
+						alert(response.message);
+					}
+				},
+				error: (e)=>{
 
-	function edit(id){
-		window.location.href="edit-student-subject.php?id="+id;
+				},
+				complete: (e)=>{
+					
+				}
+			});
+		});
+	})
+
+	function edit(data){
+		$("#faculty_subject_id").val(data.faculty_subject_id);
+		$("#subject_id option[value="+data.subject_id+"]").attr('selected', 'selected');
+		$("#facultySubject_id option[value="+data.faculty_id+"]").attr('selected', 'selected');
+		$("#addModal").modal("show");
 	}
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-			const formData = new formData();
-			formData.append("id",id);
-			ajax_({url:"",method:"post",formData});
+			$.ajax({
+				method: "GET",
+				url: "faculty-subject/delete_faculty_subject",
+				data: {faculty_subject_id: id},
+				success: function(e){
+					let response = JSON.parse(e);
+					if(response.status == "success"){
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData(); 
+					} else {
+						alert(response.message);
+					}
+				}
+			});
 		}
 	}
-	function ajax_(data){/*
+
+	function get_students() {
 		$.ajax({
-			url:data.url,
-			method:data.method,
-			data:data.formData,
-			processData:false,
-			contentType:false
-		});*/
+			url: "student/get_students",
+			url:"student/get_students",
+			method:"GET",
+			success:(e) => {
+				let value = JSON.parse(e);
+				$("#student_id").empty();
+				$("#student_id").append("<option value=''>Select Student</option");
+				$.each(value, function(index, val){
+					$("#student_id").append(
+						`<option value='${val.student_id}'>${val.student_fname} ${val.student_mname} ${val.student_lname}</option>`
+					);
+				});
+			},
+		});
+	}
+
+	function get_faculties(){
+		$.ajax({
+			url: "faculty/get_faculties_level",
+			method: "GET",
+			data: {faculty_level: 2},
+			success: (e)=>{
+				let value = JSON.parse(e);
+				$("#student_faculty_id").empty();
+				$("#student_faculty_id").append("<option val=''>Select Faculty</option>");
+				$.each(value, function(index, val){
+					$("#student_faculty_id").append(
+						`<option value=${val.faculty_id}>${val.fname} ${val.mname} ${val.lname}</option>`
+					);
+				});
+			}
+		});
+	}
+
+	function get_subjects(){
+		let id = $("#student_faculty_id").val();
+		$.ajax({
+			url: "student-subject/get_faculties",
+			method: "GET",
+			data:{faculty_id:id},
+			success: (e)=>{
+				let value = JSON.parse(e);
+				$("#studentSubject_id").empty();
+				$("#studentSubject_id").append("<option val=''>Select Subject</option>");
+				$.each(value, function(index, val){
+					$("#studentSubject_id").append(
+						`<option value=${val.subject_id}>${val.subjectName}</option>`
+					);
+				});
+			}
+		});
 	}
 
 	function displayData() {
 		$.ajax({
-			url:"",
-			method:"post",
-			data:{request:"select"},
+			url:"student-subject/get_student_subjects",
+			method:"GET",
 			success:(e) => {
-				const data = JSON.parse(e);
-				let element = "";
-				data.forEach(value => {
-					element += `<tr>
-									<td>${data.studentSubject_id}</td>
-									<td>${data.student_id}</td>
-									<td>${data.subjectName}</td>
-									<td>${data.fac_lname}, ${data.fac_fname} ${data.fac_mname}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.student_id}")">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.student_id}")"><i class="fa fa-remove"></i></button></td> 
-								</tr>`;
+				let value = JSON.parse(e);
+				$("#tbody").empty();
+				$.each(value, function(index, val){
+					let updateData = JSON.stringify({
+						subject_id: val.subject_id,
+						faculty_id: val.faculty_id,
+						student_id: val.student_id,
+						student_subject_id: val.student_subject_id
+					});
+					$("#tbody").append(
+						`<tr>
+							<td>${val.studentIdNo}</td>
+							<td>${val.student_fname} ${val.student_mname} ${val.student_lname}</td>
+							<td>${val.subjectName}</td>
+							<td>${val.fname} ${val.mname} ${val.lname}</td>
+							<td class="text-center">
+								<button class="btn btn-success" onclick='edit(${updateData})'>
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.student_subject_id})'><i class="fa fa-remove"></i></button>
+							</td> 
+						</tr>`
+					);
 				});
+				$("#table").dataTable({
+					bSort: false
+				});
+			},
+			error: (e) => {
+
 			}
 		});
 	}

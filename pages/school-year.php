@@ -66,7 +66,7 @@
 				</section>
             </div>
 		</div>
-		<div class="modal" id="addModal"> 
+		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<input type="hidden" class="form-control" name="schoolyear_id" id="schoolyear_id" />
