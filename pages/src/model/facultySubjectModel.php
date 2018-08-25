@@ -35,5 +35,24 @@ class FacultySubjectModel extends Model {
 		$response = $this->delete($data);
 		return $response;
 	}
+
+	public function get_faculties($data) {
+		$this->authentication();
+		$conditions = array(
+			"condition" => array(
+				"tblfacultysubject" => array(
+					"data" => array("faculty_id" => $data['faculty_id']),
+					"operator" => ""
+				)
+			),
+			"joins" => array(
+				"table" => array(
+					"inner" => "subject",
+				)
+			)
+		);
+		$response = $this->select_one($conditions);
+		return $response;
+	}
 }
 ?>

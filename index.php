@@ -33,19 +33,27 @@ require_once "pages/src/auth.php";
                         <input type="password" class="form-control" name="upass" placeholder="Password">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
+                    <div class="form-group has-feedback">
+                        <select class="form-control" name="login_level">
+                            <option value="">Login Type</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Faculty</option>
+                        </select>
+                        
+                    </div>
                     <h5 style="text-align: center; color: red; font-weight: bolder !important; font-size: 14px;" id="err_msg">
                         <!-- error message na di bon !-->
                     </h5>
                     <div class="row">
-                        <div class="col-xs-8">
+                        <!-- <div class="col-xs-8">
                             <div class="checkbox icheck">
                                 <label>
                                     <input type="checkbox"> Remember Me
                                 </label>
                             </div>
-                        </div>
-                        <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        </div> -->
+                        <div class="col-xs-4 pull-right">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i>  &nbsp&nbspSign In</button>
                         </div>
                     </div>
                 </form>
@@ -81,7 +89,7 @@ require_once "pages/src/auth.php";
                         if(response.status == "error"){
                             $("#err_msg").html(response.message);
                         } else {
-                            window.location.href = "pages/src/faculty";
+                            window.location.href = "pages/";
                         }
                     },
                     error: function(e){

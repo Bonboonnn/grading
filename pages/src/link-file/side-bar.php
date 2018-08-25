@@ -10,9 +10,10 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
+            <?php if($_SESSION['user_data']['login_level'] == 1): ?>
             <li class="treeview side1" id="faculty">
                 <a href="faculty">
-                    <i class="fa fa-address-book"></i> 
+                    <i class="fa fa-user-md"></i> 
                     <span>Faculty</span>
                 </a>
             </li>
@@ -37,21 +38,21 @@
                     <span>Faculty Subject</span>
                 </a>
             </li>
-
+            
             <li class="treeview side1" id="student-subject">
                 <a href="student-subject">
                     <i class="fa fa-folder-open-o"></i> 
                     <span>Student Subject</span>
                 </a>
             </li>
-
+            <?php endif; ?>
             <li class="treeview side1" id="student-grade">
                 <a href="student-grade">
                     <i class="fa fa-pencil-square-o"></i> 
                     <span>Student Grade</span>
                 </a>
             </li>
-            
+            <?php if($_SESSION['user_data']['login_level'] == 1): ?>
             <li class="treeview side1" id="course">
                 <a href="course">
                     <i class="fa fa-tasks"></i> 
@@ -93,7 +94,7 @@
                     <span>Restore Database</span>
                 </a>
             </li>
-
+            <?php endif; ?>
         </ul>
     </section>
     <!-- /.sidebar -->

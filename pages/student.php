@@ -76,7 +76,7 @@
 				<form id="addForm">
 					<input type="hidden" id="student_id" name="student_id" class="form-control" />
 					<div class="modal-content">     
-						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student</h3></div>
+						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update Student</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12">
@@ -210,7 +210,7 @@
 			get_classes();
 			window.setTimeout(function(){
 				$("#class_id option[value="+data.class_id+"]").attr("selected", "selected");
-			},100);
+			},200);
 		},200);
 	}
 
