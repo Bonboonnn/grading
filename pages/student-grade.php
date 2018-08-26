@@ -33,7 +33,7 @@
 		
         
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
         <div class="wrapper">
                 
             <?php include_once "link-file/header.php"; ?>

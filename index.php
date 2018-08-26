@@ -59,7 +59,6 @@ require_once "pages/src/faculty_auth.php";
                     </div>
                 </form>
                 
-                <a href="#">I forgot my password</a>
                 
             </div>
         </div>
