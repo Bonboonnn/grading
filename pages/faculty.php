@@ -76,43 +76,8 @@
 <script> 
 	$(document).ready(function(){
 		displayData();
-		getCourses();
 	});
-	$("#addUpdateForm").on("submit", function(e){
-		e.preventDefault();
-		let formData = new FormData($("#addUpdateForm")[0]);
-		let process_url ="";
-		if($("#faculty_id").val() != "" && $("#faculty_id").val() != " ")
-			process_url = "faculty/update_faculty";
-		else {
-			process_url = "faculty/add_faculty";
-		}
-		$.ajax({
-			method: "POST",
-			url: process_url,
-			data: formData,
-			processData: false,
-			contentType: false,
-			cache: false,
-			success: function(e){
-				let response = JSON.parse(e);
-				alert(response.message);
-				if(response.status == "success"){
-					$(".form-control").val("");
-					$(".radios").filter('[value=2]').prop('checked', true);
-				}
-			},
-			error: function(e){
-
-			},
-			complete: function(e){
-				$('#table').dataTable().fnClearTable();
-				$('#table').dataTable().fnDestroy();
-				displayData();
-				$("#addUpdateModal").modal('hide');
-			}
-		});
-	});
+	
 	function edit(update_data){
 		$("#addUpdateModal").modal('show');
 		$("#faculty_id").val(update_data.faculty_id);
@@ -156,22 +121,7 @@
 			});
 		}
 	}
-	function getCourses() {
-		$.ajax({
-			url:"course/get_courses",
-			method:"GET",
-			success:(e)=>{
-				const data = JSON.parse(e);
-				$("#courses").empty();
-				$("#courses").append("<option value=''>Select Course</option>");
-				$.each(data, function(index, value){
-					$("#courses").append(
-						`<option value="${value.course_id}">${value.courseName}</option>`
-					);
-				});
-			}
-		});
-	}
+	
 	function displayData() {
 		$.ajax({
 			url:"faculty/display_faculty",

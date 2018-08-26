@@ -61,6 +61,25 @@
 </header>
 
 <script>
+    $(function(){
+        getCourses();
+    });
+    function getCourses() {
+        $.ajax({
+            url:"course/get_courses",
+            method:"GET",
+            success:(e)=>{
+                const data = JSON.parse(e);
+                $("#courses").empty();
+                $("#courses").append("<option value=''>Select Course</option>");
+                $.each(data, function(index, value){
+                    $("#courses").append(
+                        `<option value="${value.course_id}">${value.courseName}</option>`
+                    );
+                });
+            }
+        });
+    }
     function edit_profile(id){
         $("#addUpdateModal").modal('show');
         $.ajax({
@@ -82,7 +101,7 @@
                         getCourses();
                         window.setTimeout(function(){
                             $("#courses option[value="+value.course_id+"]").attr('selected', 'selected')
-                        }, 100);
+                        }, 200);
                     }
                 });
                 

@@ -47,17 +47,31 @@ $route->url("faculty/get_faculties_level", function(){
 $route->url("/faculty/update_faculty", function(){
 	define("RESTRICTED", true);
 	require_once "route_auth.php";
-	$data = array(
-		"facNo" => $_POST['facNo'],
-		"fname" => $_POST['fname'],
-		"mname" => $_POST['mname'],
-		"lname" => $_POST['lname'],
-		"course_id" => (int)$_POST['course_id'],
-		"faculty_level" => (int)$_POST['level'],
-		"username" => $_POST['username'],
-		"password" => $_POST['password'],
-		"faculty_id" => (int)$_POST['faculty_id']
-	);
+	
+	if($_SESSION['user_data']['login_level'] == 1) {
+		$data = array(
+			"facNo" => $_POST['facNo'],
+			"fname" => $_POST['fname'],
+			"mname" => $_POST['mname'],
+			"lname" => $_POST['lname'],
+			"course_id" => (int)$_POST['course_id'],
+			"faculty_level" => (int)$_POST['level'],
+			"username" => $_POST['username'],
+			"password" => $_POST['password'],
+			"faculty_id" => (int)$_POST['faculty_id']
+		);
+	} else {
+		$data = array(
+			"facNo" => $_POST['facNo'],
+			"fname" => $_POST['fname'],
+			"mname" => $_POST['mname'],
+			"lname" => $_POST['lname'],
+			"course_id" => (int)$_POST['course_id'],
+			"username" => $_POST['username'],
+			"password" => $_POST['password'],
+			"faculty_id" => (int)$_POST['faculty_id']
+		);
+	}
 	$faculty = new FacultyController();
 	$response = $faculty->update_faculty($data);
 	echo json_encode($response);

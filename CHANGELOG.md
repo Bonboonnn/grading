@@ -89,3 +89,4 @@ Initial release.
 ** Update **
 
 - Faculty View
+- Fix Admin and Faculty Change Credentials
