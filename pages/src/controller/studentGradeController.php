@@ -28,6 +28,24 @@ class StudentGradeController extends Controller {
 
 	}
 
+	public function faculty_students($data) {
+		$response = array();
+		$grades = $this->model->student_grades($data);
+		$studSub = new StudentSubjectModel();
+		$students = $studSub->get_faculty_students($data);
+
+		foreach($students as $key => $value) {
+			if(isset($grades[$key])){
+				$students[$key] += $grades[$key];
+			}
+		}
+		$response = $students;
+		// echo "<pre>";
+		// print_r($response);
+		// echo "<pre>";
+		return $response;
+	}
+
 	public function add_student_grade($data) {
 		$data['finalGrade'] = $this->calculate_grade($data);
 		if($data['finalGrade'] < 75) {

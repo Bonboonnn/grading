@@ -45,7 +45,19 @@
 					<div class="row container-fluid">
 						<div class="col-lg-10 col-md-10"><h3 style="margin:0">Student Grade List</h3></div>
 						<div class="col-lg-2 col-md-2">
-							<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">Add student Grade</button>
+							<?php if($_SESSION['user_data']['login_level'] == 1): ?>
+								<button class="btn btn-block btn-primary" data-target="#addModal" data-toggle="modal">		Add student Grade
+								</button>
+							<?php endif; ?>
+							<?php if($_SESSION['user_data']['login_level'] == 2): ?>
+								<!-- <button class="btn btn-block btn-success" target="_blank">Print</button> -->
+								<a href="print.html" class="btn btn-block btn-success" onclick="window.open('print.html', 'newwindow', 'width=800,height=500');return false;"
+										 ><i class="fa fa-print"></i> Print</a>
+								<input type="hidden" value="<?php echo $_SESSION['user_data']['user_id'];  ?>" id="faculty" name="faculty" />
+							<?php endif; ?>
+							<p id="user_level" style="display:none">
+								<?php echo $_SESSION['user_data']['login_level'] ?>
+							</p>
 						</div>
 						<div class="col-12">
 							<hr>
@@ -79,7 +91,9 @@
 				<form id="addForm">
 					<input type="hidden" name="studentgrade_id" id="student_grade_id" class="form-control" />
 					<div class="modal-content">     
-					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student Grade</h3></div>
+					<div class="modal-header"  style="background-color:lightblue !important">
+						<h3 style="margin:0px">Add Student Grade</h3>
+					</div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 
@@ -167,9 +181,9 @@
 	function setTwoNumberDecimal(event) {
 	    this.value = parseFloat(this.value).toFixed(3);
 	}
-	$(function(){
-		displayData();
+	$(function(){		
 		get_students();
+		pick_display();
 		$("#close_btn").on("click", function(){
 			window.location.reload();
 		});
@@ -199,7 +213,7 @@
 						alert(response.message);
 						$('#table').dataTable().fnClearTable();
 						$('#table').dataTable().fnDestroy();
-						displayData();
+						pick_display();
 						$(".form-control").val("");
 					} else {
 						alert(response.message);
@@ -213,8 +227,74 @@
 				}
 			});
 		});
-	})
-
+	});
+	function pick_display() {
+		let user_level = $("#user_level").html();
+		let user_id = $("#faculty").val();
+		if(user_level == 1) {
+			displayData();
+		} else {
+			faculty_display(user_id);
+		}
+	}
+	function faculty_display(user_id) {
+		$.ajax({
+			url: "student-grade/faculty_students",
+			method: "GET",
+			data: {faculty_id:user_id},
+			success:(e) => {
+				let value = JSON.parse(e);
+				$("#tbody").empty();
+				$.each(value, function(index, val){
+					let updateData = JSON.stringify({
+						subject_id: val.subject_id,
+						faculty_id: val.faculty_id,
+						student_id: val.student_id,
+						studentgrade_id: val.studentgrade_id,
+						course_id: val.course_id,
+						description: val.description,
+						schoolyear_id: val.schoolyear_id,
+						semester: val.semester,
+						schoolYear: val.schoolYear,
+						prelim: val.prelim,
+						midterm: val.midterm,
+						endterm: val.final
+					});
+					if( val.prelim == undefined || val.midterm == undefined || val.final == undefined || val.finalGrade == undefined || val.remarks == undefined ) {
+						val.prelim = " ";
+						val.midterm = " ";
+						val.final = " ";
+						val.finalGrade = " ";
+						val.remarks = " ";
+					}
+					$("#tbody").append(
+						`<tr>
+							<td>${val.student_fname} ${val.student_mname} ${val.student_lname}</td>
+							<td>${val.subjectName}</td>
+							<td>${val.fname} ${val.mname} ${val.lname}</td>
+							<td>${val.courseName}</td>
+							<td>${val.prelim}</td>
+							<td>${val.midterm}</td>
+							<td>${val.final}</td>
+							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
+							<td>${val.finalGrade}</td>
+							<td>${val.remarks}</td>
+							<td class="text-center">
+								<button class="btn btn-success" onclick='edit(${updateData})'>
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.studentgrade_id})'><i class="fa fa-remove"></i></button>
+							</td> 
+						</tr>`
+					);
+				});
+				$("#table").dataTable({
+					bSort: false
+				});
+			}
+		});	
+	}
 	function edit(data){
 		$("#addModal").modal("show");
 		$("#student_grade_id").val(data.studentgrade_id);
