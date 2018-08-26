@@ -66,6 +66,17 @@ $route->url("student-grade/delete_student_grade", function() {
 	echo json_encode($response);
 });
 
+$route->url("student-grade/faculty_students", function() {
+	define("FACULTY", true);
+	require_once "faculty_auth.php";
+	$student_grade = new StudentGradeController();
+	$data = array(
+		"faculty_id" => $_GET['faculty_id']
+	);
+	$response = $student_grade->faculty_students($data);
+	echo json_encode($response);
+});
+
 $route->url("student-grade/get_student_grades", function() {
 	define("RESTRICTED", true);
 	require_once "route_auth.php";

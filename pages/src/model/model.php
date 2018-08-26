@@ -21,6 +21,47 @@ class Model extends Config{
 		return $this->connection();
 	}
 
+	public function raw_query($sql, $conditions = null) {
+		if(isset($conditions) && !empty($conditions)){
+
+			foreach($conditions as $key => $val){
+				$this->placeholder[] = '`'.$this->table.'`.`'.$key.'` = ?';
+				$this->values[] = $val;
+			}
+
+			foreach($this->values as $value){
+				$type = gettype($value);
+				if($type == "string"){
+					$this->bind[] = "s";
+				} else if($type == "integer") {
+					$this->bind[] = "i";
+				} else if($type == "double") {
+					$this->bind[] = "d";
+	 			}
+	 			$this->params[] = $value;
+			}
+
+			array_unshift($this->params, join("", $this->bind));
+			foreach($this->params as $key => $val){
+				 $this->references[$key] = &$this->params[$key];
+			}
+
+			$sql = $sql." ".join(" ", $this->placeholder);
+			$query = $this->conn->prepare($sql);
+			call_user_func_array(array($query, "bind_param"), $this->references);
+			$query->execute();
+			$result = $query->get_result();
+			$rows = $result->fetch_all(MYSQLI_ASSOC);
+
+		} else {
+			$query = mysqli_query($sql);
+			$rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
+		}
+		$query->close();
+		$this->clean();
+		return $rows;
+	}
+
 	public function select_all(){
 		$sql = "SELECT * FROM ".$this->table;
 		$query = mysqli_query($this->conn, $sql);
@@ -60,7 +101,7 @@ class Model extends Config{
 		if($query->execute()){
 			$response = $this->response("success", "Data Saved");
 		} else {
-			$response = $this->response("error", "Failed to Save Data. ID Number must be unique", $query->error);
+			$response = $this->response("error", "Failed to Save Data", $query->error);
 		}
 		$query->close();
 		$this->clean();
@@ -206,7 +247,7 @@ class Model extends Config{
 		if($query->execute()){
 			$response = $this->response("success", "Data Updated");
 		} else {
-			$response = $this->response("error", "Failed to Update Data. ID Number must be unique", $query->error);
+			$response = $this->response("error", "Failed to Update Data", $query->error);
 		}
 		$query->close();
 		$this->clean();

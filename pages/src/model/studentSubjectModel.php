@@ -39,6 +39,46 @@ class StudentSubjectModel extends Model {
 		return $response;
 	}
 
+	public function get_faculty_students($data) {
+		$this->authentication();
+		$response = array();
+		$conditions = array(
+			"condition" => array(
+				"faculty_id" => $data['faculty_id']
+			),
+			"clause" => array(""),
+			"opt" => "DISTINCT",
+			"joins" => array(
+				"student" => array("student_fname", "student_lname", "student_mname", "student_id"),
+				"subject" => array("subjectName", "subject_id"),
+				"faculty" => array("faculty_id", "fname", "lname", "mname")
+			),
+			"type" => array("inner", "inner", "inner")
+		);
+
+		$cond = array(
+			"faculty_id" => $data['faculty_id']
+		);
+
+		$sql = "select c.courseName, sy.semester, sy.schoolYear, sy.schoolyear_id from tblstudentsubject as tblstudentsubject inner join tblstudent as s on s.student_id = tblstudentsubject.student_id inner join tblcourse as c on c.course_id = s.course_id inner join tblsubject as sub on sub.subject_id = tblstudentsubject.subject_id inner join tblschoolyear as sy on sy.schoolyear_id = sub.schoolyear_id where ";
+
+		$course_result = $this->raw_query($sql, $cond);
+
+		$student_subject_result = $this->select_joins($conditions);
+
+		foreach($course_result as $key => $value) {
+			$student_subject_result[$key] += $value;
+		}
+		
+		$response = $student_subject_result;
+
+		// echo "<pre>";
+		// print_r($response);
+		// echo "<pre>";
+
+		return $response;
+	}
+
 	public function student_subjects($data) {
 		$this->authentication();
 		$conditions = array(
