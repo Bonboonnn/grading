@@ -68,7 +68,7 @@
 		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
-					<input type="hidden" id="faculty_subject_id" name="faculty_subject_id" />
+					<input type="hidden" class="form-control" id="faculty_subject_id" name="faculty_subject_id" />
 				<div class="modal-content">     
 						<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update Faculty Subject</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
@@ -177,9 +177,8 @@
 
 	function get_faculties(){
 		$.ajax({
-			url: "faculty/get_faculties_level",
+			url: "faculty/display_faculty",
 			method: "GET",
-			data: {faculty_level: 2},
 			success: (e)=>{
 				let value = JSON.parse(e);
 				$("#facultySubject_id").empty();

@@ -39,6 +39,7 @@ class LoginModel extends Model{
 						$level = "Admin";
 					} else {
 						$level = "Faculty / Teacher";
+
 					}
 					$response = $this->response("error", "Your account does not exists in ".$level." level");
 				}

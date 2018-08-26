@@ -2,6 +2,7 @@
 session_start();
 define( 'SEND_TO_HOME', true );
 require_once "pages/src/auth.php";
+require_once "pages/src/faculty_auth.php";
 ?>
 <!DOCTYPE html>
 <html>

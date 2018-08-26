@@ -22,6 +22,22 @@ class StudentModel extends Model {
 		return $this->select_all_joins("inner", $conditions);
 	}
 
+	public function get_course($data){
+		$this->authentication();
+		$conditions = array(
+			"condition" => array(
+				"student_id" => $data['student_id']
+			),
+			"clause" => array(""),
+			"opt" => "",
+			"joins" => array(
+				"course" => array("description", "course_id"),
+			),
+			"type" => array("inner",)
+		);
+		$response = $this->select_joins($conditions);
+		return $response;
+	}
 	public function update_student($data){
 		$conditions = array("student_id" => $data['student_id']);
 		$conditions_password = array(

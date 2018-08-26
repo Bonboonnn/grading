@@ -79,3 +79,13 @@ Initial release.
 ** Update **
 
 - Sidebar icons
+
+## August 24, 2018
+
+** Added **
+
+- Student Grade (Add, Update, Delete, Fetch)
+
+** Update **
+
+- Faculty View
