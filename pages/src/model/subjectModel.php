@@ -16,6 +16,24 @@ class SubjectModel extends Model {
 		return $response;
 	}
 
+	public function get_subject($data) {
+		$conditions = array(
+			"condition" => array(
+				"tblsubject" => array(
+					"data" => array("subject_id" => $data['subject_id']),
+					"operator" => ""
+				)
+			),
+			"joins" => array(
+				"table" => array("inner" => "schoolyear"),
+			)
+		);
+
+		$this->authentication();
+		$response = $this->select_one($conditions);
+		return $response;
+	}
+
 	public function update_subject($data) {
 		$this->authentication();
 		$conditions = array(

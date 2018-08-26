@@ -33,7 +33,7 @@
 		
         
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
         <div class="wrapper">
                 
             <?php include_once "link-file/header.php"; ?>
@@ -51,13 +51,15 @@
 							<hr>
 							<table class="table" id="table">
 							<thead>
-                                <tr>          
-									<th>student Grade ID</th>
-									<th>Student ID</th>
+                                <tr>
+									<th>Student</th>
 									<th>Subject</th>
-									<th>Faculty ID</th>
+									<th>Faculty</th>
 									<th>Course</th>
-									<th>School year</th>
+									<th>Prelim</th>
+									<th>Midterm</th>
+									<th>Endterm</th>
+									<th>S.Y</th>
 									<th>Final Grade</th>
 									<th>Remarks</th>
                                     <th class="text-center">Update</th>
@@ -65,26 +67,6 @@
 								</tr>
 							</thead>
 							<tbody id="tbody">
-								<tr>
-									<td>${data.studentGrade_id}</td>
-									<td>${data.studentIdNo}</td>
-									<td>${data.subjectName}</td>
-									<td>${tada.faculty_id}</td>
-									<td>${data.courseCode}</td>
-									<td>${data.schoolYear}</td>
-									<td>${data.finalGrade}</td>
-									<td>${data.remarks}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit('1')">
-											<i class="fa fa-edit"></i>
-										</button>
-									</td>
-									<td class="text-center">
-										<button class="btn btn-danger" onclick="deletez('1')">
-											<i class="fa fa-remove"></i>
-										</button>
-									</td> 
-								</tr>
 							</tbody>
 							<table>
 						</div>
@@ -92,67 +74,87 @@
 				</section>
             </div>
 		</div>
-		<div class="modal" id="addModal"> 
+		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
+					<input type="hidden" name="studentgrade_id" id="student_grade_id" class="form-control" />
 					<div class="modal-content">     
 					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add Student Grade</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
+
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
-										<label>Student ID No.</label>
-										<input name="studentIdNo" class="form-control" placeholder='Student ID No.' required>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>Subject</label>
-										<select name="studentSubject_id" class="form-control" required>
-											<option value=''>Select Subject</option>
+										<label>Student</label>
+										<select name="student_id" id="student_id" onchange="get_faculties()" id="student_id" class="form-control" required>
+											<option value=''>Select Student</option>
 										</select>
 									</div>
 								</div>
+
 								<div class="col-lg-6 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>Faculty</label>
-										<select name="faculty_id" class="form-control" required>
+										<select name="student_grade_faculty_id" onchange="get_subjects()" id="student_grade_faculty_id" class="form-control" required>
 											<option value=''>Select Faculty</option>
 										</select>
 									</div>
 								</div>
+
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Subject</label>
+										<select name="subject_id" onchange="get_school_year()" id="subject_id" class="form-control" required>
+											<option value=''>Select Subject</option>
+										</select>
+									</div>
+								</div>
+								
 								<div class="col-lg-6 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>Course</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select Course</option>
-										</select>
+										<input type="hidden" name="course_id" id="course_id" class="form-control" />
+										<input type="text" id="course_desc" class="form-control" readonly />
 									</div>
 								</div>
+
 								<div class="col-lg-6 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>School Year</label>
-										<select name="faculty_id" class="form-control" required>
-											<option value=''>Select School Year</option>
-										</select>
+										<input type="hidden" name="schoolyear_id" class="form-control" id="school_year_id">
+										<input type="text" id="school_year_sem" class="form-control" readonly />
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+
+								<div class="col-lg-12 col-md-12 col-sm-12">
+									<label>Grades</label>
 									<div class="form-group">
-										<label>Final Grade</label>
-										<input type='number' name='finalGrade' class="form-control" placeholder='Final Grade' required>
+										<div class="col-lg-4 col-md-4 col-sm-4">
+											<label>Prelim Grade</label>
+											<input type='number' name='prelim_grade' step="0.01" onchange="setTwoNumberDecimal" id="prelim_grade" class="form-control" placeholder='Prelim Grade'>
+										</div>
+										<div class="col-lg-4 col-md-4 col-sm-4">
+											<label>Midterm Grade</label>
+											<input type='number' name='midterm_grade' step="0.01" onchange="setTwoNumberDecimal" id="midterm_grade" class="form-control" placeholder='Midterm Grade'>
+										</div>
+										<div class="col-lg-4 col-md-4 col-sm-4">
+											<label>Endterm Grade</label>
+											<input type='number' name='endterm_grade' step="0.01" onchange="setTwoNumberDecimal" id="endterm_grade" class="form-control" placeholder='Endterm Grade'>
+										</div>
 									</div>
 								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
+
+								<!-- <div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
 										<label>Remarks</label>
-										<input type='number' name='remarks' class="form-control" placeholder='Remarks' required>
+										<input type='text' name='remarks' id="remarks" class="form-control" placeholder='Remarks'>
 									</div>
-								</div>
+								</div> -->
+
 							</div>
 						</div>
 						<div class="modal-footer" style="background-color:lightblue !important">
-							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+							<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal" id="close_btn">Close</button>
 							<button type="submit" class="btn btn-primary">Save</button>
 						</div>
 					</div>
@@ -162,58 +164,244 @@
     </body>
 </html>
 <script>
-	$("table").dataTable();
-	addForm.addEventListener("submit",(e)=>{
-		e.preventDefault();
-		ajax_({url:"",method:"post",formData:new FormData($("#addForm")[0])});
-	},false);
+	function setTwoNumberDecimal(event) {
+	    this.value = parseFloat(this.value).toFixed(3);
+	}
+	$(function(){
+		displayData();
+		get_students();
+		$("#close_btn").on("click", function(){
+			window.location.reload();
+		});
+		$("#addForm").on('submit', function(e){
+			e.preventDefault();
+			let formData = new FormData($("#addForm")[0]);
+			let student_grade_id = $("#student_grade_id").val();
+			let process_url = "";
+			if(student_grade_id != "" && student_grade_id != " "){
+				process_url = "student-grade/update_student_grade";
+			} else {
+				process_url = "student-grade/add_student_grade";
+			}
+			for(var e of formData) {
+				console.log(e);
+			}
+			$.ajax({
+				url: process_url,
+				method: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: (e)=>{
+					let response = JSON.parse(e);
+					if(response.status == "success") {
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData();
+						$(".form-control").val("");
+					} else {
+						alert(response.message);
+					}
+				},
+				error: (e)=>{
 
-	function edit(id){
-		window.location.href="edit-student-subject.php?id="+id;
+				},
+				complete: (e)=>{
+					
+				}
+			});
+		});
+	})
+
+	function edit(data){
+		$("#addModal").modal("show");
+		$("#student_grade_id").val(data.studentgrade_id);
+		$("#student_id option[value="+data.student_id+"]").attr('selected', 'selected');
+		$("#course_desc").val(data.description);
+		$("#course_id").val(data.course_id);
+		get_faculties();
+		window.setTimeout(function(){
+			$("#student_grade_faculty_id option[value="+data.faculty_id+"]").attr('selected', 'selected');
+			get_subjects();
+			window.setTimeout(function(){
+				$("#subject_id option[value="+data.subject_id+"]").attr('selected', 'selected');
+				$("#school_year_id").val(data.schoolyear_id);
+				$("#school_year_sem").val(data.semester+" S.Y. "+data.schoolYear);
+			}, 200);
+		}, 200);
+		$("#prelim_grade").val(data.prelim);
+		$("#midterm_grade").val(data.midterm);
+		$("#endterm_grade").val(data.endterm);
+		
 	}
 
 	function deletez(id){
 		if(confirm("Are you sure you want to delete it?")) {
-			const formData = new formData();
-			formData.append("id",id);
-			ajax_({url:"",method:"post",formData});
+			$.ajax({
+				method: "GET",
+				url: "student-grade/delete_student_grade",
+				data: {student_grade_id: id},
+				success: function(e){
+					let response = JSON.parse(e);
+					if(response.status == "success"){
+						alert(response.message);
+						$('#table').dataTable().fnClearTable();
+						$('#table').dataTable().fnDestroy();
+						displayData(); 
+					} else {
+						alert(response.message);
+					}
+				}
+			});
 		}
 	}
-	function ajax_(data){/*
+
+	function get_students() {
 		$.ajax({
-			url:data.url,
-			method:data.method,
-			data:data.formData,
-			processData:false,
-			contentType:false
-		});*/
+			url: "student/get_students",
+			url:"student/get_students",
+			method:"GET",
+			success:(e) => {
+				let value = JSON.parse(e);
+				$("#student_id").empty();
+				$("#student_id").append("<option value=''>Select Student</option");
+				$.each(value, function(index, val){
+					$("#student_id").append(
+						`<option value='${val.student_id}'>${val.student_fname} ${val.student_mname} ${val.student_lname}</option>`
+					);
+				});
+			},
+		});
+	}
+
+	function get_faculties(){
+		let student_id = $("#student_id").val();
+		$.ajax({
+			url: "student-grade/get_student_faculties_course",
+			method: "GET",
+			data: {student_id:student_id},
+			success: (e)=>{
+				
+				let value = JSON.parse(e);
+				$("#student_grade_faculty_id").empty();
+				$("#student_grade_faculty_id").append("<option val=''>Select Faculty</option>");
+				$.each(value, function(index, val){
+					if(val != undefined){
+						if(val.faculty_id != undefined){
+							$("#student_grade_faculty_id").append(
+								`<option value=${val.faculty_id}>${val.fname} ${val.mname} ${val.lname}</option>`
+							);
+						}
+						$("#course_id").val(val.course_id);
+						$("#course_desc").val(val.description);
+					} else {
+						$("#subject_id").empty();
+						$("#subject_id").append("<option val=''>Select Subject</option>");
+						$("#school_year_id").val("");
+						$("#school_year_sem").val("");
+						$("#course_id").val("");
+						$("#course_desc").val("");
+					}
+				});
+			}
+		});
+	}
+
+	function get_subjects(){
+		let faculty_id = $("#student_grade_faculty_id").val();
+		let student_id = $("#student_id").val();
+		$.ajax({
+			url: "student-grade/student_subjects",
+			method: "GET",
+			data:{faculty_id:faculty_id,student_id:student_id},
+			success: (e)=>{
+				let value = JSON.parse(e);
+				if(value == "" || value == " "){
+					$("#school_year_id").val("");
+					$("#school_year_sem").val("");
+				}
+				$("#subject_id").empty();
+				$("#subject_id").append("<option val=''>Select Subject</option>");				
+				$.each(value, function(index, val){
+					$("#subject_id").append(
+						`<option value=${val.subject_id}>${val.subjectName}</option>`
+					);
+				});
+			}
+		});
+	}
+
+	function get_school_year(){
+		let subject_id = $("#subject_id").val();
+		$.ajax({
+			url: "student-grade/get_subject",
+			method: "GET",
+			data:{subject_id:subject_id},
+			success: (e) => {
+				let value = JSON.parse(e);
+				if(value[0] != undefined) {
+					$("#school_year_id").val(value[0].schoolyear_id);
+					$("#school_year_sem").val(value[0].semester+" S.Y. "+value[0].schoolYear);
+				} else {
+					$("#school_year_id").val("");
+					$("#school_year_sem").val("");
+				}
+			}
+		});
 	}
 
 	function displayData() {
 		$.ajax({
-			url:"",
-			method:"post",
-			data:{request:"select"},
+			url:"student-grade/get_student_grades",
+			method:"GET",
 			success:(e) => {
-				const data = JSON.parse(e);
-				let element = "";
-				data.forEach(value => {
-					element += `<tr>
-									<td>${data.studentGrade_id}</td>
-									<td>${data.studentIdNo}</td>
-									<td>${data.subjectName}</td>
-									<td>${tada.faculty_id}</td>
-									<td>${data.courseCode}</td>
-									<td>${data.schoolYear}</td>
-									<td>${data.finalGrade}</td>
-									<td>${data.remarks}</td>
-									<td class="text-center">
-										<button class="btn btn-success" onclick="edit("${data.studentGrade_id}")">
-											<i class="fa fa-edit"></i>
-										</button></td>
-									<td class="text-center"><button class="btn btn-danger" onclick="deletez("${data.studentGrade_id}")"><i class="fa fa-remove"></i></button></td> 
-								</tr>`;
+				let value = JSON.parse(e);
+				$("#tbody").empty();
+				$.each(value, function(index, val){
+					let updateData = JSON.stringify({
+						subject_id: val.subject_id,
+						faculty_id: val.faculty_id,
+						student_id: val.student_id,
+						studentgrade_id: val.studentgrade_id,
+						course_id: val.course_id,
+						description: val.description,
+						schoolyear_id: val.schoolyear_id,
+						semester: val.semester,
+						schoolYear: val.schoolYear,
+						prelim: val.prelim,
+						midterm: val.midterm,
+						endterm: val.final
+					});
+					$("#tbody").append(
+						`<tr>
+							<td>${val.student_fname} ${val.student_mname} ${val.student_lname}</td>
+							<td>${val.subjectName}</td>
+							<td>${val.fname} ${val.mname} ${val.lname}</td>
+							<td>${val.courseName}</td>
+							<td>${val.prelim}</td>
+							<td>${val.midterm}</td>
+							<td>${val.final}</td>
+							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
+							<td>${val.finalGrade}</td>
+							<td>${val.remarks}</td>
+							<td class="text-center">
+								<button class="btn btn-success" onclick='edit(${updateData})'>
+									<i class="fa fa-edit"></i>
+								</button>
+							</td>
+							<td class="text-center"><button class="btn btn-danger" onclick='deletez(${val.studentgrade_id})'><i class="fa fa-remove"></i></button>
+							</td> 
+						</tr>`
+					);
 				});
+				$("#table").dataTable({
+					bSort: false
+				});
+			},
+			error: (e) => {
+
 			}
 		});
 	}

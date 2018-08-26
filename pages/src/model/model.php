@@ -67,6 +67,76 @@ class Model extends Config{
 		return $response;
 	}
 
+	public function select_joins($conditions) {
+		$count = 0;
+		$where = "";
+		foreach($conditions['joins'] as $key => $value) {
+
+			if(!empty($key)) {
+				$this->joins[] = $conditions['type'][$count].' join tbl'.$key.' as '.$key.' on '.$key.'.'.$key.'_id='.$this->table.'.'.$key.'_id ';
+			}
+
+			foreach($value as $val) {
+				if(!empty($key)){
+					$this->columns[] = $key.".".$val;
+				} else {
+					$this->columns[] = $this->table.'.'.$val;
+				}
+			}
+
+			$count++;
+		}
+		
+		$opt = "";
+		if(isset($conditions['opt'])) {
+			$opt = $conditions['opt'];
+		}
+
+		$count = 0;
+
+		if(isset($conditions['condition']) && !empty($conditions['condition'])){
+
+			foreach($conditions['condition'] as $key => $value) {
+				$this->placeholder[] = $this->table.'.'.$key." = ? ".$conditions['clause'][$count];
+				$this->values[] = $value;
+				$count++;
+			}
+
+			foreach($this->values as $value){
+				$type = gettype($value);
+				if($type == "string"){
+					$this->bind[] = "s";
+				} else if($type == "integer") {
+					$this->bind[] = "i";
+				} else if($type == "double") {
+					$this->bind[] = "d";
+	 			}
+	 			$this->params[] = $value;
+			}
+
+			array_unshift($this->params, join("", $this->bind));
+			foreach($this->params as $key => $val){
+				 $this->references[$key] = &$this->params[$key];
+			}
+			
+			$sql = "SELECT ".$opt.' '.join(" , ", $this->columns)." FROM ".$this->table." as ".$this->table.' '.join(" ", $this->joins).' WHERE '.join(' ', $this->placeholder);
+			$query = $this->conn->prepare($sql) or die(mysqli_error($this->conn));
+			call_user_func_array(array($query, "bind_param"), $this->references);
+			$query->execute();
+			$result = $query->get_result();
+			$rows = $result->fetch_all(MYSQLI_ASSOC);
+
+		} else {
+			$sql = "SELECT ".$opt.' '.join(" , ", $this->columns)." FROM ".$this->table." as ".$this->table.' '.join(' ', $this->joins);
+			$query = mysqli_query($this->conn, $sql);
+			$rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+		}
+		$query->close();
+		$this->clean();
+		return $rows;
+	}
+
 	public function select_where_one($conditions, $columns) {
 		foreach($columns['columns'] as $column) {
 			$this->columns[] = $column;
@@ -98,6 +168,7 @@ class Model extends Config{
 		$query->execute();
 		$result = $query->get_result();
 		$row = $result->fetch_all(MYSQLI_ASSOC);
+		$this->clean();
 		return $row;
 	}
 

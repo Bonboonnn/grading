@@ -25,7 +25,7 @@ $route->url("/logout", function(){
 });
 $route->url("/", function(){
 	if(isset($_SESSION['user_data'])){
-		header('location: faculty');
+		header('location: ../index.php');
 	} else {
 		header('location: ../../');
 	}
@@ -46,6 +46,9 @@ $route->url("/restore", function(){
  	);
  	$resp = $ctrl->restore($data);
  	echo json_encode($resp);
+});
+$route->url("/not_allowed", function() {
+	echo "You are not allowed to browse this page";
 });
 $route->run();
 ?>

@@ -33,7 +33,7 @@
 		
         
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
         <div class="wrapper">
                 
             <?php include_once "link-file/header.php"; ?>
@@ -72,7 +72,7 @@
 		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
-					<input type="hidden" name="student_subject_id" id="student_subject_id" />
+					<input type="hidden" class="form-control" name="student_subject_id" id="student_subject_id" />
 					<div class="modal-content">     
 					<div class="modal-header"  style="background-color:lightblue !important"><h3 style="margin:0px">Add / Update Student Subject</h3></div>
 						<div class="modal-body" id="insertUpdateModalBody">
@@ -215,9 +215,8 @@
 
 	function get_faculties(){
 		$.ajax({
-			url: "faculty/get_faculties_level",
+			url: "faculty/display_faculty",
 			method: "GET",
-			data: {faculty_level: 2},
 			success: (e)=>{
 				let value = JSON.parse(e);
 				$("#student_faculty_id").empty();

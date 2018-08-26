@@ -32,5 +32,6 @@ class FacultySubjectController extends Controller {
 		$response = $this->model->get_faculties($data);
 		return $response;
 	}
+
 }
 ?>

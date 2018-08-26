@@ -11,6 +11,11 @@ class SubjectController extends Controller {
 		$this->model = new SubjectModel();
 	}
 
+	public function get_subject($data) {
+		$response = $this->model->get_subject($data);
+		return $response;
+	}
+
 	public function add_subject($data) {
 		$validate = $this->validations($data);
 

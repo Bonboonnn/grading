@@ -18,6 +18,11 @@ class StudentSubjectController extends Controller {
 		return $response;
 	}
 
+	public function get_student_faculties($data) {
+		$response = $this->model->get_student_faculties($data);
+		return $response;
+	}
+
 	public function update_student_subject($data) {
 		$response = $this->model->update_student_subject($data);
 		return $response;
@@ -25,6 +30,11 @@ class StudentSubjectController extends Controller {
 
 	public function delete_student_subject($data) {
 		$response = $this->model->delete_student_subject($data);
+		return $response;
+	}
+
+	public function student_subjects($data) {
+		$response = $this->model->student_subjects($data);
 		return $response;
 	}
 

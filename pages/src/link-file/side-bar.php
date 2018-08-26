@@ -45,14 +45,14 @@
                     <span>Student Subject</span>
                 </a>
             </li>
-            <?php endif; ?>
+
             <li class="treeview side1" id="student-grade">
                 <a href="student-grade">
                     <i class="fa fa-pencil-square-o"></i> 
                     <span>Student Grade</span>
                 </a>
             </li>
-            <?php if($_SESSION['user_data']['login_level'] == 1): ?>
+
             <li class="treeview side1" id="course">
                 <a href="course">
                     <i class="fa fa-tasks"></i> 
@@ -92,6 +92,14 @@
                 <a href="#" onclick="restore()">
                     <i class="fa fa-upload"></i> 
                     <span>Restore Database</span>
+                </a>
+            </li>
+            <?php endif; ?>
+            <?php if($_SESSION['user_data']['login_level'] == 2): ?>
+            <li class="treeview side1" id="student-grade_faculty">
+                <a href="student-grade_faculty">
+                    <i class="fa fa-pencil-square-o"></i> 
+                    <span>Student Grade</span>
                 </a>
             </li>
             <?php endif; ?>

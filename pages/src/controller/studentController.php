@@ -50,5 +50,10 @@ class StudentController extends Controller {
 		return $response;
 	}
 
+	public function get_course($data) {
+		$response = $this->model->get_course($data);
+
+		return $response;
+	}
 }
 ?>
