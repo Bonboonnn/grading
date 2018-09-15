@@ -90,3 +90,8 @@ Initial release.
 
 - Faculty View
 - Fix Admin and Faculty Change Credentials
+
+## September 15,2018
+
+** Added **
+- student-page
