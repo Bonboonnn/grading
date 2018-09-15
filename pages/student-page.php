@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">  
     <title>Document</title>
 </head>
+    <?php 
+        function themePrimary() {
+            echo 'deepskyblue'; // change theme color
+        }
+    ?>
     <style>
         body {
             background-color: #dfe9f5;
@@ -41,7 +46,7 @@
             height: 60px;
             background-color: white;
             border-bottom-style: solid;
-            border-bottom-color: skyblue;
+            border-bottom-color: <?php echo themePrimary(); ?>;
             border-bottom-width: 1px;
             display: flex;
             flex-direction: row;
@@ -108,7 +113,7 @@
             border-radius: 8px;
             font-weight: bold;
             border-style: none;
-            background-color: skyblue;
+            background-color: <?php echo themePrimary(); ?>;
             cursor: pointer;
             color: white;
         }
@@ -119,12 +124,12 @@
             height: 35px;
             border-style: solid;
             background-color: transparent;
-            border-color: skyblue;
+            border-color: <?php echo themePrimary(); ?>;
             border-radius: 10px;
             cursor: pointer;
         }
         #account button:hover {
-            background-color: skyblue;
+            background-color: <?php echo themePrimary(); ?>;
             color: white;
         }
         .year-sem {
@@ -152,10 +157,10 @@
             min-width: 80px;
             background-color: transparent;
             border-style: solid;
-            border-color: skyblue;
+            border-color: <?php echo themePrimary(); ?>;
         }
         #footer button:hover {
-            background-color: skyblue;
+            background-color: <?php echo themePrimary(); ?>;
             color: white;
             cursor: pointer;
         }
@@ -199,10 +204,10 @@
         }
         #changePassword {
             margin-top: 50px;
-            border-color:skyblue;
+            border-color:<?php echo themePrimary(); ?>;
         }
         #changePassword:hover {
-            background-color: skyblue;
+            background-color: <?php echo themePrimary(); ?>;
             color: white;
         }
         #logout {
@@ -242,12 +247,12 @@
         .profile {
             font-size: 1.5em;
             text-align: center !important;
-            background-color: skyblue;
+            background-color: <?php echo themePrimary(); ?>;
             font-weight: bold;
         }
         .home.active,
         .grades.active {
-            background-color: skyblue !important;
+            background-color: <?php echo themePrimary(); ?> !important;
             color: white;
         }
         #gradeWrapper {
@@ -319,7 +324,7 @@
         }
         .changepass-title{
             padding: 8px;
-            background-color: skyblue;
+            background-color: <?php echo themePrimary(); ?>;
             text-align: center;
             color: white;
             border-top-left-radius: 8px;
@@ -334,10 +339,10 @@
             border-radius: 8px;
             background-color: transparent;
             border-style: solid;
-            border-color: skyblue;
+            border-color: <?php echo themePrimary(); ?>;
         }
         #changed:hover {
-            background-color: skyblue;
+            background-color: <?php echo themePrimary(); ?>;
             color: white;
         }
         input:focus {
@@ -370,7 +375,7 @@
             border-radius: 100%;
             border-style: solid;
             border-width: 4px;
-            border-color:skyblue;
+            border-color:<?php echo themePrimary(); ?>;
             border-right-color: #ccc;
             border-bottom-color: #ccc;
             animation-name: rotate;
