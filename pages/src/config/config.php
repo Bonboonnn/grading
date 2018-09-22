@@ -4,7 +4,7 @@ class Config{
 
 	}
 	public function connection(){
-		return new mysqli('localhost', 'root', '', 'grading_db');
+		return new mysqli('localhost', 'root', '', '2018_grading_db');
 	}
 }
 ?>

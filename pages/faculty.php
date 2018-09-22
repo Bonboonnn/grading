@@ -49,8 +49,8 @@
 						</div>
 						<div class="col-12">
 							<hr>
-							<table class="table" id="table">
-								<thead>
+							<table class="table table-striped table-bordered" id="table">
+								<thead class="bg-primary">
 	                                <tr>          
 										<th>Faculty No.</td>
 										<th>First Name</td>

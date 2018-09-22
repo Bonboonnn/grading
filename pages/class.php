@@ -48,8 +48,8 @@
 						</div>
 						<div class="col-12">
 							<hr>
-							<table class="table" id="table">
-							<thead>
+							<table class="table table-striped table-bordered" id="table">
+							<thead class="bg-primary">
                                 <tr>          
 									<th>Year Level</th>
 									<th>Class Name</th>
