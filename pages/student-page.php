@@ -14,7 +14,7 @@
     ?>
     <style>
         body {
-            background-color: #dfe9f5;
+            background-color: whitesmoke;
             margin: 0;
             padding: 0;
             width:100%;
@@ -23,7 +23,7 @@
         * {
             font-family: century gothic;
         }
-        button,select,input {
+        button,select {
             border-radius: 5px;
             box-shadow:-2px 2px 4px 0 gray;
             border-width: 1px !important;
@@ -317,10 +317,15 @@
             margin: auto;
             margin-top: 10px;
             border-style: none;
-            border-bottom-style: solid;
-            border-bottom-width: 1px;
-            border-bottom-color: gray;
             height: 30px;
+            background-color:whitesmoke;
+            border-radius:25px;
+        }
+
+        .inputs:focus { 
+            transition:1s;
+            background-color:white;
+            box-shadow:-2px 2px 4px 0 gray;
         }
         .changepass-title{
             padding: 8px;

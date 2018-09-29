@@ -61,6 +61,9 @@
     .inputs:focus,
     .login-btn:focus {
         outline-style: none;
+        transition:1s;
+        background-color:white;
+        box-shadow:-2px 2px 4px 0 gray;
     }
 
     h3 {
@@ -88,7 +91,7 @@
     .login-btn {
         width: 100%;
         font-size: 1.04em;
-        height: 35px;
+        height: 40px;
         border-radius: 25px;
         background-color: transparent;
         cursor: pointer;
