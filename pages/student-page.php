@@ -575,8 +575,11 @@
         </div>
     </div>
 </body>
+<script src="../../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script>
     let page = 'home';
+
+
     function account() {
         modal.style.display='block';
         setTimeout(()=>{
@@ -632,7 +635,7 @@
 
     function go(req) {
         if(req=='home') {
-            getHome();
+            get_student_details();
             homeWrapper.style.display='block';
             gradeWrapper.classList.remove('showed');
                 document.querySelector('body').classList.add('spinner');
@@ -671,26 +674,15 @@
         }
     }
 
-    function getHome(){
-        /*$.ajax({
-            url:'',
-            method:'post',
-            data:{},
-            success:(e)=>{
-                
+    function get_student_details () {
+        $.ajax({
+            method: "GET",
+            url: "student_infos",
+            data: {student_idno: "test1"},
+            success: function(e) {
+                console.log(e);
             }
-        });*/
-    }
-
-    function getGrades() {
-        /*$.ajax({
-            url:'',
-            method:'post',
-            data:{},
-            success:(e)=>{
-                
-            }
-        });*/
+        });
     }
 
     go(page);

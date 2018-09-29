@@ -70,5 +70,22 @@ class StudentModel extends Model {
 
 		return $response;
 	}
+
+	public function student_view($data) {
+		$conditions = array(
+			"condition" => array(
+				"studentIdNo" => $data['student_idno']
+			),
+			"clause" => array(""),
+			"joins" => array(
+				"course" => array("description"),
+				"yearlevel" => array("yearLevel"),
+				"" => array("studentIdno","student_fname", "student_mname", "student_lname", "student_id")
+			),
+			"type" => array("inner", "inner", "")
+		);
+		$response = $this->select_joins($conditions);
+		return $response;
+	}
 }
 ?>
