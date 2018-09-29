@@ -1,5 +1,6 @@
 <?php
 require_once "controller/studentController.php";
+require_once "controller/studentGradeController.php";
 require_once "../../const.php";
 $route = new Setting();
 $route->url("student", function(){
@@ -58,6 +59,18 @@ $route->url("student/delete_student", function(){
 	$student = new StudentController();
 	$data = array("student_id" => (int)$_GET['student_id']);
 	$response = $student->delete_student($data);
+
+	echo json_encode($response);
+});
+
+$route->url('student/student_view', function() {
+	require_once ROOT_DIR.DS."/pages/student-page.php";
+});
+
+$route->url('student/student_infos', function() {
+	$student = new StudentController();
+	$data = array("student_idno" => $_GET['student_idno']);
+	$response = $student->student_view($data);
 
 	echo json_encode($response);
 });

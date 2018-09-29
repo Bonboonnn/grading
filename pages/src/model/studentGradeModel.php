@@ -47,6 +47,23 @@ class StudentGradeModel extends Model {
 		return $response;
 	}
 
+	public function student_grades_view($data) {
+		$this->authentication();
+		$conditions = array(
+			"condition" => array(
+				"student_id" => $data['student_id']
+			),
+			"clause" => array(""),
+			"joins" => array(
+				"schoolyear" => array("schoolyear_id", "schoolYear", "semester"),
+				"" => array("studentgrade_id","prelim", "midterm", "final", "finalGrade", "remarks")
+			),
+			"type" => array("inner","")
+		);
+		$response = $this->select_joins($conditions);
+		return $response;
+	}
+
 	public function update_student_grade($data) {
 		$this->authentication();
 		$conditions = array("studentgrade_id" => $data['studentgrade_id']);

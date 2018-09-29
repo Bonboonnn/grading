@@ -70,6 +70,11 @@ class StudentGradeController extends Controller {
 		return $response;
 	}
 
+	public function student_grades_view($data) {
+		$response = $this->model->student_grades_view($data);
+		return $response;
+	}
+
 	private function calculate_grade($data) {
 		$finalGrade = ($data['prelim'] * .3) + ($data['midterm'] * .3) + ($data['final'] * .4);
 		$finalGrade = number_format($finalGrade, 2, '.', '');

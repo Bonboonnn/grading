@@ -55,5 +55,17 @@ class StudentController extends Controller {
 
 		return $response;
 	}
+
+	public function student_view($data) {
+		$student_grade = new StudentGradeController();
+		$student_info = $this->model->student_view($data);
+		$student_id = array("student_id" => $student_info[0]['student_id']);
+		$grade = $student_grade->student_grades_view($student_id);
+		$response_data = array(
+			"student_info" => $student_info,
+			"student_grade" => $grade
+		);
+		return $response_data;
+	}
 }
 ?>
