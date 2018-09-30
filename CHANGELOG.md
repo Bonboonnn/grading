@@ -95,9 +95,10 @@ Initial release.
 
 ** Added **
 - student-page
-
+ 
 ## September 29, 2018
 
 ** Added **
 
 - Student api
+- student login

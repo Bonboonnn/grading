@@ -14,7 +14,7 @@
     ?>
     <style>
         body {
-            background-color: #dfe9f5;
+            background-color: whitesmoke;
             margin: 0;
             padding: 0;
             width:100%;
@@ -23,7 +23,7 @@
         * {
             font-family: century gothic;
         }
-        button,select,input {
+        button,select {
             border-radius: 5px;
             box-shadow:-2px 2px 4px 0 gray;
             border-width: 1px !important;
@@ -317,10 +317,15 @@
             margin: auto;
             margin-top: 10px;
             border-style: none;
-            border-bottom-style: solid;
-            border-bottom-width: 1px;
-            border-bottom-color: gray;
             height: 30px;
+            background-color:whitesmoke;
+            border-radius:25px;
+        }
+
+        .inputs:focus { 
+            transition:1s;
+            background-color:white;
+            box-shadow:-2px 2px 4px 0 gray;
         }
         .changepass-title{
             padding: 8px;
@@ -396,13 +401,55 @@
                 transform: rotate(360deg);
             }
         }
+
+        .small-g {
+            display: none;
+        }
+
+        .sy {
+            background-color:<?php themePrimary(); ?>;
+            color: #fff;
+            border-bottom-style:solid;
+            border-bottom-color: rgba(0,0,0,0.2);
+            border-bottom-width: 2px;
+            text-align:left;
+            border-top-right-radius: 25px;
+        }
+        .sem {
+            text-align:left;
+        }
+        .print {
+            display:none;
+        }
         @media screen and (max-width:500px) {
             #content,#gradeWrapper,#homeWrapper {
                 margin-bottom: 60px !important;
             }
+            .small-g {
+                display:table-row;
+            }
+            .small-g td {
+                text-align:center;
+                color:white;
+            }
+
+            .small-g td:first-child {
+                background-color: slategray ;
+            }
+            
+            .small-g td:last-child {
+                background-color: orange;
+            }
+
+            .large-g {
+                display:none;
+            }
             #gradeWrapper td, #gradeWrapper th {
                 padding: 5px;
             } 
+            th {
+                font-size:0.9em;
+            }
             .large {
                 display: none;
             }
@@ -414,6 +461,9 @@
     <style media="print">
         .flex {
             display: none;
+        }
+        .print {
+            display: table-row;
         }
         #gradeWrapper {
             position: relative;
@@ -452,66 +502,24 @@
         <div id="content">  
             <div id="gradeWrapper">
                 <div class='flex'>
-                        <select class='year'>
-                                <option value="">Select Year</option>
-                            </select>
-                            <button onclick="print()" id="print" class="large">Print</button>
+                        <select onchange="gradesByYear()" class='year' id="year">
+                        </select>
+                        <button onclick="print()" id="print" class="large">Print</button>
                 </div>
                 <table>
                         <thead>
-                            <tr>
+                            <tr class="print">
                                 <th>Subject Code</th>
                                 <th>Prelim</th>
                                 <th>MidTerm</th>
                                 <th>Final</th>
-                                <th>Final Grade</th>
+                                <th class='large-g'>Final Grade</th>
+                                <th class='large-g'>Remarks</th>
                                 <th class='year-sem'>Year</th>
                                 <th class='year-sem'>Semester</th>
                             </tr>
                         </thead>
-                        <tbody> 
-                            <tr>
-                                <td colspan="6" class="not-print year-semesterz">
-                                    2018-2019
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="not-print year-semesterz">
-                                    1st Semester
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>aplha-21</td>
-                                <td>1.9</td>
-                                <td>1.2</td>
-                                <td>3.2</td>
-                                <td>12</td>
-                                <th class='year-sem'>2018-2019</th>
-                                <th class='year-sem'>1st</th>
-                            </tr>
-                            <tr>
-                                    <td>aplha-21</td>
-                                    <td>1.9</td>
-                                    <td>1.2</td>
-                                    <td>3.2</td>
-                                    <td>12</td>
-                                    <th class='year-sem'>2018-2019</th>
-                                    <th class='year-sem'>1st</th>
-                                </tr>
-                            <tr>
-                                    <td colspan="6" class="not-print year-semesterz">
-                                        2nd Semester
-                                    </td>
-                                </tr>
-                                <tr>
-                                        <td>aplha-21</td>
-                                        <td>1.9</td>
-                                        <td>1.2</td>
-                                        <td>3.2</td>
-                                        <td>12</td>
-                                        <th class='year-sem'>2018-2019</th>
-                                        <th class='year-sem'>1st</th>
-                                    </tr>
+                        <tbody id="gWrapper">
                         </tbody>
                     </table>
             </div>
@@ -521,31 +529,31 @@
                    <tbody>
                     <tr class="profile">
                         <td class="profile-label">Profile</td>
-                        <td ></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="profile-label">Student ID.</td>
-                        <td>14-2014</td>
+                        <td id="studentID">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">First Name</td>
-                        <td>John Froi</td>
+                        <td id="studentFname">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Middle Name</td>
-                        <td>Adera</td>
+                        <td id="studentMname">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Last Name</td>
-                        <td>Dejaresco</td>
+                        <td id="studentLname">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Course</td>
-                        <td>IT</td>
+                        <td id="studentCourse">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Year Level</td>
-                        <td>4th year</td>
+                        <td id="studentYearLevel">...</td>
                     </tr>
                     </tbody>
                </table>
@@ -578,7 +586,9 @@
 <script src="../../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script>
     let page = 'home';
-
+    let studentData;
+    let studentInfo;
+    let studentGrade;
 
     function account() {
         modal.style.display='block';
@@ -635,7 +645,6 @@
 
     function go(req) {
         if(req=='home') {
-            get_student_details();
             homeWrapper.style.display='block';
             gradeWrapper.classList.remove('showed');
                 document.querySelector('body').classList.add('spinner');
@@ -651,7 +660,6 @@
                 el.classList.remove('active');
             }
         } else if(req=='grades') {
-            // getGrades();;
             gradeWrapper.style.display='block';
             homeWrapper.classList.remove('shows');
             document.querySelector('body').classList.add('spinner');
@@ -675,16 +683,136 @@
     }
 
     function get_student_details () {
+        document.querySelector('body').classList.add('spinner');
         $.ajax({
             method: "GET",
             url: "student_infos",
             data: {student_idno: "test1"},
             success: function(e) {
-                console.log(e);
+                initializeData(e);
+                groupSchoolYear();
+                go(page);
             }
         });
+    } 
+
+    function initializeData(e) {
+        studentData = JSON.parse(e);
+        studentInfo = studentData.student_info[0];
+        studentGrade = studentData.student_grade;
+        studentID.innerHTML = studentInfo.studentIdno;
+        studentFname.innerHTML = studentInfo.student_fname;
+        studentLname.innerHTML = studentInfo.student_lname;
+        studentMname.innerHTML = studentInfo.student_mname;
+        studentCourse.innerHTML = studentInfo.description;
+        studentYearLevel.innerHTML = studentInfo.yearLevel;
     }
 
-    go(page);
+    function groupSchoolYear() {
+        let school = [];
+        studentGrade.forEach(val => {
+            if(school.length == 0) {
+                school.push({
+                    schoolyear_id:val.schoolyear_id,
+                    schoolYear:val.schoolYear
+                });
+            } else {
+                if(!school.find(f => val.schoolYear == f.schoolYear)) {
+                    school.push({
+                        schoolyear_id:val.schoolyear_id,
+                        schoolYear:val.schoolYear
+                    });
+                }
+            }
+        }); 
+        school.sort((s1,s2) => {
+            return s2.schoolYear.split('-')[0] - s1.schoolYear.split('-')[0] ; 
+        });
+        let opt = `<option value="">Select Year</option>`;
+        school.forEach(val => {
+            opt += `<option value="${val.schoolYear}">${val.schoolYear}</option>`;
+        });
+        year.innerHTML = opt;
+        gradesByYear();
+    }
+
+    function gradesByYear() {
+        let grades = []; 
+        grades = studentGrade.filter(val => {
+                if(year.value == ''){
+                    return true;
+                }
+                return val.schoolYear == year.value;
+            });
+        grades = grades.sort((s1, s2) => {
+            return s1.semester.charCodeAt(0) - s2.semester.charCodeAt(0); 
+        });
+        grades = grades.sort((s1, s2) => {
+            return s2.schoolYear.split('-')[0] - s1.schoolYear.split('-')[0] ; 
+        });
+
+
+        let tr = ``;
+        let schoolYear = 0;
+        let semester = '';
+        grades.forEach(val => {
+            let sy = `
+                         <tr class="small-g" >
+                            <td colspan="6" style="background-color:transparent">
+                            </td>
+                        </tr>
+                          <tr>
+                            <td colspan="6" class="sy not-print year-semesterz">
+                                ${val.schoolYear}
+                            </td>
+                        </tr>`;
+            let sem = ` <tr>
+                            <td colspan="6" class="sem not-print year-semesterz">
+                                 ${val.semester}
+                            </td>
+                        </tr>
+                        <tr class="not-print">
+                            <th>Subject Code</th>
+                            <th>Prelim</th>
+                            <th>MidTerm</th>
+                            <th>Final</th>
+                            <th class='large-g'>Final Grade</th>
+                            <th class='large-g'>Remarks</th>
+                            <th class='year-sem'>Year</th>
+                            <th class='year-sem'>Semester</th>
+                        </tr>`;
+            let syTRUE  = false;
+            let semTRUE  = false;
+            if(schoolYear != val.schoolYear) {
+                syTRUE = true;
+                schoolYear = val.schoolYear;
+                semester = '';
+            }
+             if(semester != val.semester) {
+                semTRUE = true;
+                semester = val.semester;
+            }
+            tr += ` ${syTRUE ? sy : ''}
+                    ${semTRUE ? sem : ''}
+                    <tr>
+                        <td>${val.subjectName}</td>
+                        <td>${val.prelim}</td>
+                        <td>${val.midterm}</td>
+                        <td>${val.final}</td>
+                        <td class='large-g'>${val.finalGrade}</td>
+                        <td class='large-g'>${val.remarks}</td>
+                        <th class='year-sem'>${val.schoolYear}</th>
+                        <th class='year-sem'>${val.semester}</th>
+                    </tr>
+                    <tr class='small-g'>
+                        <td colspan='2'>${val.finalGrade}</td>
+                        <td colspan='2'>${val.remarks}</td>
+                    </tr>`;
+        });
+
+        gWrapper.innerHTML = tr;
+    }
+
+    get_student_details();
 </script>
 </html>
