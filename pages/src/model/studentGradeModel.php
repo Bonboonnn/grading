@@ -79,5 +79,6 @@ class StudentGradeModel extends Model {
 		$response = $this->delete($conditions);
 		return $response;
 	}
+
 }
 ?>

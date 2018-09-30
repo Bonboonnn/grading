@@ -98,6 +98,31 @@ $route->url("student-grade/get_student_faculties_course", function(){
 	echo json_encode($response);
 });
 
+$route->url("student-grade/parse_csv", function() {
+	$data = $_FILES['csv'];
+
+	$student_grade = new StudentGradeController();
+	$response = $student_grade->parse_csv($data);
+	echo json_encode($response);
+});
+
+$route->url("student-grade/bulk_save", function() {
+	$data = array(
+		"student_id" => $_POST['student_id'],
+		"subject_id" => $_POST['subject_id'],
+		"faculty_id" => $_POST['faculty_id'],
+		"schoolyear_id" => $_POST['schoolyear_id'],
+		"course_id" => $_POST['course_id'],
+		"prelim" => $_POST['prelim'],
+		"midterm" => $_POST['midterm'],
+		"final" => $_POST['final'],
+		"finalGrade" => $_POST['finalGrade']
+	);
+	$student_grade = new StudentGradeController();
+	$response = $student_grade->save_bulk_data($data);
+	echo json_encode($response);
+});
+
 $route->url("student-grade/get_subject", function(){
 	define("RESTRICTED", true);
 	require_once "route_auth.php";

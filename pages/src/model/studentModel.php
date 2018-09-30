@@ -22,6 +22,13 @@ class StudentModel extends Model {
 		return $this->select_all_joins("inner", $conditions);
 	}
 
+	public function check_parsed_data($params) {
+		$sql = "select s.student_id, stdsub.subject_id, stdsub.faculty_id, sc.schoolyear_id, s.course_id from tblstudent as s inner join tblstudentsubject as stdsub on stdsub.student_id = s.student_id inner join tblsubject as sub on sub.subject_id = stdsub.subject_id inner join tblschoolyear as sc on sc.schoolyear_id = sub.schoolyear_id inner join tblfaculty as fac on fac.faculty_id=stdsub.faculty_id inner join tblcourse as c on c.course_id = s.course_id where s.studentIdNo = '".$params['std_idno']."' and sub.subjectName = '".$params['subject']."' and (c.courseName like '%".$params['course']."%' or c.description like '%".$params['course']."%' ) and sc.schoolYear = '".$params['schoolyear']."'";
+		$response = $this->raw_query($sql);
+		$res = array_shift($response);
+		return $res;
+	}
+
 	public function get_course($data){
 		$this->authentication();
 		$conditions = array(

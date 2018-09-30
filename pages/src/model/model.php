@@ -54,7 +54,7 @@ class Model extends Config{
 			$rows = $result->fetch_all(MYSQLI_ASSOC);
 
 		} else {
-			$query = mysqli_query($sql);
+			$query = mysqli_query($this->conn ,$sql) or die(mysqli_error($this->conn));
 			$rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 		}
 		$query->close();
@@ -353,13 +353,13 @@ class Model extends Config{
 
 	public function backup(){
 		$this->authentication();
-		$db_name = "grading_db";
+		$db_name = "2018_grading_db";
 		$mkdir = "mkdir C:\db_bak";
 		$dir = "C:\\";
 		$path = "db_bak/";
 		exec($mkdir);
 		$backup_file = $dir.$path.$db_name . date("Y-m-d") . '.sql';
-		$command = 'mysqldump --user=root --password= --host=localhost grading_db > '.$backup_file;
+		$command = 'mysqldump --user=root --password= --host=localhost 2018_grading_db > '.$backup_file;
 		$output = array();
 		exec($command, $output, $stat);
 		switch($stat){
@@ -375,7 +375,7 @@ class Model extends Config{
 
 	public function restore($data){
 		$this->authentication();
-		$db_name = "grading_db";
+		$db_name = "2018_grading_db";
 		$server_name = "localhost";
 		$username = "root";
 		$password = "";

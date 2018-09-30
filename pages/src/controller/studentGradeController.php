@@ -1,6 +1,9 @@
 <?php
 require_once 'controller.php';
 require_once 'model/studentGradeModel.php';
+require_once 'model/studentModel.php';
+require_once 'model/studentSubjectModel.php';
+
 class StudentGradeController extends Controller {
 	private $model;
 	public function __construct(){
@@ -65,6 +68,29 @@ class StudentGradeController extends Controller {
 
 	}
 
+	public function save_bulk_data($data) {
+		$c=0;
+		foreach($data['student_id']  as $index => $val) {
+			$test[$index]['student_id'] = $val;
+			$test[$index]['faculty_id'] = $data['faculty_id'][$c];
+			$test[$index]['course_id'] = $data['course_id'][$c];
+			$test[$index]['schoolyear_id'] = $data['schoolyear_id'][$c];
+			$test[$index]['subject_id'] = $data['subject_id'][$c];
+			$test[$index]['prelim'] = $data['prelim'][$c];
+			$test[$index]['midterm'] = $data['midterm'][$c];
+			$test[$index]['final'] = $data['final'][$c];
+			$test[$index]['finalGrade'] = $data['finalGrade'][$c];
+			if($test[$index]['finalGrade'] < 75) {
+				$test[$index]['remarks'] = "FAILED";
+			} else {
+				$test[$index]['remarks'] = "PASSED";
+			}
+			$response = $this->model->add_student_grade($test[$index]);
+			$c++;
+		}
+		return $response;
+	}
+
 	public function get_student_grades() {
 		$response = $this->model->get_student_grades();
 		return $response;
@@ -73,6 +99,29 @@ class StudentGradeController extends Controller {
 	public function student_grades_view($data) {
 		$response = $this->model->student_grades_view($data);
 		return $response;
+	}
+
+	public function parse_csv($data) {
+		$csv_response = $this->parse_csv_data($data);
+		$keys = array();
+		$std = new StudentModel();
+		foreach($csv_response as $index => $vals) {
+			$params_std = array(
+				"std_idno" => $vals['IDNO'],
+				"course" => $vals['COURSE'],
+				"schoolyear" => $vals['SCHOOLYEAR'],
+				"subject" => $vals['SUBJECT'],
+			);
+
+			$res_1 = $std->check_parsed_data($params_std);
+			$res_1['prelim'] = (double)$vals['PRELIM'];
+			$res_1['midterm'] = (double)$vals['MIDTERM'];
+			$res_1['final'] = (double)$vals['FINAL'];
+			$res_1['finalGrade'] = $this->calculate_grade($res_1);
+			$csv_response[$index]['values'] = $res_1;
+		}
+
+		return $csv_response;
 	}
 
 	private function calculate_grade($data) {
