@@ -69,16 +69,26 @@ class StudentGradeController extends Controller {
 	}
 
 	public function save_bulk_data($data) {
-		foreach($data as $index => $val) {
-			return $index['prelim'];
-			// $val['finalGrade'] = $this->calculate_grade($val);
-			// if($val['finalGrade'] < 75) {
-			// 	$val['remarks'] = "FAILED";
-			// } else {
-			// 	$val['remarks'] = "PASSED";
-			// }
-			// $response = $this->add_student_grade($val);
+		$c=0;
+		foreach($data['student_id']  as $index => $val) {
+			$test[$index]['student_id'] = $val;
+			$test[$index]['faculty_id'] = $data['faculty_id'][$c];
+			$test[$index]['course_id'] = $data['course_id'][$c];
+			$test[$index]['schoolyear_id'] = $data['schoolyear_id'][$c];
+			$test[$index]['subject_id'] = $data['subject_id'][$c];
+			$test[$index]['prelim'] = $data['prelim'][$c];
+			$test[$index]['midterm'] = $data['midterm'][$c];
+			$test[$index]['final'] = $data['final'][$c];
+			$test[$index]['finalGrade'] = $data['finalGrade'][$c];
+			if($test[$index]['finalGrade'] < 75) {
+				$test[$index]['remarks'] = "FAILED";
+			} else {
+				$test[$index]['remarks'] = "PASSED";
+			}
+			$response = $this->model->add_student_grade($test[$index]);
+			$c++;
 		}
+		return $response;
 	}
 
 	public function get_student_grades() {
@@ -104,9 +114,10 @@ class StudentGradeController extends Controller {
 			);
 
 			$res_1 = $std->check_parsed_data($params_std);
-			$res_1['prelim'] = $vals['PRELIM'];
-			$res_1['midterm'] = $vals['MIDTERM'];
-			$res_1['final'] = $vals['FINAL'];
+			$res_1['prelim'] = (double)$vals['PRELIM'];
+			$res_1['midterm'] = (double)$vals['MIDTERM'];
+			$res_1['final'] = (double)$vals['FINAL'];
+			$res_1['finalGrade'] = $this->calculate_grade($res_1);
 			$csv_response[$index]['values'] = $res_1;
 		}
 

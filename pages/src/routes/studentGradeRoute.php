@@ -115,13 +115,12 @@ $route->url("student-grade/bulk_save", function() {
 		"course_id" => $_POST['course_id'],
 		"prelim" => $_POST['prelim'],
 		"midterm" => $_POST['midterm'],
-		"final" => $_POST['final']
+		"final" => $_POST['final'],
+		"finalGrade" => $_POST['finalGrade']
 	);
 	$student_grade = new StudentGradeController();
 	$response = $student_grade->save_bulk_data($data);
-	echo "<pre>";
-	print_r($response);
-	// echo json_encode($response);
+	echo json_encode($response);
 });
 
 $route->url("student-grade/get_subject", function(){

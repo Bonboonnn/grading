@@ -118,6 +118,7 @@
 									<th>Prelim</th>
 									<th>Midterm</th>
 									<th>Final</th>
+									<th>Final Grade</th>
 								</tr>
 							</thead>
 							<tbody id="tbody_bulk">
@@ -258,6 +259,7 @@
 								<td>${val.PRELIM}</td>
 								<td>${val.MIDTERM}</td>
 								<td>${val.FINAL}</td>
+								<td>${val.values.finalGrade}</td>
 							</tr>`
 						);
 						$("#bulk_form").append(
@@ -270,6 +272,7 @@
 								<input type="hidden" value='${val.values.prelim}' name="prelim[]" />
 								<input type="hidden" value='${val.values.midterm}' name="midterm[]" />
 								<input type="hidden" value='${val.values.final}' name="final[]" />
+								<input type="hidden" value='${val.values.finalGrade}' name="finalGrade[]" />
 							`
 						);
 					});
@@ -281,9 +284,6 @@
 
 	$("#btn_bulk_save").on('click', function(){
 		let bulk_data = new FormData($("#bulk_form")[0]);
-		// for(var i of bulk_data) {
-		// 	console.log(i);
-		// }
 		$.ajax({
 			method: "POST",
 			url: "student-grade/bulk_save",
@@ -292,17 +292,16 @@
 			contentType: false,
 			cache: false,
 			success: function(e) {
-				console.log(e);
-				// let response = JSON.parse(e);
-				// if(response.status == "success") {
-				// 	alert(response.message);
-				// 	$('#table').dataTable().fnClearTable();
-				// 	$('#table').dataTable().fnDestroy();
-				// 	pick_display();
-				// 	$(".form-control").val("");
-				// } else {
-				// 	alert(response.message);
-				// }
+				let response = JSON.parse(e);
+				if(response.status == "success") {
+					alert(response.message);
+					$('#table').dataTable().fnClearTable();
+					$('#table').dataTable().fnDestroy();
+					pick_display();
+					$(".form-control").val("");
+				} else {
+					alert(response.message);
+				}
 			}
 		});
 	});
