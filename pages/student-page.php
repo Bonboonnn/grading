@@ -405,6 +405,22 @@
         .small-g {
             display: none;
         }
+
+        .sy {
+            background-color:<?php themePrimary(); ?>;
+            color: #fff;
+            border-bottom-style:solid;
+            border-bottom-color: rgba(0,0,0,0.2);
+            border-bottom-width: 2px;
+            text-align:left;
+            border-top-right-radius: 25px;
+        }
+        .sem {
+            text-align:left;
+        }
+        .print {
+            display:none;
+        }
         @media screen and (max-width:500px) {
             #content,#gradeWrapper,#homeWrapper {
                 margin-bottom: 60px !important;
@@ -415,11 +431,10 @@
             .small-g td {
                 text-align:center;
                 color:white;
-                font-weight:bold;
             }
 
             .small-g td:first-child {
-                background-color: <?php echo themePrimary(); ?>;
+                background-color: slategray ;
             }
             
             .small-g td:last-child {
@@ -441,11 +456,14 @@
             #footer {
                 display: flex;
             }
-        } 
+        }
     </style>
     <style media="print">
         .flex {
             display: none;
+        }
+        .print {
+            display: table-row;
         }
         #gradeWrapper {
             position: relative;
@@ -490,7 +508,7 @@
                 </div>
                 <table>
                         <thead>
-                            <tr>
+                            <tr class="print">
                                 <th>Subject Code</th>
                                 <th>Prelim</th>
                                 <th>MidTerm</th>
@@ -501,49 +519,7 @@
                                 <th class='year-sem'>Semester</th>
                             </tr>
                         </thead>
-                        <tbody id="gWrapper"> 
-                            <tr>
-                                <td colspan="6" class="not-print year-semesterz">
-                                    2018-2019
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="not-print year-semesterz">
-                                    1st Semester
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>aplha-21</td>
-                                <td>1.9</td>
-                                <td>1.2</td>
-                                <td>3.2</td>
-                                <td>12</td>
-                                <th class='year-sem'>2018-2019</th>
-                                <th class='year-sem'>1st</th>
-                            </tr>
-                            <tr>
-                                    <td>aplha-21</td>
-                                    <td>1.9</td>
-                                    <td>1.2</td>
-                                    <td>3.2</td>
-                                    <td>12</td>
-                                    <th class='year-sem'>2018-2019</th>
-                                    <th class='year-sem'>1st</th>
-                                </tr>
-                            <tr>
-                                    <td colspan="6" class="not-print year-semesterz">
-                                        2nd Semester
-                                    </td>
-                                </tr>
-                                <tr>
-                                        <td>aplha-21</td>
-                                        <td>1.9</td>
-                                        <td>1.2</td>
-                                        <td>3.2</td>
-                                        <td>12</td>
-                                        <th class='year-sem'>2018-2019</th>
-                                        <th class='year-sem'>1st</th>
-                                    </tr>
+                        <tbody id="gWrapper">
                         </tbody>
                     </table>
             </div>
@@ -741,7 +717,7 @@
                     schoolYear:val.schoolYear
                 });
             } else {
-                if(!school.find(f => val.schoolyear_id == f.schoolyear_id)) {
+                if(!school.find(f => val.schoolYear == f.schoolYear)) {
                     school.push({
                         schoolyear_id:val.schoolyear_id,
                         schoolYear:val.schoolYear
@@ -754,7 +730,7 @@
         });
         let opt = `<option value="">Select Year</option>`;
         school.forEach(val => {
-            opt += `<option value="${val.schoolyear_id}">${val.schoolYear}</option>`;
+            opt += `<option value="${val.schoolYear}">${val.schoolYear}</option>`;
         });
         year.innerHTML = opt;
         gradesByYear();
@@ -766,28 +742,46 @@
                 if(year.value == ''){
                     return true;
                 }
-                return val.schoolyear_id == year.value;
+                return val.schoolYear == year.value;
             });
-        
+        grades = grades.sort((s1, s2) => {
+            return s2.schoolYear.split('-')[0] - s1.schoolYear.split('-')[0] ; 
+        });
         let tr = ``;
-        let schoolYear_id_ = 0;
+        let schoolYear = 0;
         let semester = '';
         grades.forEach(val => {
-            let sy = `  <tr>
-                            <td colspan="6" class="not-print year-semesterz">
+            let sy = `
+                         <tr class="small-g" >
+                            <td colspan="6" style="background-color:transparent">
+                            </td>
+                        </tr>
+                          <tr>
+                            <td colspan="6" class="sy not-print year-semesterz">
                                 ${val.schoolYear}
                             </td>
                         </tr>`;
             let sem = ` <tr>
-                            <td colspan="6" class="not-print year-semesterz">
+                            <td colspan="6" class="sem not-print year-semesterz">
                                  ${val.semester}
                             </td>
+                        </tr>
+                        <tr class="not-print">
+                            <th>Subject Code</th>
+                            <th>Prelim</th>
+                            <th>MidTerm</th>
+                            <th>Final</th>
+                            <th class='large-g'>Final Grade</th>
+                            <th class='large-g'>Remarks</th>
+                            <th class='year-sem'>Year</th>
+                            <th class='year-sem'>Semester</th>
                         </tr>`;
             let syTRUE  = false;
             let semTRUE  = false;
-            if(schoolYear_id_ != val.schoolyear_id) {
+            if(schoolYear != val.schoolYear) {
                 syTRUE = true;
-                schoolYear_id_ = val.schoolyear_id;
+                schoolYear = val.schoolYear;
+                semester = '';
             }
              if(semester != val.semester) {
                 semTRUE = true;
@@ -796,17 +790,17 @@
             tr += ` ${syTRUE ? sy : ''}
                     ${semTRUE ? sem : ''}
                     <tr>
-                        <td>aplha-21</td>
+                        <td>${val.subjectName}</td>
                         <td>${val.prelim}</td>
                         <td>${val.midterm}</td>
                         <td>${val.final}</td>
                         <td class='large-g'>${val.finalGrade}</td>
                         <td class='large-g'>${val.remarks}</td>
-                        <th class='year-sem'${val.schoolYear}</th>
+                        <th class='year-sem'>${val.schoolYear}</th>
                         <th class='year-sem'>${val.semester}</th>
                     </tr>
                     <tr class='small-g'>
-                        <td colspan='2'>${val.finalGrade}%</td>
+                        <td colspan='2'>${val.finalGrade}</td>
                         <td colspan='2'>${val.remarks}</td>
                     </tr>`;
         });

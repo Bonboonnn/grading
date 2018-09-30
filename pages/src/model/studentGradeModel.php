@@ -56,9 +56,10 @@ class StudentGradeModel extends Model {
 			"clause" => array(""),
 			"joins" => array(
 				"schoolyear" => array("schoolyear_id", "schoolYear", "semester"),
+				"subject" => array("subjectCode", "subjectName"),
 				"" => array("studentgrade_id","prelim", "midterm", "final", "finalGrade", "remarks")
 			),
-			"type" => array("inner","")
+			"type" => array("inner","inner" ,"")
 		);
 		$response = $this->select_joins($conditions);
 		return $response;
