@@ -401,20 +401,47 @@
                 transform: rotate(360deg);
             }
         }
+
+        .small-g {
+            display: none;
+        }
         @media screen and (max-width:500px) {
             #content,#gradeWrapper,#homeWrapper {
                 margin-bottom: 60px !important;
             }
+            .small-g {
+                display:table-row;
+            }
+            .small-g td {
+                text-align:center;
+                color:white;
+                font-weight:bold;
+            }
+
+            .small-g td:first-child {
+                background-color: <?php echo themePrimary(); ?>;
+            }
+            
+            .small-g td:last-child {
+                background-color: orange;
+            }
+
+            .large-g {
+                display:none;
+            }
             #gradeWrapper td, #gradeWrapper th {
                 padding: 5px;
             } 
+            th {
+                font-size:0.9em;
+            }
             .large {
                 display: none;
             }
             #footer {
                 display: flex;
             }
-        }
+        } 
     </style>
     <style media="print">
         .flex {
@@ -457,10 +484,9 @@
         <div id="content">  
             <div id="gradeWrapper">
                 <div class='flex'>
-                        <select class='year'>
-                                <option value="">Select Year</option>
-                            </select>
-                            <button onclick="print()" id="print" class="large">Print</button>
+                        <select onchange="gradesByYear()" class='year' id="year">
+                        </select>
+                        <button onclick="print()" id="print" class="large">Print</button>
                 </div>
                 <table>
                         <thead>
@@ -469,12 +495,13 @@
                                 <th>Prelim</th>
                                 <th>MidTerm</th>
                                 <th>Final</th>
-                                <th>Final Grade</th>
+                                <th class='large-g'>Final Grade</th>
+                                <th class='large-g'>Remarks</th>
                                 <th class='year-sem'>Year</th>
                                 <th class='year-sem'>Semester</th>
                             </tr>
                         </thead>
-                        <tbody> 
+                        <tbody id="gWrapper"> 
                             <tr>
                                 <td colspan="6" class="not-print year-semesterz">
                                     2018-2019
@@ -526,31 +553,31 @@
                    <tbody>
                     <tr class="profile">
                         <td class="profile-label">Profile</td>
-                        <td ></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="profile-label">Student ID.</td>
-                        <td>14-2014</td>
+                        <td id="studentID">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">First Name</td>
-                        <td>John Froi</td>
+                        <td id="studentFname">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Middle Name</td>
-                        <td>Adera</td>
+                        <td id="studentMname">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Last Name</td>
-                        <td>Dejaresco</td>
+                        <td id="studentLname">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Course</td>
-                        <td>IT</td>
+                        <td id="studentCourse">...</td>
                     </tr>
                     <tr>
                         <td class="profile-label">Year Level</td>
-                        <td>4th year</td>
+                        <td id="studentYearLevel">...</td>
                     </tr>
                     </tbody>
                </table>
@@ -583,7 +610,9 @@
 <script src="../../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script>
     let page = 'home';
-
+    let studentData;
+    let studentInfo;
+    let studentGrade;
 
     function account() {
         modal.style.display='block';
@@ -640,7 +669,6 @@
 
     function go(req) {
         if(req=='home') {
-            get_student_details();
             homeWrapper.style.display='block';
             gradeWrapper.classList.remove('showed');
                 document.querySelector('body').classList.add('spinner');
@@ -656,7 +684,6 @@
                 el.classList.remove('active');
             }
         } else if(req=='grades') {
-            getGrades();;
             gradeWrapper.style.display='block';
             homeWrapper.classList.remove('shows');
             document.querySelector('body').classList.add('spinner');
@@ -680,16 +707,113 @@
     }
 
     function get_student_details () {
+        document.querySelector('body').classList.add('spinner');
         $.ajax({
             method: "GET",
             url: "student_infos",
             data: {student_idno: "test1"},
             success: function(e) {
-                console.log(e);
+                initializeData(e);
+                groupSchoolYear();
+                go(page);
             }
         });
+    } 
+
+    function initializeData(e) {
+        studentData = JSON.parse(e);
+        studentInfo = studentData.student_info[0];
+        studentGrade = studentData.student_grade;
+        studentID.innerHTML = studentInfo.studentIdno;
+        studentFname.innerHTML = studentInfo.student_fname;
+        studentLname.innerHTML = studentInfo.student_lname;
+        studentMname.innerHTML = studentInfo.student_mname;
+        studentCourse.innerHTML = studentInfo.description;
+        studentYearLevel.innerHTML = studentInfo.yearLevel;
     }
 
-    go(page);
+    function groupSchoolYear() {
+        let school = [];
+        studentGrade.forEach(val => {
+            if(school.length == 0) {
+                school.push({
+                    schoolyear_id:val.schoolyear_id,
+                    schoolYear:val.schoolYear
+                });
+            } else {
+                if(!school.find(f => val.schoolyear_id == f.schoolyear_id)) {
+                    school.push({
+                        schoolyear_id:val.schoolyear_id,
+                        schoolYear:val.schoolYear
+                    });
+                }
+            }
+        }); 
+        school.sort((s1,s2) => {
+            return s2.schoolYear.split('-')[0] - s1.schoolYear.split('-')[0] ; 
+        });
+        let opt = `<option value="">Select Year</option>`;
+        school.forEach(val => {
+            opt += `<option value="${val.schoolyear_id}">${val.schoolYear}</option>`;
+        });
+        year.innerHTML = opt;
+        gradesByYear();
+    }
+
+    function gradesByYear() {
+        let grades = []; 
+        grades = studentGrade.filter(val => {
+                if(year.value == ''){
+                    return true;
+                }
+                return val.schoolyear_id == year.value;
+            });
+        
+        let tr = ``;
+        let schoolYear_id_ = 0;
+        let semester = '';
+        grades.forEach(val => {
+            let sy = `  <tr>
+                            <td colspan="6" class="not-print year-semesterz">
+                                ${val.schoolYear}
+                            </td>
+                        </tr>`;
+            let sem = ` <tr>
+                            <td colspan="6" class="not-print year-semesterz">
+                                 ${val.semester}
+                            </td>
+                        </tr>`;
+            let syTRUE  = false;
+            let semTRUE  = false;
+            if(schoolYear_id_ != val.schoolyear_id) {
+                syTRUE = true;
+                schoolYear_id_ = val.schoolyear_id;
+            }
+             if(semester != val.semester) {
+                semTRUE = true;
+                semester = val.semester;
+            }
+            tr += ` ${syTRUE ? sy : ''}
+                    ${semTRUE ? sem : ''}
+                    <tr>
+                        <td>aplha-21</td>
+                        <td>${val.prelim}</td>
+                        <td>${val.midterm}</td>
+                        <td>${val.final}</td>
+                        <td class='large-g'>${val.finalGrade}</td>
+                        <td class='large-g'>${val.remarks}</td>
+                        <th class='year-sem'${val.schoolYear}</th>
+                        <th class='year-sem'>${val.semester}</th>
+                    </tr>
+                    <tr class='small-g'>
+                        <td colspan='2'>${val.finalGrade}%</td>
+                        <td colspan='2'>${val.remarks}</td>
+                    </tr>`;
+        });
+
+        gWrapper.innerHTML = tr;
+    }
+
+    get_student_details();
 </script>
 </html>
