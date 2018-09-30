@@ -54,7 +54,7 @@ class Model extends Config{
 			$rows = $result->fetch_all(MYSQLI_ASSOC);
 
 		} else {
-			$query = mysqli_query($sql);
+			$query = mysqli_query($this->conn ,$sql) or die(mysqli_error($this->conn));
 			$rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 		}
 		$query->close();

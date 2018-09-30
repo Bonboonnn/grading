@@ -55,6 +55,11 @@
 										 ><i class="fa fa-print"></i> Print</a>
 								<input type="hidden" value="<?php echo $_SESSION['user_data']['user_id'];  ?>" id="faculty" name="faculty" />
 							<?php endif; ?>
+								<button class="btn btn-block btn-primary" style="margin-bottom: 20px;" onclick="upload_csv()">Bulk Upload</button>
+								<form id="bulk_save">
+									<input type="file" name="csv" style="display: none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="csv">
+								</form>
+							</div>
 							<p id="user_level" style="display:none">
 								<?php echo $_SESSION['user_data']['login_level'] ?>
 							</p>
@@ -62,38 +67,82 @@
 						<div class="col-12">
 							<hr>
 							<table class="table table-striped table-responsive" id="table">
-							<thead class="bg-primary">
-                                <tr>
-									<th>Student</th>
-									<th>Subject</th>
-									<th>Faculty</th>
-									<th>Course</th>
-									<th>Prelim</th>
-									<th>Midterm</th>
-									<th>Endterm</th>
-									<th>S.Y</th>
-									<th>Final Grade</th>
-									<th>Remarks</th>
-                                    <th class="text-center">Update</th>
-                                    <th class="text-center">Delete</th>
-								</tr>
-							</thead>
-							<tbody id="tbody">
-							</tbody>
-							<table>
+								<thead class="bg-primary">
+	                                <tr>
+										<th>Student</th>
+										<th>Subject</th>
+										<th>Faculty</th>
+										<th>Course</th>
+										<th>Prelim</th>
+										<th>Midterm</th>
+										<th>Endterm</th>
+										<th>S.Y</th>
+										<th>Final Grade</th>
+										<th>Remarks</th>
+	                                    <th class="text-center">Update</th>
+	                                    <th class="text-center">Delete</th>
+									</tr>
+								</thead>
+								<tbody id="tbody">
+
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</section>
             </div>
 		</div>
+
+
+		<!-- Modal -->
+
+
+		<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="classInfo" aria-hidden="true" id="bulk_upload_modal"> 
+			<div class="modal-dialog modal-lg">				
+				<div class="modal-content">     
+					<div class="modal-header"  style="background-color:lightblue !important">
+						<h3 style="margin:0px">Uploaded Data</h3>
+					</div>
+					<form id="bulk_form">
+						
+					</form>
+					<div class="modal-body" id="tbl_uploaded">
+
+						<table class="table table-striped">
+							<thead class="bg-primary">
+								<tr>
+									<th>IDNO</th>
+									<th>Faculty</th>
+									<th>Subject</th>
+									<th>School Year</th>
+									<th>Prelim</th>
+									<th>Midterm</th>
+									<th>Final</th>
+								</tr>
+							</thead>
+							<tbody id="tbody_bulk">
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer" style="background-color:lightblue !important">
+						<button type="reset" class="btn btn-primary pull-left" data-dismiss="modal" id="close_btn">Close</button>
+						<button type="submit" id="btn_bulk_save" class="btn btn-primary">Save</button>
+					</div>
+				</div>
+			</div> 
+		</div>
+
+
+
 		<div class="modal fade" id="addModal"> 
 			<div class="modal-dialog modal-lg">
 				<form id="addForm">
 					<input type="hidden" name="studentgrade_id" id="student_grade_id" class="form-control" />
 					<div class="modal-content">     
-					<div class="modal-header"  style="background-color:lightblue !important">
-						<h3 style="margin:0px">Add Student Grade</h3>
-					</div>
+						<div class="modal-header"  style="background-color:lightblue !important">
+							<h3 style="margin:0px">Add Student Grade</h3>
+						</div>
 						<div class="modal-body" id="insertUpdateModalBody">
 							<div class="row">
 
@@ -181,6 +230,83 @@
 	function setTwoNumberDecimal(event) {
 	    this.value = parseFloat(this.value).toFixed(3);
 	}
+
+	function upload_csv() {
+		$("#csv").click();
+		
+		$("#csv").on('change', function() {
+			let formData = new FormData($("#bulk_save")[0]);
+			$.ajax({
+				method: "POST",
+				url: "student-grade/parse_csv",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: function(e) {
+					let response = JSON.parse(e);
+					// console.log(response);
+					$("#tbody_bulk").empty();
+					$("#bulk_form").empty();
+					$.each(response, function(index, val) {
+						$("#tbody_bulk").append(
+							`<tr>
+								<td>${val.IDNO}</td>
+								<td>${val.FACULTY}</td>
+								<td>${val.SUBJECT}</td>
+								<td>${val.SCHOOLYEAR}</td>
+								<td>${val.PRELIM}</td>
+								<td>${val.MIDTERM}</td>
+								<td>${val.FINAL}</td>
+							</tr>`
+						);
+						$("#bulk_form").append(
+							`
+								<input type="hidden" value='${val.values.subject_id}' name="subject_id[]" />
+								<input type="hidden" value='${val.values.faculty_id}' name="faculty_id[]" />
+								<input type="hidden" value='${val.values.student_id}' name="student_id[]" />
+								<input type="hidden" value='${val.values.course_id}' name="course_id[]" />
+								<input type="hidden" value='${val.values.schoolyear_id}' name="schoolyear_id[]" />
+								<input type="hidden" value='${val.values.prelim}' name="prelim[]" />
+								<input type="hidden" value='${val.values.midterm}' name="midterm[]" />
+								<input type="hidden" value='${val.values.final}' name="final[]" />
+							`
+						);
+					});
+					$("#bulk_upload_modal").modal('show');
+				}
+			});	
+		});
+	}
+
+	$("#btn_bulk_save").on('click', function(){
+		let bulk_data = new FormData($("#bulk_form")[0]);
+		// for(var i of bulk_data) {
+		// 	console.log(i);
+		// }
+		$.ajax({
+			method: "POST",
+			url: "student-grade/bulk_save",
+			data: bulk_data,
+			processData: false,
+			contentType: false,
+			cache: false,
+			success: function(e) {
+				console.log(e);
+				// let response = JSON.parse(e);
+				// if(response.status == "success") {
+				// 	alert(response.message);
+				// 	$('#table').dataTable().fnClearTable();
+				// 	$('#table').dataTable().fnDestroy();
+				// 	pick_display();
+				// 	$(".form-control").val("");
+				// } else {
+				// 	alert(response.message);
+				// }
+			}
+		});
+	});
+
 	$(function(){		
 		get_students();
 		pick_display();
@@ -196,9 +322,6 @@
 				process_url = "student-grade/update_student_grade";
 			} else {
 				process_url = "student-grade/add_student_grade";
-			}
-			for(var e of formData) {
-				console.log(e);
 			}
 			$.ajax({
 				url: process_url,

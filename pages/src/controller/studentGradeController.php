@@ -1,6 +1,9 @@
 <?php
 require_once 'controller.php';
 require_once 'model/studentGradeModel.php';
+require_once 'model/studentModel.php';
+require_once 'model/studentSubjectModel.php';
+
 class StudentGradeController extends Controller {
 	private $model;
 	public function __construct(){
@@ -65,6 +68,19 @@ class StudentGradeController extends Controller {
 
 	}
 
+	public function save_bulk_data($data) {
+		foreach($data as $index => $val) {
+			return $index['prelim'];
+			// $val['finalGrade'] = $this->calculate_grade($val);
+			// if($val['finalGrade'] < 75) {
+			// 	$val['remarks'] = "FAILED";
+			// } else {
+			// 	$val['remarks'] = "PASSED";
+			// }
+			// $response = $this->add_student_grade($val);
+		}
+	}
+
 	public function get_student_grades() {
 		$response = $this->model->get_student_grades();
 		return $response;
@@ -73,6 +89,28 @@ class StudentGradeController extends Controller {
 	public function student_grades_view($data) {
 		$response = $this->model->student_grades_view($data);
 		return $response;
+	}
+
+	public function parse_csv($data) {
+		$csv_response = $this->parse_csv_data($data);
+		$keys = array();
+		$std = new StudentModel();
+		foreach($csv_response as $index => $vals) {
+			$params_std = array(
+				"std_idno" => $vals['IDNO'],
+				"course" => $vals['COURSE'],
+				"schoolyear" => $vals['SCHOOLYEAR'],
+				"subject" => $vals['SUBJECT'],
+			);
+
+			$res_1 = $std->check_parsed_data($params_std);
+			$res_1['prelim'] = $vals['PRELIM'];
+			$res_1['midterm'] = $vals['MIDTERM'];
+			$res_1['final'] = $vals['FINAL'];
+			$csv_response[$index]['values'] = $res_1;
+		}
+
+		return $csv_response;
 	}
 
 	private function calculate_grade($data) {

@@ -651,7 +651,7 @@
                 el.classList.remove('active');
             }
         } else if(req=='grades') {
-            getGrades();;
+            // getGrades();;
             gradeWrapper.style.display='block';
             homeWrapper.classList.remove('shows');
             document.querySelector('body').classList.add('spinner');
