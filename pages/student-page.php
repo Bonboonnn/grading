@@ -745,7 +745,7 @@
                 return val.schoolYear == year.value;
             });
         grades = grades.sort((s1, s2) => {
-            return s2.semester.charCodeAt(0) - s1.semester.charCodeAt(0); 
+            return s1.semester.charCodeAt(0) - s2.semester.charCodeAt(0); 
         });
         grades = grades.sort((s1, s2) => {
             return s2.schoolYear.split('-')[0] - s1.schoolYear.split('-')[0] ; 
