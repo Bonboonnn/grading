@@ -55,7 +55,7 @@
 										 ><i class="fa fa-print"></i> Print</a>
 								<input type="hidden" value="<?php echo $_SESSION['user_data']['user_id'];  ?>" id="faculty" name="faculty" />
 							<?php endif; ?>
-								<button class="btn btn-block btn-primary" style="margin-bottom: 20px;" onclick="upload_csv()">Bulk Upload</button>
+								<button class="btn btn-block btn-primary" onclick="upload_csv()">Bulk Upload</button>
 								<form id="bulk_save">
 									<input type="file" name="csv" style="display: none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="csv">
 								</form>

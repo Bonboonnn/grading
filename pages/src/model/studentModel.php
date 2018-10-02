@@ -79,6 +79,7 @@ class StudentModel extends Model {
 	}
 
 	public function student_view($data) {
+		$this->authentication();
 		$conditions = array(
 			"condition" => array(
 				"studentIdNo" => $data['student_idno']
@@ -92,6 +93,37 @@ class StudentModel extends Model {
 			"type" => array("inner", "inner", "")
 		);
 		$response = $this->select_joins($conditions);
+		return $response;
+	}
+
+	public function student_login($data) {
+		$conditions = array(
+			"condition" => array(
+				"tblstudent" => array(
+					"data" => array("username" => $data[0]['username']),
+					"operator" => ""
+				)
+			)
+		);
+		$result = $this->select_one($conditions);
+		$res = $result;
+		$result =  array_shift($result);
+		if(count($res)){
+			$data[0]['password'] = hash("sha256", $result['created'].$data[0]['password']);
+			if( $data[0]['password'] === $result['password'] ) {
+				$_SESSION['student_user'] = array(
+					"student_id" => $result['student_id'],
+					"studentIdNo" => $result['studentIdNo'],
+					'username' => $result['username']
+				);
+				$response = $this->response("success", "Login Success");
+			} else {
+				$response = $this->response("failed", "Incorrect Password");
+			}
+				
+		} else {
+			$response = $this->response("failed", "Username does not exists!");
+		}
 		return $response;
 	}
 }
