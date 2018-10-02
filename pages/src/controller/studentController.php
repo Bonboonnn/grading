@@ -67,5 +67,11 @@ class StudentController extends Controller {
 		);
 		return $response_data;
 	}
+
+	public function student_login($data) {
+		$response = $this->model->student_login($data);
+
+		return $response;
+	}
 }
 ?>

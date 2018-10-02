@@ -35,10 +35,11 @@ require_once "pages/src/faculty_auth.php";
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <select class="form-control" name="login_level">
+                        <select class="form-control" name="login_level" id='login_level'>
                             <option value="">Login Type</option>
                             <option value="1">Admin</option>
                             <option value="2">Faculty</option>
+                            <option value='3'>Student</option>
                         </select>
                         
                     </div>
@@ -107,6 +108,14 @@ require_once "pages/src/faculty_auth.php";
                     }
                 });
             });
+
+            $("#login_level").on('change', function() {
+                let level = $("#login_level").val();
+                if(level == 3) {
+                    window.location.href='student-login.php';
+                }
+            });
+
         </script>
     </body>
 </html>

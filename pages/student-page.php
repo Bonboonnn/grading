@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -677,17 +679,18 @@
             }
         } else if(req == 'logout') {
             if (confirm('Are you sure You want to logout?')) {
-                window.location = '';
+                window.location = 'logout';
             }
         }
     }
 
     function get_student_details () {
         document.querySelector('body').classList.add('spinner');
+        let idno = '<?php echo $_SESSION['student_user']['studentIdNo']; ?>';
         $.ajax({
             method: "GET",
             url: "student_infos",
-            data: {student_idno: "test1"},
+            data: {student_idno: idno},
             success: function(e) {
                 initializeData(e);
                 groupSchoolYear();

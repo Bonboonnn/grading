@@ -10,4 +10,11 @@ if(isset($_SESSION['user_data'])){
 } else {
 	header('location: ../');
 }
+
+if(isset($_SESSION['student_user'])) {
+	header('location: src/student/student_view');
+} else {
+	header('location: ../student-login.php');
+}
+
 ?>

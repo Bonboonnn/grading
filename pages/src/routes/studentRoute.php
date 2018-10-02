@@ -64,6 +64,8 @@ $route->url("student/delete_student", function(){
 });
 
 $route->url('student/student_view', function() {
+	define('RESTRICTED', true); 
+	require_once "student_auth.php";
 	require_once ROOT_DIR.DS."/pages/student-page.php";
 });
 
@@ -74,5 +76,22 @@ $route->url('student/student_infos', function() {
 
 	echo json_encode($response);
 });
+
+$route->url('student/logout', function() {
+	unset($_SESSION['student_user']);
+	unset($_SESSION['access']);
+	session_destroy();
+	header('location: ../../');
+});
+
+$route->url('student-login', function() {
+	$data = array( $_POST );
+	$student = new StudentController();
+	$response = $student->student_login($data);
+
+	echo json_encode($response);
+
+});
+
 $route->run();
 ?>

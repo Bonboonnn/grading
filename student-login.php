@@ -1,3 +1,10 @@
+<?php
+session_start();
+define( 'SEND_TO_HOME', true );
+require_once "pages/src/student_auth.php";
+require_once 'const.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -221,28 +228,54 @@
 </style>
 
 <body>
+    <button onclick='back_to_main()' type="button" style="width: 5%;" class="login-btn">Back</button>
     <div id="login">
         <h2>E-Grading</h2>
         <img src="profile.jpg" class="log-img">
         <h3>Login</h3>
-        <input type="text" class="inputs" placeholder="Username...">
-        <input type="password" class="inputs" placeholder="Password...">
+        <form id="student_login">
+            <input type="text" class="inputs" name="username" placeholder="Username..." >
+            <input type="password" class="inputs" name="password" placeholder="Password..." >
+        </form>
         <button class='login-btn' onclick="login()">Login</button>
     </div>
 
     <div class="snack-bar" id="snackBar">
         <div class="snack-bar-message"></div>
     </div>
+
 </body>
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script>
 
     function login() {
-        const data = {
-            response: 'success', //success => lime color, failed => crimson color
-            message: 'Successfully login!',
-            duration: 2000, // millisecond
-        }
-        openSnackBar.open(data);
+        $.ajax({
+            method: "POST",
+            url: "pages/src/student-login",
+            data: $("#student_login").serialize(),
+            success: function(e) {
+                let response = JSON.parse(e);
+                window.setTimeout(() => {
+                    const data = {
+                        response: response.status, //success => lime color, failed => crimson color
+                        message: response.message,
+                        duration: 2000, // millisecond
+                    }
+                    openSnackBar.open(data);
+                    window.setTimeout( () => {
+                        window.location.reload();
+                    }, 2500)
+                }, 500);
+                
+            }
+        });
+
+
+        
+    }
+
+    function back_to_main(){
+        window.location.href='index.php';
     }
 
     //
