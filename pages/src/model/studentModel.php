@@ -126,5 +126,33 @@ class StudentModel extends Model {
 		}
 		return $response;
 	}
+
+	public function student_change_pass($data) {
+		$conditions = array("username" => $data['username']);
+		$conditions_password = array(
+			"condition" => array(
+				"tblstudent" => array(
+					"data" => array("username" => $data['username']),
+					"operator" => ""
+				)
+			)
+		);
+		unset($data['username']);	
+			
+		$this->authentication();
+		$result = $this->select_one($conditions_password);
+		$result = array_shift($result);
+		$data[0]['oldPass'] = hash('sha256', $result['created'].$data[0]['oldPass']);
+		if($result['password'] == $data[0]['oldPass']) {
+			$data['password'] = hash("sha256", $result['created'].$data[0]['newPass']);
+			unset($data[0]);	
+			$response = $this->update($data, $conditions);
+		} else {
+			$response = $this->response('error', "Incorrect old password");
+		}
+		// echo "<pre>";
+		// print_r($data);	
+		return $response;
+	}
 }
 ?>

@@ -254,6 +254,7 @@ require_once 'const.php';
             url: "pages/src/student-login",
             data: $("#student_login").serialize(),
             success: function(e) {
+                console.log(e);
                 let response = JSON.parse(e);
                 window.setTimeout(() => {
                     const data = {

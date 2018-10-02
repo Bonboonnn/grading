@@ -575,12 +575,12 @@
         </div>
     <div id="changePassModal">
         <div class="changepass-modal">
-            <form onsubmit="changePassword(event)">
+            <form id="change_pass">
                 <div class="changepass-title">Change Password</div>
                 <input class="inputs" name="oldpass" id="oldPass" type="password" placeholder="Old Password" required>
                 <input class="inputs" name="newPass" id="newPass" type="password" placeholder="New Password" required>
                 <input class="inputs" name="retypeNewPass" id="retypeNewPass" type="password" placeholder="Retype New Password" required>
-                <button id="changed">Change</button>
+                <button type="submit" id="changed">Change</button>
             </form>
         </div>
     </div>
@@ -619,31 +619,32 @@
         },10);
     }
 
-    function changePassword(e) {
+    $("#change_pass").on('submit', function(e) {
         e.preventDefault();
         if (newPass.value == retypeNewPass.value) {
-            /* $.ajax({
-                url:'',
-                method:'post',
-                data:{oldPass:oldPass.value,newPass:newPass},
+             $.ajax({
+                method:'POST',
+                url:'change_password',
+                data:{oldPass:oldPass.value,newPass:newPass.value},
                 success:(e)=>{
-                    if('success') {
-                        changePassModal.getElementsByClassName('changepass-modal').item(0).classList.remove('showz');
-                        setTimeout(()=>{
-                            changePassModal.style.display='none';
-                        },600);
-                        oldPass.value = "";
-                        newPass.value = "";
-                        retypeNewPass = "";
-                    } else {
-                        alert('Incorrect Old Password');
-                    }
+                    console.log(e);
+                    // if('success') {
+                    //     changePassModal.getElementsByClassName('changepass-modal').item(0).classList.remove('showz');
+                    //     setTimeout(()=>{
+                    //         changePassModal.style.display='none';
+                    //     },600);
+                    //     oldPass.value = "";
+                    //     newPass.value = "";
+                    //     retypeNewPass.value = "";
+                    // } else {
+                    //     alert('Incorrect Old Password');
+                    // }
                 }
-            });*/
+            });
         } else {
             alert('Incorrect Retype Password');
         }
-    }
+    });
 
     function go(req) {
         if(req=='home') {

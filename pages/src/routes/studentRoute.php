@@ -93,5 +93,15 @@ $route->url('student-login', function() {
 
 });
 
+$route->url('student/change_password', function() {
+	$data = array(
+		$_POST,
+		"username" => $_SESSION['student_user']['username']
+	);
+	$student = new StudentController();
+	$response = $student->student_change_pass($data);
+	echo json_encode($response);
+});
+
 $route->run();
 ?>

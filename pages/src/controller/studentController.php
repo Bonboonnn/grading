@@ -73,5 +73,11 @@ class StudentController extends Controller {
 
 		return $response;
 	}
+
+	public function student_change_pass($data) {
+		$response = $this->model->student_change_pass($data);
+
+		return $response;
+	}
 }
 ?>
