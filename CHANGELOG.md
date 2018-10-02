@@ -102,3 +102,10 @@ Initial release.
 
 - Student api
 - student login
+
+## October 2, 2018
+
+** Added **
+
+- Student login/logout functionality
+- Student Change password

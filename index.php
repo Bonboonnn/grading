@@ -91,7 +91,7 @@ require_once "pages/src/student_auth.php";
                         if(response.status == "error"){
                             $("#err_msg").html(response.message);
                         } else {
-                            window.location.href = "pages/";
+                            window.location.reload();
                         }
                     },
                     error: function(e){

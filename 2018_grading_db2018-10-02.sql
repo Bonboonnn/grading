@@ -1,6 +1,6 @@
 -- MySQL dump 10.16  Distrib 10.1.32-MariaDB, for Win32 (AMD64)
 --
--- Host: localhost    Database: grading_db
+-- Host: localhost    Database: 2018_grading_db
 -- ------------------------------------------------------
 -- Server version	10.1.32-MariaDB
 
@@ -99,7 +99,7 @@ CREATE TABLE `tblfaculty` (
 
 LOCK TABLES `tblfaculty` WRITE;
 /*!40000 ALTER TABLE `tblfaculty` DISABLE KEYS */;
-INSERT INTO `tblfaculty` VALUES (1,'bon-1234','Bon-admin','Bon-admin','Bon-admin',NULL,'bonbon','9f3fe7d8ec8868380a3a28c4fa31c052aab51969ba6ab7e5b041408748076a86',1,'2018-08-19'),(3,'fac-1','faculty1','faculty1','faculty1',1,'faculty1','bcebfaa2da8e34fa51c5fc5a313fb91e32e8fd2127edf11eb3ff95a4999d043b',2,'2018-08-23'),(4,'fac-2','faculty2','faculty2','faculty2',1,'faculty2','b6414dc5b7a803a9b97fe0801356e8fe08c84310308e725f0f44546426bda472',2,'2018-08-23');
+INSERT INTO `tblfaculty` VALUES (1,'bon-1234','Bon-admin','Bon-admin','Bon-admin',NULL,'bonadmin','afd46002d05eb11c9f883cf615ed89a2126e877a2f393d96cb9869b73329d985',1,'2018-08-19'),(3,'fac-1','faculty1','faculty1','faculty1',1,'faculty1','bcebfaa2da8e34fa51c5fc5a313fb91e32e8fd2127edf11eb3ff95a4999d043b',2,'2018-08-23'),(4,'fac-2','faculty2','faculty2','faculty2',1,'faculty2','b6414dc5b7a803a9b97fe0801356e8fe08c84310308e725f0f44546426bda472',2,'2018-08-23');
 /*!40000 ALTER TABLE `tblfaculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +154,7 @@ CREATE TABLE `tblschoolyear` (
 
 LOCK TABLES `tblschoolyear` WRITE;
 /*!40000 ALTER TABLE `tblschoolyear` DISABLE KEYS */;
-INSERT INTO `tblschoolyear` VALUES (1,'2018 - 2019','First Semester'),(2,'2018 - 2019','Second Semester');
+INSERT INTO `tblschoolyear` VALUES (1,'2018-2019','First Semester'),(2,'2018-2019','Second Semester');
 /*!40000 ALTER TABLE `tblschoolyear` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +194,7 @@ CREATE TABLE `tblstudent` (
 
 LOCK TABLES `tblstudent` WRITE;
 /*!40000 ALTER TABLE `tblstudent` DISABLE KEYS */;
-INSERT INTO `tblstudent` VALUES (1,'test1','test1','test1','test1',1,1,1,'test1','9e671a35795047c378c21e995b423d1e6bbd6cf32c4c9f811fa88ebf26e4264f','2018-08-25'),(2,'test2','test2','test2','test2',1,1,1,'test2','2c4abf6ce8e7054f00c6b8fd25ae656f793490912919daf7c268af3f22ad04cc','2018-08-25'),(3,'test3','test3','test3','test3',2,2,12,'test3','927b67933f19f3284aa95162f485bbe143f42e2d5fe3c2ef065b4cccd710a622','2018-08-25'),(4,'test4','test4','test4','test4',1,3,15,'test4','a46a939c52ef8ecdd22b6086716101a76e46d4f1cc295f63e4fdace232c01931','2018-08-25');
+INSERT INTO `tblstudent` VALUES (1,'test1','bonbon_test','bonbon_test','bonbon_test',1,1,1,'test1','494fbf372532fb3c18640c13988d6bded0e1340d58a3f5f68ad5a28e378b7315','2018-08-25'),(2,'test2','test2','test2','test2',1,1,1,'test2','2c4abf6ce8e7054f00c6b8fd25ae656f793490912919daf7c268af3f22ad04cc','2018-08-25'),(3,'test3','test3','test3','test3',2,2,12,'test3','927b67933f19f3284aa95162f485bbe143f42e2d5fe3c2ef065b4cccd710a622','2018-08-25'),(4,'test4','test4','test4','test4',12,3,15,'test4','a46a939c52ef8ecdd22b6086716101a76e46d4f1cc295f63e4fdace232c01931','2018-08-25');
 /*!40000 ALTER TABLE `tblstudent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +229,7 @@ CREATE TABLE `tblstudentgrade` (
   CONSTRAINT `tbl_gr_sch_fk` FOREIGN KEY (`schoolyear_id`) REFERENCES `tblschoolyear` (`schoolyear_id`),
   CONSTRAINT `tbl_gr_stud_id` FOREIGN KEY (`student_id`) REFERENCES `tblstudent` (`student_id`),
   CONSTRAINT `tbl_gr_sub_fk` FOREIGN KEY (`subject_id`) REFERENCES `tblsubject` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +238,7 @@ CREATE TABLE `tblstudentgrade` (
 
 LOCK TABLES `tblstudentgrade` WRITE;
 /*!40000 ALTER TABLE `tblstudentgrade` DISABLE KEYS */;
-INSERT INTO `tblstudentgrade` VALUES (1,1,1,3,1,1,80,0,0,24,'FAILED'),(3,1,4,3,1,1,80,90,87.54,86.02,'PASSED'),(4,1,2,4,1,1,76.56,80.76,90,83.2,'PASSED');
+INSERT INTO `tblstudentgrade` VALUES (74,1,1,3,1,1,95.23,90,70,83.57,'PASSED'),(75,2,3,4,1,1,70,90,76.45,78.58,'PASSED');
 /*!40000 ALTER TABLE `tblstudentgrade` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,7 +261,7 @@ CREATE TABLE `tblstudentsubject` (
   CONSTRAINT `tbl_sub_fac_fk` FOREIGN KEY (`faculty_id`) REFERENCES `tblfaculty` (`faculty_id`),
   CONSTRAINT `tbl_sub_stud_fk` FOREIGN KEY (`student_id`) REFERENCES `tblstudent` (`student_id`),
   CONSTRAINT `tbl_sub_sub_fk` FOREIGN KEY (`subject_id`) REFERENCES `tblsubject` (`subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +270,7 @@ CREATE TABLE `tblstudentsubject` (
 
 LOCK TABLES `tblstudentsubject` WRITE;
 /*!40000 ALTER TABLE `tblstudentsubject` DISABLE KEYS */;
-INSERT INTO `tblstudentsubject` VALUES (1,1,1,3),(5,1,2,4),(4,1,4,3),(6,2,3,4);
+INSERT INTO `tblstudentsubject` VALUES (1,1,1,3),(5,1,2,4),(4,1,4,3),(6,2,3,4),(7,4,1,3);
 /*!40000 ALTER TABLE `tblstudentsubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,7 +306,7 @@ CREATE TABLE `tblsubject` (
 
 LOCK TABLES `tblsubject` WRITE;
 /*!40000 ALTER TABLE `tblsubject` DISABLE KEYS */;
-INSERT INTO `tblsubject` VALUES (1,'1234','Math - Calculus',3,3,1),(2,'12345','System Analysis and Design',3,3,1),(3,'1111','Programming  101',5,4,1),(4,'2222','English',3,1,1),(5,'3333','Filipino',3,1,1);
+INSERT INTO `tblsubject` VALUES (1,'1234','Math-Calculus',3,3,1),(2,'12345','System Analysis and Design',3,3,1),(3,'1111','Programming 101',5,4,1),(4,'2222','English',3,1,1),(5,'3333','Filipino',3,1,1);
 /*!40000 ALTER TABLE `tblsubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,4 +343,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-26 22:20:42
+-- Dump completed on 2018-10-02 23:54:18

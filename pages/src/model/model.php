@@ -242,7 +242,7 @@ class Model extends Config{
 		}
 
 		$sql = "UPDATE ".$this->table." SET ".join(', ', $this->placeholder)." WHERE ".join(', ', $this->condition);
-		$query = $this->conn->prepare($sql) or die(mysqli_error($this->conn));
+		$query = $this->conn->prepare($sql);
 		call_user_func_array(array($query, "bind_param"), $this->references);
 		if($query->execute()){
 			$response = $this->response("success", "Data Updated");
