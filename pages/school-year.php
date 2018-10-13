@@ -98,7 +98,7 @@
 										<select name='semester' id='semester' class="form-control" placeholder='Semester' required>
 											<option>First Semester</option>
 											<option>Second Semester</option>
-											<option>Third Semester</option>
+											<option>Summer</option>
 										</select>
 									</div>
 								</div>

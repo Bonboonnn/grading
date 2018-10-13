@@ -71,8 +71,8 @@
 									<th>Prelim</th>
 									<th>Midterm</th>
 									<th>Endterm</th>
-									<th>S.Y</th>
 									<th>Final Grade</th>
+									<th>S.Y</th>
 									<th>Remarks</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
@@ -276,8 +276,8 @@
 							<td>${val.prelim}</td>
 							<td>${val.midterm}</td>
 							<td>${val.final}</td>
-							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td>${val.finalGrade}</td>
+							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td>${val.remarks}</td>
 							<td class="text-center">
 								<button class="btn btn-success" onclick='edit(${updateData})'>
@@ -463,8 +463,8 @@
 							<td>${val.prelim}</td>
 							<td>${val.midterm}</td>
 							<td>${val.final}</td>
-							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td>${val.finalGrade}</td>
+							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td>${val.remarks}</td>
 							<td class="text-center">
 								<button class="btn btn-success" onclick='edit(${updateData})'>
