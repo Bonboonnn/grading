@@ -77,13 +77,29 @@
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
 										<label>School Year</label>
-										<input type="text" name="schoolYear" id='schoolYear' class="form-control" placeholder="School Year" required>
+										<?php 
+											$year=date('Y');
+											$yearOpt = '';
+											while($year > 1990) {
+												$yearOpt = $yearOpt."
+													<option>$year-".($year+1)."</option>
+												";
+												$year = $year - 1;
+											}
+										?>
+										<select name="schoolYear" id='schoolYear' class="form-control" placeholder="School Year" required>
+											<?php echo $yearOpt; ?>
+										</select>
 									</div>
 								</div>
 								<div class="col-lg-12 col-md-12 col-sm-12">
 									<div class="form-group">
 										<label>Semester</label>
-										<input type='text' name='semester' id='semester' class="form-control" placeholder='Semester' required>
+										<select name='semester' id='semester' class="form-control" placeholder='Semester' required>
+											<option>First Semester</option>
+											<option>Second Semester</option>
+											<option>Third Semester</option>
+										</select>
 									</div>
 								</div>
 							</div>
