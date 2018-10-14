@@ -72,8 +72,8 @@
 									<th>Midterm</th>
 									<th>Endterm</th>
 									<th>Final Grade</th>
-									<th>S.Y</th>
 									<th>Remarks</th>
+									<th>S.Y</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
 								</tr>
