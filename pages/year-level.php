@@ -51,7 +51,6 @@
 							<table class="table table-striped table-bordered" id="table">
 							<thead class="bg-primary">
                                 <tr>          
-									<th>Year Level ID</th>
 									<th>Year Level</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
@@ -183,7 +182,6 @@
 					});
 					$("#tbody").append(
 						`<tr>
-							<td>${value.yearlevel_id}</td>	
 							<td>${value.yearLevel}</td>	
 							<td class="text-center">
 								<button class="btn btn-success" onclick='edit(${updateData})'>

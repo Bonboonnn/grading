@@ -53,9 +53,6 @@
 								<thead class="bg-primary">
 	                                <tr>          
 										<th>Faculty No.</td>
-										<th>First Name</td>
-										<th>Middle Name</td>
-										<th>Last Name</td>
 										<th>Course</td>
 										<th>username</td>
 	                                    <th class="text-center">Update</th>
@@ -148,9 +145,6 @@
 					$("#tbody").append(
 						`<tr>
 							<td>${value.facNo}</td>
-							<td>${value.fname}</td>
-							<td>${value.mname}</td>
-							<td>${value.lname}</td>
 							<td>${value.courseName}</td>
 							<td>${value.username}</td>
 							<td class="text-center">
