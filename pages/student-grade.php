@@ -498,7 +498,7 @@
 		if(data.element.innerHTML/10 || data.element.innerHTML == 0) {//check if user input is a number
 			if(data.element.innerHTML>100) {
 				alert('Maximum grade is 100');
-				data.element.innerHTML = curremt;
+				data.element.innerHTML = current;
 			} else {			
 				const prelim 	= parseFloat(parentElement.getElementsByClassName('prelim').item(0).innerHTML * 0.3);
 				const midterm 	= parseFloat(parentElement.getElementsByClassName('midterm').item(0).innerHTML * 0.3);
