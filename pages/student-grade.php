@@ -117,17 +117,12 @@
 									<th>School Year</th>
 									<th>Prelim</th>
 									<th>Midterm</th>
-<<<<<<< HEAD
-									<th>Final</th>
-									<th>Final Grade</th>
-=======
 									<th>Endterm</th>
 									<th>Final Grade</th>
-									<th>Remarks</th>
 									<th>S.Y</th>
+									<th>Remarks</th>
                                     <th class="text-center">Update</th>
                                     <th class="text-center">Delete</th>
->>>>>>> bab9bda93fbfba552ecb1742d53b43f0a734af4d
 								</tr>
 							</thead>
 							<tbody id="tbody_bulk">
@@ -586,20 +581,17 @@
 						endterm: val.final
 					});
 					$("#tbody").append(
-						`<tr id="studentGrade${val.studentgrade_id}">
+						`<tr>
 							<td>${val.student_fname} ${val.student_mname} ${val.student_lname}</td>
 							<td>${val.subjectName}</td>
 							<td>${val.fname} ${val.mname} ${val.lname}</td>
 							<td>${val.courseName}</td>
-							<td contentEditable class='prelim' currentGrade='${val.prelim}' 
-								onblur="updateInlineGrade({parentElement:studentGrade${val.studentgrade_id},element:this,id:${val.studentgrade_id},currentGrade:${val.prelim}})">${val.prelim}</td>
-							<td contentEditable class='midterm' currentGrade='${val.midterm}' 
-								onblur="updateInlineGrade({parentElement:studentGrade${val.studentgrade_id},element:this,id:${val.studentgrade_id},currentGrade:${val.midterm}})">${val.midterm}</td>
-							<td contentEditable class='final' currentGrade='${val.final}' 
-								onblur="updateInlineGrade({parentElement:studentGrade${val.studentgrade_id},element:this,id:${val.studentgrade_id},currentGrade:${val.final}})">${val.final}</td>
-							<td class="finalGrade">${val.finalGrade}</td>
-							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
+							<td>${val.prelim}</td>
+							<td>${val.midterm}</td>
+							<td>${val.final}</td>
+							<td>${val.finalGrade}</td>
 							<td>${val.remarks}</td>
+							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td class="text-center">
 								<button class="btn btn-success" onclick='edit(${updateData})'>
 									<i class="fa fa-edit"></i>
@@ -618,30 +610,6 @@
 
 			}
 		});
-	}
-
-	function updateInlineGrade(data) {
-		const parentElement = data.parentElement;
-		const current 	= data.element.getAttribute('currentGrade');
-		if(data.element.innerHTML == current) {
-			return false;
-		}
-		if(data.element.innerHTML/10 || data.element.innerHTML == 0) {//check if user input is a number
-			if(data.element.innerHTML>100) {
-				alert('Maximum grade is 100');
-				data.element.innerHTML = current;
-			} else {			
-				const prelim 	= parseFloat(parentElement.getElementsByClassName('prelim').item(0).innerHTML * 0.3);
-				const midterm 	= parseFloat(parentElement.getElementsByClassName('midterm').item(0).innerHTML * 0.3);
-				const final 	= parseFloat(parentElement.getElementsByClassName('final').item(0).innerHTML * 0.4);
-				parentElement.getElementsByClassName('finalGrade').item(0).innerHTML = (prelim + midterm + final).toFixed(3);
-				data.element.innerHTML = parseFloat(data.element.innerHTML);
-				data.element.setAttribute('currentGrade', data.element.innerHTML);
-			}
-		} else {
-			alert('your Input is not a number!');
-			data.element.innerHTML = current;
-		}
 	}
 </script>
     
