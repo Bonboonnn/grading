@@ -117,17 +117,12 @@
 									<th>School Year</th>
 									<th>Prelim</th>
 									<th>Midterm</th>
-<<<<<<< HEAD
-									<th>Final</th>
-									<th>Final Grade</th>
-=======
 									<th>Endterm</th>
 									<th>Final Grade</th>
 									<th>Remarks</th>
 									<th>S.Y</th>
-                                    <th class="text-center">Update</th>
-                                    <th class="text-center">Delete</th>
->>>>>>> bab9bda93fbfba552ecb1742d53b43f0a734af4d
+								    	<th class="text-center">Update</th>
+								    	<th class="text-center">Delete</th>
 								</tr>
 							</thead>
 							<tbody id="tbody_bulk">
