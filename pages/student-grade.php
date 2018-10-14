@@ -117,8 +117,12 @@
 									<th>School Year</th>
 									<th>Prelim</th>
 									<th>Midterm</th>
-									<th>Final</th>
+									<th>Endterm</th>
 									<th>Final Grade</th>
+									<th>S.Y</th>
+									<th>Remarks</th>
+                                    <th class="text-center">Update</th>
+                                    <th class="text-center">Delete</th>
 								</tr>
 							</thead>
 							<tbody id="tbody_bulk">
@@ -398,8 +402,8 @@
 							<td>${val.prelim}</td>
 							<td>${val.midterm}</td>
 							<td>${val.final}</td>
-							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td>${val.finalGrade}</td>
+							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td>${val.remarks}</td>
 							<td class="text-center">
 								<button class="btn btn-success" onclick='edit(${updateData})'>
@@ -585,9 +589,9 @@
 							<td>${val.prelim}</td>
 							<td>${val.midterm}</td>
 							<td>${val.final}</td>
-							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td>${val.finalGrade}</td>
 							<td>${val.remarks}</td>
+							<td>${val.semester}  S.Y  ${val.schoolYear}</td>
 							<td class="text-center">
 								<button class="btn btn-success" onclick='edit(${updateData})'>
 									<i class="fa fa-edit"></i>

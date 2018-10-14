@@ -51,7 +51,6 @@
 							<table class="table table-striped table-bordered" id="table">
 								<thead class="bg-primary">
 	                                <tr>          
-										<th>Course ID</th>
 										<th>Course Name</th>
 										<th>Description</th>
 	                                    <th class="text-center">Update</th>
@@ -189,7 +188,6 @@
 					});
 					$("#tbody").append(
 						`<tr>
-							<td>${value.course_id}</td>
 							<td>${value.courseName}</td>
 							<td>${value.description}</td>
 							<td class='text-center'>
